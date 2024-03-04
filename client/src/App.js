@@ -30,7 +30,7 @@ function App() {
         <div>
         <button className='large-button'>Find Path</button>
         <button className='large-button'>Find Facility </button>
-        <button className='large-button'>Use lift to move up</button>
+        <button className='large-button'>Create Profile</button>
         </div> 
         </div>
     </div>
