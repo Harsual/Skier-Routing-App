@@ -9,5 +9,5 @@ to run this app, the server must be run then the client. If Node js and npm are 
 
 2- access the client directory using a new OS terminal and run npm install first to get the modules and then npm start to start the project.
 
-** Eclipse has issues with loading ES6 modules. Working on that for the second iteration. **
+
 
