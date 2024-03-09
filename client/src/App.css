@@ -24,6 +24,11 @@
     height: auto;
 }
 
+.graph-container1 {
+    width: 70%;
+    height: auto;
+}
+
 .large-button {
     font-size: 20px;
     padding: 10px 20px;
