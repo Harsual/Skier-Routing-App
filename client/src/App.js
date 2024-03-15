@@ -1,40 +1,36 @@
-import React, {useEffect, useState} from 'react'
-import './App.css'
-
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import Map from "./Map";
 
 function App() {
-  
-  const [backendData, setBackendData] = useState([{}])
-  
+  // State to handle interactioon from node.js server and this react app
+  const [backendData, setBackendData] = useState([{}]);
+
   useEffect(() => {
-	  fetch("/api").then(
-	  response => response.json()
-	  ).then(
-		  data => {
-			  setBackendData(data)
-		  }
-	  )
-  },[])
-  
+    fetch("/api")
+      .then((response) => response.json())
+      .then((data) => {
+        setBackendData(data);
+      });
+  }, []);
+
   return (
     <div>
       <div className="container">
-        
         <header>Weclome to the Ski-resort App</header>
-        
-        <div className='image-container'>
-          <img src="Map.jpeg" className= "image" alt="Example" />
+
+        <div className="graph-container">
+          <h1>Graph Visualization</h1>
+          <Map height={400} width={800} />
         </div>
-  
-        
         <div>
-        <button className='large-button'>Find Path</button>
-        <button className='large-button'>Find Facility </button>
-        <button className='large-button'>Create Profile</button>
-        </div> 
+          <button className="large-button">Find Path</button>
+          <button className="large-button">Find Facility </button>
+          <button className="large-button">Create Profile</button>
         </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
