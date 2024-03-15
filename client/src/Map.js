@@ -4,22 +4,55 @@ import { DefaultNode, Graph } from "@visx/network";
 
 // SETTING NODES AND LINKS
 const nodes = [
-  { id: 1, x: 40, y: 200 },
-  { id: 2, x: 60, y: 40 },
-  { id: 3, x: 200, y: 250 },
-  { id: 4, x: 200, y: 250 },
-  { id: 5, x: 300, y: 40, color: "#26deb0" },
-  { id: 6, x: 400, y: 300 },
-  { id: 7, x: 200, y: 250 },
+  { id: 0, x: 40, y: 200 },
+  { id: 1, x: 60, y: 40 },
+  { id: 2, x: 200, y: 300 },
+  { id: 3, x: 200, y: 50 },
+  { id: 4, x: 300, y: 40, color: "#26deb0" },
+  { id: 5, x: 400, y: 300 },
+  { id: 6, x: 550, y: 250 },
 ];
 
 const links = [
-  { source: nodes[0], target: nodes[1], tag: "5" },
-  { source: nodes[1], target: nodes[2], tag: "8" },
-  { source: nodes[2], target: nodes[0], dashed: true, tag: "15" },
-  { source: nodes[2], target: nodes[4], slope: true, color: "blue", tag: "2" },
-  { source: nodes[2], target: nodes[4], slope: true, color: "red", tag: "3" },
-  { source: nodes[2], target: nodes[4], slope: true, color: "black", tag: "4" },
+  { source: nodes[0], target: nodes[1], weight: 5 },
+  { source: nodes[1], target: nodes[2], weight: 8 },
+  {
+    source: nodes[1],
+    target: nodes[2],
+    slope: true,
+    color: "red",
+    weight: 15,
+  },
+  { source: nodes[2], target: nodes[0], dashed: true, weight: 15 },
+  {
+    source: nodes[2],
+    target: nodes[4],
+    slope: true,
+    color: "blue",
+    weight: 2,
+  },
+  {
+    source: nodes[2],
+    target: nodes[4],
+    slope: true,
+    color: "red",
+    weight: 3,
+  },
+  {
+    source: nodes[2],
+    target: nodes[4],
+    slope: true,
+    color: "black",
+    weight: 4,
+  },
+
+  {
+    source: nodes[2],
+    target: nodes[5],
+    slope: true,
+    color: "blue",
+    weight: 4,
+  },
 ];
 
 var graph = {
@@ -29,37 +62,126 @@ var graph = {
 
 export const background = "#272b4d";
 
+// Function to find the vertex with the minimum distance value
+function minDistance(distances, visited) {
+  let min = Infinity;
+  let minIndex = -1;
+
+  for (let i = 0; i < distances.length; i++) {
+    if (!visited[i] && distances[i] < min) {
+      min = distances[i];
+      minIndex = i;
+    }
+  }
+
+  return minIndex;
+}
+
+function calculatePath(graph, startNodeId, endNodeId) {
+  console.log(startNodeId, endNodeId);
+  const distances = new Array(graph.nodes.length).fill(Infinity);
+  const visited = new Array(graph.nodes.length).fill(false);
+  const parents = new Array(graph.nodes.length).fill(null);
+
+  distances[startNodeId] = 0;
+
+  for (let i = 0; i < graph.nodes.length - 1; i++) {
+    const u = minDistance(distances, visited);
+    visited[u] = true;
+
+    for (const link of graph.links) {
+      if (link.source.id === u) {
+        const v = link.target.id;
+        const weight = link.weight;
+
+        if (
+          !visited[v] &&
+          distances[u] !== Infinity &&
+          distances[u] + weight < distances[v]
+        ) {
+          distances[v] = distances[u] + weight;
+          parents[v] = u;
+        }
+
+        if (
+          link.slope &&
+          !visited[u] &&
+          distances[v] !== Infinity &&
+          distances[v] + weight < distances[u]
+        ) {
+          distances[u] = distances[v] + weight;
+          parents[u] = v;
+        }
+      }
+    }
+  }
+
+  const path = [];
+  let current = endNodeId;
+  while (current !== startNodeId) {
+    path.unshift(current);
+    current = parents[current];
+    if (current === null) {
+      // If there is no path from start to end
+      return [];
+    }
+  }
+  path.unshift(startNodeId);
+
+  return path;
+}
+
 export default function Map({ width, height }) {
   // State to handle selected node
-  const [selectedNodeId, setSelectedNodeId] = React.useState(null);
+  const [startNodeId, setStartNodeId] = React.useState(null);
+  const [EndNodeId, setEndNodeId] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
 
-  // Handling a user-location when user clicks any empty space on the svg (UNDER CONSTRUCTION)
-  const handleSVGClick = (event) => {
-    const svg = event.currentTarget;
-    const point = svg.createSVGPoint();
-    point.x = event.clientX;
-    point.y = event.clientY;
-    const { x, y } = point.matrixTransform(svg.getScreenCTM().inverse());
-    const startNode = {
-      id: nodes.length + 1,
-      x,
-      y,
-    };
+  React.useEffect(() => {
+    // Check if state value is set (not null)
+    if (EndNodeId !== null && startNodeId !== null) {
+      // Perform calculations based on the state value
+      const calculatedResult = calculatePath(graph, startNodeId, EndNodeId);
+      //setResult(calculatedResult);
+      console.log(calculatedResult);
+    }
+  }, [EndNodeId, startNodeId]);
 
-    //setSkierLoc(startNode);
-  };
+  // Handling a user-location when user clicks any empty space on the svg (UNDER CONSTRUCTION)
+  // const handleSVGClick = (event) => {
+  //   const svg = event.currentTarget;
+  //   const point = svg.createSVGPoint();
+  //   point.x = event.clientX;
+  //   point.y = event.clientY;
+  //   const { x, y } = point.matrixTransform(svg.getScreenCTM().inverse());
+  //   const startNode = {
+  //     id: nodes.length + 1,
+  //     x,
+  //     y,
+  //   };
+
+  //setSkierLoc(startNode);
+  //};
 
   // Setting the node that is clicked
   const handleNodeClick = (node) => {
-    setSelectedNodeId(node.id === selectedNodeId ? null : node.id);
+    if (startNodeId === node.id) {
+      setStartNodeId(null);
+      setEndNodeId(null);
+    } else if (EndNodeId === node.id) {
+      setEndNodeId(null);
+    } else if (startNodeId === null) {
+      setStartNodeId(node.id);
+    } else if (EndNodeId === null) {
+      setEndNodeId(node.id);
+    }
   };
 
   return width < 10
     ? null
     : React.createElement(
         "svg",
-        { width, height, onClick: handleSVGClick },
+        { width, height /*, onClick: handleSVGClick*/ },
 
         React.createElement("rect", {
           width,
@@ -93,14 +215,38 @@ export default function Map({ width, height }) {
           top: 20,
           left: 100,
 
-          nodeComponent: ({ node }) =>
-            React.createElement(DefaultNode, {
-              fill: node.id === selectedNodeId ? "red" : node.color,
-              onClick: () => handleNodeClick(node),
-            }),
+          nodeComponent: ({ node }) => {
+            var node_color = node.color;
+            if (node.id === startNodeId) {
+              node_color = "red";
+            } else if (node.id === EndNodeId) {
+              node_color = "blue";
+            }
+
+            return React.createElement(
+              "g",
+              null,
+
+              React.createElement(DefaultNode, {
+                fill: node_color,
+                onClick: () => handleNodeClick(node),
+              }),
+
+              React.createElement(
+                "text",
+                {
+                  fill: "white",
+                  fontSize: "14px",
+                  textAnchor: "middle",
+                  dominantBaseline: "middle",
+                },
+                node.id
+              )
+            );
+          },
 
           linkComponent: ({
-            link: { source, target, dashed, slope, color, tag },
+            link: { source, target, dashed, slope, color, weight },
           }) => {
             // Calculations for the curved line
             const dx = target.x - source.x;
@@ -112,17 +258,17 @@ export default function Map({ width, height }) {
             switch (color) {
               case "red":
                 qx = (source.x + target.x) / 2 - dr / 4;
-                qy = (source.y + target.y) / 2;
+                qy = (source.y + target.y) / 2 - dr / 4;
                 break;
 
               case "black":
                 qx = (source.x + target.x) / 2 + dr / 4;
-                qy = (source.y + target.y) / 2;
+                qy = (source.y + target.y) / 2 + dr / 4;
                 break;
 
               case "blue":
-                qx = (source.x + target.x) / 2 + dr * 0.7;
-                qy = (source.y + target.y) / 2;
+                qx = (source.x + target.x) / 2 + dr / 2;
+                qy = (source.y + target.y) / 2 + dr / 2;
             }
 
             // Return straight line or curved line based on whether the link is lift or slope
@@ -149,7 +295,7 @@ export default function Map({ width, height }) {
                       textAnchor: "middle",
                       dominantBaseline: "middle",
                     },
-                    tag
+                    weight
                   )
                 )
               : React.createElement(
@@ -175,7 +321,7 @@ export default function Map({ width, height }) {
                       textAnchor: "middle",
                       dominantBaseline: "middle",
                     },
-                    tag
+                    weight
                   )
                 );
           },
