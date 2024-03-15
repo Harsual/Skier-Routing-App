@@ -102,15 +102,19 @@ function calculatePath(graph, startNodeId, endNodeId) {
           distances[v] = distances[u] + weight;
           parents[v] = u;
         }
+      } else if (link.target.id === u && !link.slope) {
+        const v = link.source.id;
+        const weight = link.weight;
+
+        // console.log(u, v, weight);
 
         if (
-          link.slope &&
-          !visited[u] &&
-          distances[v] !== Infinity &&
-          distances[v] + weight < distances[u]
+          !visited[v] &&
+          distances[u] !== Infinity &&
+          distances[u] + weight < distances[v]
         ) {
-          distances[u] = distances[v] + weight;
-          parents[u] = v;
+          distances[v] = distances[u] + weight;
+          parents[v] = u;
         }
       }
     }
@@ -131,6 +135,7 @@ function calculatePath(graph, startNodeId, endNodeId) {
   return path;
 }
 
+// MAIN FUNCTIONAL COMPONENT
 export default function Map({ width, height }) {
   // State to handle selected node
   const [startNodeId, setStartNodeId] = React.useState(null);
@@ -236,7 +241,7 @@ export default function Map({ width, height }) {
                 "text",
                 {
                   fill: "white",
-                  fontSize: "14px",
+                  fontSize: "13px",
                   textAnchor: "middle",
                   dominantBaseline: "middle",
                 },
