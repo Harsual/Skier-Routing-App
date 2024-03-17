@@ -14,14 +14,13 @@ function App() {
       });
   }, []);
 
-  return (
+  return backendData ? (
     <div>
       <div className="container">
         <header>Weclome to the Ski-resort App</header>
-
         <div className="graph-container">
           <h1>Graph Visualization</h1>
-          <Map height={400} width={800} />
+          <Map height={400} width={800} backendData={backendData} />
         </div>
         <div>
           <button className="large-button">Find Path</button>
@@ -30,6 +29,8 @@ function App() {
         </div>
       </div>
     </div>
+  ) : (
+    <div> Loading Graph Info</div>
   );
 }
 
