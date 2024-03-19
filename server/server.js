@@ -10,7 +10,7 @@ const areas = [
   { id: 1, x: 60, y: 40 },
   { id: 2, x: 200, y: 300 },
   { id: 3, x: 200, y: 50 },
-  { id: 4, x: 300, y: 40, color: "#26deb0" },
+  { id: 4, x: 300, y: 40 /*color: "#26deb0"*/ },
   { id: 5, x: 400, y: 300 },
   { id: 6, x: 550, y: 250 },
 ];
@@ -30,7 +30,7 @@ const slopesAndLifts = [
     id: 3,
     source: areas[2],
     target: areas[0],
-    dashed: true,
+    /*dashed: true,*/
     color: "gray",
     weight: 15,
   },
