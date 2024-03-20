@@ -22,7 +22,7 @@ function App() {
         <header>Weclome to the Ski-resort App</header>
         <div className="graph-container">
           <h1>Graph Visualization</h1>
-          <SkiResort height={400} width={800} SkiResortData={SkiResortData} />
+          <SkiResort height={400} width={800} skiResortData={SkiResortData} />
         </div>
         <Popup> </Popup>
         <div>

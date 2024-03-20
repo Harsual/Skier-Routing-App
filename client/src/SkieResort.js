@@ -5,11 +5,7 @@ import { DefaultNode, Graph } from "@visx/network";
 export const background = "#272b4d";
 
 // MAIN FUNCTIONAL COMPONENT
-export default function SkiResort({
-  width,
-  height,
-  backendData: skiResortData,
-}) {
+export default function SkiResort({ width, height, skiResortData }) {
   const { nodes, links } = skiResortData;
 
   // Function to handle drawing the Mao
@@ -217,7 +213,7 @@ export default function SkiResort({
   React.useEffect(() => {
     if (EndNodeId !== null && startNodeId !== null) {
       // Calling the server path calculation API
-      fetch("/calculate-path", {
+      fetch("/calculate-paths", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
