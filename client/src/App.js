@@ -34,7 +34,11 @@ function App() {
             setResult={setResult}
           />
         </div>
-        <Popup setResult={setResult}> </Popup>
+        <Popup
+          setResult={setResult}
+          isOpen={popupIsOpen}
+          onClose={setPopupIsOpen}
+        ></Popup>
         <div>
           <button className="large-button">Find Path</button>
           <button className="large-button">Find Facility </button>

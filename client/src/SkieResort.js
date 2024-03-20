@@ -10,7 +10,7 @@ export default function SkiResort({
   height,
   skiResortData,
   popupIsOpen,
-  setPopupIsOpen,
+  setPopupIsOpen = { setPopupIsOpen },
   result = { result },
   setResult = { setResult },
 }) {
@@ -246,7 +246,7 @@ export default function SkiResort({
         .then((data) => {
           setResult(data.paths);
           console.log(setPopupIsOpen);
-          //setPopupIsOpen(true);
+          setPopupIsOpen(true);
         })
         .catch((error) => {
           console.error(
