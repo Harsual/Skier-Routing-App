@@ -1,11 +1,12 @@
 const express = require("express");
 const calculatePath = require("./pathCalculator").calculatePath;
+const bfs = require("./pathCalculator").bfs;
 const app = express();
 
 app.use(express.json());
 
 // SETTING NODES AND LINKS
-const areas = [
+const locations = [
   { id: 0, x: 40, y: 200 },
   { id: 1, x: 60, y: 40 },
   { id: 2, x: 200, y: 300 },
@@ -16,44 +17,56 @@ const areas = [
 ];
 
 const slopesAndLifts = [
-  { id: 0, source: areas[0], target: areas[1], color: "gray", weight: 5 },
-  { id: 1, source: areas[1], target: areas[2], color: "gray", weight: 8 },
+  {
+    id: 0,
+    source: locations[0],
+    target: locations[1],
+    color: "gray",
+    weight: 5,
+  },
+  {
+    id: 1,
+    source: locations[1],
+    target: locations[2],
+    color: "gray",
+    weight: 8,
+  },
   {
     id: 2,
-    source: areas[1],
-    target: areas[2],
+    source: locations[1],
+    target: locations[2],
     slope: true,
     color: "red",
     weight: 15,
   },
   {
     id: 3,
-    source: areas[2],
-    target: areas[0],
+    source: locations[2],
+    target: locations[0],
     /*dashed: true,*/
     color: "gray",
     weight: 15,
   },
   {
     id: 4,
-    source: areas[2],
-    target: areas[4],
+    source: locations[2],
+    target: locations[4],
     slope: true,
     color: "blue",
     weight: 2,
   },
   {
     id: 5,
-    source: areas[2],
-    target: areas[4],
+    source: locations[2],
+    target: locations[4],
     slope: true,
     color: "red",
     weight: 3,
   },
   {
     id: 6,
-    source: areas[2],
-    target: areas[4],
+    source: locations[2],
+    target: locations[4],
     slope: true,
     color: "black",
     weight: 4,
@@ -61,25 +74,27 @@ const slopesAndLifts = [
 
   {
     id: 7,
-    source: areas[2],
-    target: areas[5],
+    source: locations[2],
+    target: locations[5],
     slope: true,
     color: "blue",
     weight: 4,
   },
 ];
 app.get("/api", (req, res) => {
-  res.json({ nodes: areas, links: slopesAndLifts });
+  res.json({ nodes: locations, links: slopesAndLifts });
 });
 
-app.post("/calculate-path", (req, res) => {
+app.post("/calculate-paths", (req, res) => {
   const { graph, startNodeId, endNodeId } = req.body;
-
+  console.log("HELLO");
   // Performing path calculation based on the provided data
-  const path = calculatePath(graph, startNodeId, endNodeId);
-
+  const paths = bfs(graph, startNodeId, endNodeId);
+  //const path = calculatePath(graph, startNodeId, endNodeId);
+  //console.log("Calculated path:", path);
+  console.log("Calculated paths:", paths);
   // Sending the calculated path as the response
-  res.json({ path });
+  res.json({ paths });
 });
 
 app.listen(4000, () => {

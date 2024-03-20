@@ -5,8 +5,12 @@ import { DefaultNode, Graph } from "@visx/network";
 export const background = "#272b4d";
 
 // MAIN FUNCTIONAL COMPONENT
-export default function Map({ width, height, backendData }) {
-  const { nodes, links } = backendData;
+export default function SkiResort({
+  width,
+  height,
+  backendData: skiResortData,
+}) {
+  const { nodes, links } = skiResortData;
 
   // Function to handle drawing the Mao
   const drawMap = () => {
@@ -91,8 +95,11 @@ export default function Map({ width, height, backendData }) {
               qx = (source.x + target.x) / 2 + dr / 2;
               qy = (source.y + target.y) / 2 + dr / 2;
           }
-
-          const isInResult = result && result.some(({ plink }) => plink === id);
+          console.log("Results:", result);
+          //const isInResult = result && result.some(({ plink }) => plink === id);
+          const isInResult =
+            result &&
+            result.some((path) => path.some(({ plink }) => plink === id));
           color = isInResult ? "yellow" : color;
           const strokeWidth = isInResult ? 6 : 2;
           const strokeOpacity = isInResult ? 0.8 : 0.6;
@@ -187,7 +194,7 @@ export default function Map({ width, height, backendData }) {
                     textAnchor: "middle",
                     dominantBaseline: "middle",
                   },
-                  weight
+                  id
                 )
               );
         },
@@ -228,7 +235,7 @@ export default function Map({ width, height, backendData }) {
           return response.json();
         })
         .then((data) => {
-          setResult(data.path);
+          setResult(data.paths);
         })
         .catch((error) => {
           console.error(

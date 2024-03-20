@@ -1,5 +1,40 @@
+function bfs(graph, startNodeID, endNodeID) {
+  let queue = [[{ pnode: startNodeID, plink: null }]];
+  let paths = [];
+
+  while (queue.length > 0) {
+    let path = queue.shift();
+    let node = path[path.length - 1].pnode;
+
+    if (node === endNodeID) {
+      paths.push(path);
+      continue;
+    }
+
+    for (let edge of graph.links) {
+      if (
+        edge.source.id === node &&
+        !path.some((p) => p.pnode === edge.target.id)
+      ) {
+        queue.push([...path, { pnode: edge.target.id, plink: edge.id }]);
+      }
+      if (
+        !edge.slope &&
+        edge.target.id === node &&
+        !path.some((p) => p.pnode === edge.source.id)
+      ) {
+        queue.push([...path, { pnode: edge.source.id, plink: edge.id }]);
+      }
+    }
+  }
+
+  return paths;
+}
+
+// OLD WAY OF CALCULATING SHORTEST PATH
+
 // Finding the next node to start exploring
-function minDistance(distances, visited) {
+/*function minDistance(distances, visited) {
   let min = Infinity;
   let minIndex = -1;
 
@@ -11,10 +46,10 @@ function minDistance(distances, visited) {
   }
 
   return minIndex;
-}
+}*/
 
 // Calculating path from A to B. Using Modified Dijkstra's Algorithm
-function calculatePath(graph, startNodeId, endNodeId) {
+/*function calculatePath(graph, startNodeId, endNodeId) {
   const distances = new Array(graph.nodes.length).fill(Infinity);
   const visited = new Array(graph.nodes.length).fill(false);
   const parents = new Array(graph.nodes.length).fill(null);
@@ -64,6 +99,6 @@ function calculatePath(graph, startNodeId, endNodeId) {
   }
 
   return path;
-}
+}*/
 
-module.exports = { calculatePath };
+module.exports = { bfs };
