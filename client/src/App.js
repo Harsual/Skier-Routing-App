@@ -37,7 +37,7 @@ function App() {
         <Popup setResult={setResult}> </Popup>
         <div>
           <button className="large-button">Find Path</button>
-          <button className="large-button">Find Facility </button>setPopupIsOpen
+          <button className="large-button">Find Facility </button>
           <button className="large-button">Create Profile</button>
         </div>
       </div>
