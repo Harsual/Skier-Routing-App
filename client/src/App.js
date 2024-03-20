@@ -7,6 +7,8 @@ import Popup from "./components/Popup/Popup";
 function App() {
   // State to handle interactioon from node.js server and this react app
   const [SkiResortData, setSkiResortData] = useState([{}]);
+  const [popupIsOpen, setPopupIsOpen] = useState(false);
+  const [result, setResult] = useState(null);
 
   useEffect(() => {
     fetch("/api")
@@ -22,12 +24,20 @@ function App() {
         <header>Weclome to the Ski-resort App</header>
         <div className="graph-container">
           <h1>Graph Visualization</h1>
-          <SkiResort height={400} width={800} skiResortData={SkiResortData} />
+          <SkiResort
+            height={400}
+            width={800}
+            skiResortData={SkiResortData}
+            popupIsOpen={popupIsOpen}
+            setPopupIsOpen={setPopupIsOpen}
+            result={result}
+            setResult={setResult}
+          />
         </div>
-        <Popup> </Popup>
+        <Popup setResult={setResult}> </Popup>
         <div>
           <button className="large-button">Find Path</button>
-          <button className="large-button">Find Facility </button>
+          <button className="large-button">Find Facility </button>setPopupIsOpen
           <button className="large-button">Create Profile</button>
         </div>
       </div>

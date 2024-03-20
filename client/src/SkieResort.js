@@ -5,8 +5,17 @@ import { DefaultNode, Graph } from "@visx/network";
 export const background = "#272b4d";
 
 // MAIN FUNCTIONAL COMPONENT
-export default function SkiResort({ width, height, skiResortData }) {
+export default function SkiResort({
+  width,
+  height,
+  skiResortData,
+  popupIsOpen,
+  setPopupIsOpen,
+  result = { result },
+  setResult = { setResult },
+}) {
   const { nodes, links } = skiResortData;
+  //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
   // Function to handle drawing the Mao
   const drawMap = () => {
@@ -203,10 +212,14 @@ export default function SkiResort({ width, height, skiResortData }) {
     links,
   };
 
+  /*const togglePopup = () => {
+    setPopupIsOpen(true);
+  };*/
+
   // States to handle changes
   const [startNodeId, setStartNodeId] = React.useState(null);
   const [EndNodeId, setEndNodeId] = React.useState(null);
-  const [result, setResult] = React.useState(null);
+  //const [result, setResult] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
 
   // Function waiting on start and endpoint selection
@@ -232,6 +245,8 @@ export default function SkiResort({ width, height, skiResortData }) {
         })
         .then((data) => {
           setResult(data.paths);
+          console.log(setPopupIsOpen);
+          //setPopupIsOpen(true);
         })
         .catch((error) => {
           console.error(
@@ -239,6 +254,8 @@ export default function SkiResort({ width, height, skiResortData }) {
             error
           );
         });
+
+      //togglePopup();
     }
   }, [EndNodeId, startNodeId]);
 
