@@ -61,7 +61,7 @@
 // export default Popup;
 import React, { useState } from "react";
 
-const Popup = ({ isOpen, onClose, setResult }) => {
+const Popup = ({ isOpen, onClose, setResult, set }) => {
   // State to store the checked status of each skill level
   const [skills, setSkills] = useState({
     blue: false,
@@ -97,9 +97,12 @@ const Popup = ({ isOpen, onClose, setResult }) => {
 
     console.log(`Selected skills: ${selectedSkills}`);
     // Close the popup
-    //onClose();
+    onClose(false);
   };
 
+  if (!isOpen) {
+    return null;
+  }
   return (
     <div
       style={{
