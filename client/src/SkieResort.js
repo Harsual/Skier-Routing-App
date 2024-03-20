@@ -5,8 +5,17 @@ import { DefaultNode, Graph } from "@visx/network";
 export const background = "#272b4d";
 
 // MAIN FUNCTIONAL COMPONENT
-export default function Map({ width, height, backendData }) {
-  const { nodes, links } = backendData;
+export default function SkiResort({
+  width,
+  height,
+  skiResortData,
+  popupIsOpen,
+  setPopupIsOpen,
+  result = { result },
+  setResult = { setResult },
+}) {
+  const { nodes, links } = skiResortData;
+  //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
   // Function to handle drawing the Mao
   const drawMap = () => {
@@ -31,6 +40,7 @@ export default function Map({ width, height, backendData }) {
         // Drawing the nodes
         nodeComponent: ({ node }) => {
           var node_color = node.color;
+
           if (node.id === startNodeId) {
             node_color = "red";
           } else if (node.id === EndNodeId) {
@@ -43,6 +53,7 @@ export default function Map({ width, height, backendData }) {
 
             React.createElement(DefaultNode, {
               fill: node_color,
+              id: node.id,
               onClick: () => handleNodeClick(node),
             }),
 
@@ -70,6 +81,9 @@ export default function Map({ width, height, backendData }) {
           const dr = Math.sqrt(dx * dx + dy * dy);
           var qx;
           var qy;
+
+          const fromNode = slope ? source.id : null;
+          const toNode = slope ? target.id : null;
           // Calculate the control point for the Bézier curve based on color
           switch (color) {
             case "red":
@@ -86,40 +100,48 @@ export default function Map({ width, height, backendData }) {
               qx = (source.x + target.x) / 2 + dr / 2;
               qy = (source.y + target.y) / 2 + dr / 2;
           }
-
-          const isInResult = result && result.some(({ plink }) => plink === id);
+          console.log("Results:", result);
+          //const isInResult = result && result.some(({ plink }) => plink === id);
+          const isInResult =
+            result &&
+            result.some((path) => path.some(({ plink }) => plink === id));
           color = isInResult ? "yellow" : color;
           const strokeWidth = isInResult ? 6 : 2;
           const strokeOpacity = isInResult ? 0.8 : 0.6;
+          const splitT = 0.75;
+          const arrowHieght = 10;
+          const arrowWidth = 10;
 
+          let px =
+            (1 - splitT) ** 2 * source.x +
+            2 * (1 - splitT) * splitT * qx +
+            splitT ** 2 * target.x;
+
+          let py =
+            (1 - splitT) ** 2 * source.y +
+            2 * (1 - splitT) * splitT * qy +
+            splitT ** 2 * target.y;
+
+          let x1 = px,
+            y1 = py - arrowHieght;
+          let x2 = px - arrowWidth,
+            y2 = py + arrowHieght;
+          let x3 = px + arrowWidth,
+            y3 = py + arrowHieght;
+
+          // Calculate the derivative at the 75% point
+          let dx75 =
+            2 * (1 - splitT) * (qx - source.x) + 2 * splitT * (target.x - qx);
+          let dy75 =
+            2 * (1 - splitT) * (qy - source.y) + 2 * splitT * (target.y - qy);
+
+          // Calculate the angle of the derivative
+          let angle = Math.atan2(dy75, dx75);
           // Return straight line or curved line based on whether the link is lift or slope
           return slope
             ? React.createElement(
                 "g",
                 null,
-
-                // Trying to draw an arrow on the ski slopes (Not working yet)
-                // React.createElement(
-                //   "defs",
-                //   null,
-                //   React.createElement(
-                //     "marker",
-                //     {
-                //       id: "arrow",
-                //       viewBox: "0 0 20 20",
-                //       //markerUnits: "userSpaceOnUse",
-                //       markerWidth: 10,
-                //       markerHeight: 10,
-                //       refX: 15,
-                //       refY: 10,
-                //       orient: "auto",
-                //     },
-                //     React.createElement("path", {
-                //       d: "M0 0 10 0 20 10 10 20 0 20 10 10Z",
-                //       fill: "green", // Arrow color
-                //     })
-                //   )
-                // ),
 
                 React.createElement("path", {
                   d: `M${source.x} ${source.y} Q${qx} ${qy} ${target.x} ${target.y}`,
@@ -128,10 +150,18 @@ export default function Map({ width, height, backendData }) {
                   strokeOpacity: strokeOpacity,
                   strokeDasharray: dashed ? "8,4" : undefined,
                   fill: "none",
-                  markerEnd: "url(#arrow)",
+                  //markerStart: "url(#arrow)",
                 }),
 
-                // Calculate the points for the 75% path and the 25% path
+                React.createElement("polygon", {
+                  points: `${x1},${y1} ${x2},${y2} ${x3},${y3}`,
+                  strokeWidth: 2,
+                  stroke: color,
+                  fill: color,
+                  transform: `rotate(${
+                    angle * (180 / Math.PI) + 90
+                  }, ${px}, ${py})`,
+                }),
 
                 React.createElement(
                   "text",
@@ -169,7 +199,7 @@ export default function Map({ width, height, backendData }) {
                     textAnchor: "middle",
                     dominantBaseline: "middle",
                   },
-                  weight
+                  id
                 )
               );
         },
@@ -182,17 +212,21 @@ export default function Map({ width, height, backendData }) {
     links,
   };
 
+  /*const togglePopup = () => {
+    setPopupIsOpen(true);
+  };*/
+
   // States to handle changes
   const [startNodeId, setStartNodeId] = React.useState(null);
   const [EndNodeId, setEndNodeId] = React.useState(null);
-  const [result, setResult] = React.useState(null);
+  //const [result, setResult] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
 
   // Function waiting on start and endpoint selection
   React.useEffect(() => {
     if (EndNodeId !== null && startNodeId !== null) {
       // Calling the server path calculation API
-      fetch("/calculate-path", {
+      fetch("/calculate-paths", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -210,7 +244,9 @@ export default function Map({ width, height, backendData }) {
           return response.json();
         })
         .then((data) => {
-          setResult(data.path);
+          setResult(data.paths);
+          console.log(setPopupIsOpen);
+          //setPopupIsOpen(true);
         })
         .catch((error) => {
           console.error(
@@ -218,6 +254,8 @@ export default function Map({ width, height, backendData }) {
             error
           );
         });
+
+      //togglePopup();
     }
   }, [EndNodeId, startNodeId]);
 
