@@ -25,8 +25,8 @@ function App() {
         <div className="graph-container">
           <h1>Graph Visualization</h1>
           <SkiResort
-            height={400}
-            width={800}
+            height={700}
+            width={1400}
             skiResortData={SkiResortData}
             popupIsOpen={popupIsOpen}
             setPopupIsOpen={setPopupIsOpen}

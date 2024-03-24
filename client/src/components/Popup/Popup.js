@@ -63,39 +63,68 @@ import React, { useState } from "react";
 
 const Popup = ({ isOpen, onClose, setResult, set }) => {
   // State to store the checked status of each skill level
-  const [skills, setSkills] = useState({
-    blue: false,
-    red: false,
-    black: false,
-  });
+  const [skills, setSkills] = useState([]);
 
   // Handler to update the state when a checkbox is clicked
   const handleChange = (e) => {
-    const { name, checked } = e.target;
-    setSkills({
+    //const { name, checked } = e.target;
+    let name = e.target.name;
+
+    if (skills.includes(name)) {
+      setSkills(skills.filter((skill) => skill !== name));
+    } else {
+      setSkills([...skills, name]);
+    }
+
+    //console.log(skills);
+    /*setSkills({
       ...skills,
       [name]: checked,
-    });
+    });*/
   };
 
   // Handler to submit the selected skills
   const handleSubmit = () => {
     // You can process the selected skills here
     // For demonstration, we'll just log them to the console
-    const selectedSkills = Object.entries(skills)
-      .filter(([skill, isChosen]) => isChosen)
-      .map(([skill]) => skill)
-      .join(", ");
+    // const selectedSkills = Object.entries(skills)
+    //   .filter(([skill, isChosen]) => isChosen)
+    //   .map(([skill]) => skill)
+    //   .join(", ");
+    console.log(skills);
 
-    setResult([
+    // Calling the server path calculation API
+    fetch("/calculate-preference", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        skills: skills,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setResult(data.paths);
+      })
+      .catch((error) => {
+        console.error("There was a problem with your fetch operation:", error);
+      });
+
+    /*setResult([
       [
         { pnode: 0, plink: null },
         { pnode: 2, plink: 3 },
         { pnode: 4, plink: 4 },
       ],
-    ]);
+    ]);*/
 
-    console.log(`Selected skills: ${selectedSkills}`);
+    //console.log(`Selected skills: ${selectedSkills}`);
     // Close the popup
     onClose(false);
   };
@@ -122,7 +151,7 @@ const Popup = ({ isOpen, onClose, setResult, set }) => {
           <input
             type="checkbox"
             name="blue"
-            checked={skills.blue}
+            //checked={skills.blue}
             onChange={handleChange}
           />
           Blue
@@ -133,7 +162,7 @@ const Popup = ({ isOpen, onClose, setResult, set }) => {
           <input
             type="checkbox"
             name="red"
-            checked={skills.red}
+            //checked={skills.red}
             onChange={handleChange}
           />
           Red
@@ -144,7 +173,7 @@ const Popup = ({ isOpen, onClose, setResult, set }) => {
           <input
             type="checkbox"
             name="black"
-            checked={skills.black}
+            //checked={skills.black}
             onChange={handleChange}
           />
           Black

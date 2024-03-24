@@ -1,6 +1,7 @@
 const express = require("express");
 const calculatePath = require("./pathCalculator").calculatePath;
 const bfs = require("./pathCalculator").bfs;
+const getPreferencedPath = require("./pathCalculator").getPreferencedPath;
 const app = express();
 
 app.use(express.json());
@@ -81,19 +82,29 @@ const slopesAndLifts = [
     weight: 4,
   },
 ];
+
+var graph = {
+  nodes: locations,
+  links: slopesAndLifts,
+};
+
+var paths;
 app.get("/api", (req, res) => {
   res.json({ nodes: locations, links: slopesAndLifts });
 });
 
 app.post("/calculate-paths", (req, res) => {
-  const { graph, startNodeId, endNodeId } = req.body;
+  const { startNodeId, endNodeId } = req.body;
   console.log("HELLO");
+
   // Performing path calculation based on the provided data
-  const paths = bfs(graph, startNodeId, endNodeId);
-  //const path = calculatePath(graph, startNodeId, endNodeId);
-  //console.log("Calculated path:", path);
-  console.log("Calculated paths:", paths);
-  // Sending the calculated path as the response
+  paths = bfs(graph, startNodeId, endNodeId);
+  res.json({ paths });
+});
+
+app.post("/calculate-preference", (req, res) => {
+  const preference = req.body;
+  paths = getPreferencedPath(paths, preference);
   res.json({ paths });
 });
 

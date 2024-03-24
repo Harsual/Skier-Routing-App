@@ -17,18 +17,37 @@ export default function SkiResort({
   const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
-  // Function to handle drawing the Mao
+  // Function to handle drawing the Map
   const drawMap = () => {
     return React.createElement(
       "svg",
       { width, height /*, onClick: handleSVGClick*/ },
 
+      React.createElement(
+        "defs",
+        null,
+        React.createElement(
+          "pattern",
+          {
+            id: "image-background",
+            width: "100%",
+            height: "100%",
+            patternContentUnits: "objectBoundingBox",
+          },
+          React.createElement("image", {
+            xlinkHref: "mountainmap.jpg",
+            width: "1",
+            height: "1",
+            preserveAspectRatio: "none",
+          })
+        )
+      ),
       // Drawing the background
       React.createElement("rect", {
         width,
         height,
         rx: 14,
-        fill: background,
+        fill: "url(#image-background)",
       }),
 
       // Drawing the graph
@@ -232,7 +251,6 @@ export default function SkiResort({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          graph: graph,
           startNodeId: startNodeId,
           endNodeId: EndNodeId,
         }),
