@@ -1,228 +1,282 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from "react";
 import { DefaultNode, Graph } from "@visx/network";
+import { Zoom } from "@visx/zoom";
+//import { RectClipPath } from "@visx/clip-path";
+import { localPoint } from "@visx/event";
 
-export const background = "#272b4d";
+//export const background = "#272b4d";
 
 // MAIN FUNCTIONAL COMPONENT
 export default function SkiResort({
   width,
   height,
   skiResortData,
-  popupIsOpen,
   setPopupIsOpen = { setPopupIsOpen },
   result = { result },
   setResult = { setResult },
 }) {
+  const initialTransform = {
+    scaleX: 1,
+    scaleY: 1,
+    translateX: 0,
+    translateY: 0,
+    skewX: 0,
+    skewY: 0,
+  };
   const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
   // Function to handle drawing the Map
   const drawMap = () => {
     return React.createElement(
-      "svg",
-      { width, height /*, onClick: handleSVGClick*/ },
-
-      React.createElement(
-        "defs",
-        null,
+      Zoom,
+      {
+        width: width,
+        height: height,
+        scaleXMin: 1,
+        scaleXMax: 4,
+        scaleYMin: 1,
+        scaleYMax: 4,
+        initialTransformMatrix: initialTransform,
+      },
+      (zoom) =>
         React.createElement(
-          "pattern",
+          "svg",
           {
-            id: "image-background",
-            width: "100%",
-            height: "100%",
-            patternContentUnits: "objectBoundingBox",
+            width,
+            height,
+            ref: zoom.containerRef,
+            //transform: zoom.toString(),
+            //style: { touchAction: "none" },
           },
-          React.createElement("image", {
-            xlinkHref: "mountainmap.jpg",
-            width: "1",
-            height: "1",
-            preserveAspectRatio: "none",
-          })
-        )
-      ),
-      // Drawing the background
-      React.createElement("rect", {
-        width,
-        height,
-        rx: 14,
-        fill: "url(#image-background)",
-      }),
 
-      // Drawing the graph
-      React.createElement(Graph, {
-        graph,
-        top: 20,
-        left: 100,
-
-        // Drawing the nodes
-        nodeComponent: ({ node }) => {
-          var node_color = node.color;
-
-          if (node.id === startNodeId) {
-            node_color = "red";
-          } else if (node.id === EndNodeId) {
-            node_color = "blue";
-          }
-
-          return React.createElement(
-            "g",
+          React.createElement(
+            "defs",
             null,
-
-            React.createElement(DefaultNode, {
-              fill: node_color,
-              id: node.id,
-              onClick: () => handleNodeClick(node),
-            }),
-
             React.createElement(
-              "text",
+              "pattern",
               {
-                fill: "white",
-                fontSize: "13px",
-                textAnchor: "middle",
-                dominantBaseline: "middle",
-                pointerEvents: "none",
+                id: "image-background",
+                width: "100%",
+                height: "100%",
+                patternContentUnits: "objectBoundingBox",
               },
-              node.id
+              React.createElement("image", {
+                xlinkHref: "mountainmap.jpg",
+                width: "1",
+                height: "1",
+                preserveAspectRatio: "none",
+              })
             )
-          );
-        },
+          ),
+          // Drawing the background
+          React.createElement("rect", {
+            width,
+            height,
+            rx: 14,
+            fill: "url(#image-background)",
+            onTouchStart: zoom.dragStart,
+            onTouchMove: zoom.dragMove,
+            onTouchEnd: zoom.dragEnd,
+            onMouseDown: zoom.dragStart,
+            onMouseMove: zoom.dragMove,
+            onMouseUp: zoom.dragEnd,
+            onDoubleClick: (e) => {
+              console.log("clicked!!");
+              //console.log(zoom.containerRef);
+              //console.log(localPoint(e.nativeEvent));
+              const point2 = localPoint(e.nativeEvent) || { x: 0, y: 0 };
+              //console.log(zoom.transformMatrix);
+              //console.log(zoom.transformMatrix.scaleX);
+              zoom.scale({ scaleX: 1.1, scaleY: 1.1, point2 });
+              //zoom.scale({ x: 0, y: 0 }, 1.7);
+            },
+            transform: zoom.toString(),
+          }),
 
-        // Drawing the links
-        linkComponent: ({
-          link: { source, target, dashed, slope, color, weight, id },
-        }) => {
-          // Calculations for the curved line
-          const dx = target.x - source.x;
-          const dy = target.y - source.y;
-          const dr = Math.sqrt(dx * dx + dy * dy);
-          var qx;
-          var qy;
+          // Drawing the graph
+          React.createElement(
+            "g",
+            { transform: zoom.toString() },
 
-          const fromNode = slope ? source.id : null;
-          const toNode = slope ? target.id : null;
-          // Calculate the control point for the Bézier curve based on color
-          switch (color) {
-            case "red":
-              qx = (source.x + target.x) / 2 - dr / 4;
-              qy = (source.y + target.y) / 2 - dr / 4;
-              break;
+            React.createElement(Graph, {
+              graph,
+              top: 20,
+              left: 100,
+              transform: zoom.toString(),
 
-            case "black":
-              qx = (source.x + target.x) / 2 + dr / 4;
-              qy = (source.y + target.y) / 2 + dr / 4;
-              break;
+              // Drawing the nodes
+              nodeComponent: ({ node }) => {
+                var node_color = node.color;
 
-            case "blue":
-              qx = (source.x + target.x) / 2 + dr / 2;
-              qy = (source.y + target.y) / 2 + dr / 2;
-          }
-          console.log("Results:", result);
-          //const isInResult = result && result.some(({ plink }) => plink === id);
-          const isInResult =
-            result &&
-            result.some((path) => path.some(({ plink }) => plink === id));
-          color = isInResult ? "yellow" : color;
-          const strokeWidth = isInResult ? 6 : 2;
-          const strokeOpacity = isInResult ? 0.8 : 0.6;
-          const splitT = 0.75;
-          const arrowHieght = 10;
-          const arrowWidth = 10;
+                if (node.id === startNodeId) {
+                  node_color = "red";
+                } else if (node.id === EndNodeId) {
+                  node_color = "blue";
+                }
 
-          let px =
-            (1 - splitT) ** 2 * source.x +
-            2 * (1 - splitT) * splitT * qx +
-            splitT ** 2 * target.x;
+                return React.createElement(
+                  "g",
+                  null,
 
-          let py =
-            (1 - splitT) ** 2 * source.y +
-            2 * (1 - splitT) * splitT * qy +
-            splitT ** 2 * target.y;
+                  React.createElement(DefaultNode, {
+                    fill: node_color,
+                    id: node.id,
+                    onClick: () => handleNodeClick(node),
+                  }),
 
-          let x1 = px,
-            y1 = py - arrowHieght;
-          let x2 = px - arrowWidth,
-            y2 = py + arrowHieght;
-          let x3 = px + arrowWidth,
-            y3 = py + arrowHieght;
+                  React.createElement(
+                    "text",
+                    {
+                      fill: "white",
+                      fontSize: "13px",
+                      textAnchor: "middle",
+                      dominantBaseline: "middle",
+                      pointerEvents: "none",
+                    },
+                    node.id
+                  )
+                );
+              },
 
-          // Calculate the derivative at the 75% point
-          let dx75 =
-            2 * (1 - splitT) * (qx - source.x) + 2 * splitT * (target.x - qx);
-          let dy75 =
-            2 * (1 - splitT) * (qy - source.y) + 2 * splitT * (target.y - qy);
+              // Drawing the links
+              linkComponent: ({
+                link: { source, target, dashed, slope, color, weight, id },
+              }) => {
+                // Calculations for the curved line
+                const dx = target.x - source.x;
+                const dy = target.y - source.y;
+                const dr = Math.sqrt(dx * dx + dy * dy);
+                var qx;
+                var qy;
 
-          // Calculate the angle of the derivative
-          let angle = Math.atan2(dy75, dx75);
-          // Return straight line or curved line based on whether the link is lift or slope
-          return slope
-            ? React.createElement(
-                "g",
-                null,
+                const fromNode = slope ? source.id : null;
+                const toNode = slope ? target.id : null;
+                // Calculate the control point for the Bézier curve based on color
+                switch (color) {
+                  case "red":
+                    qx = (source.x + target.x) / 2 - dr / 4;
+                    qy = (source.y + target.y) / 2 - dr / 4;
+                    break;
 
-                React.createElement("path", {
-                  d: `M${source.x} ${source.y} Q${qx} ${qy} ${target.x} ${target.y}`,
-                  strokeWidth: strokeWidth,
-                  stroke: color,
-                  strokeOpacity: strokeOpacity,
-                  strokeDasharray: dashed ? "8,4" : undefined,
-                  fill: "none",
-                  //markerStart: "url(#arrow)",
-                }),
+                  case "black":
+                    qx = (source.x + target.x) / 2 + dr / 4;
+                    qy = (source.y + target.y) / 2 + dr / 4;
+                    break;
 
-                React.createElement("polygon", {
-                  points: `${x1},${y1} ${x2},${y2} ${x3},${y3}`,
-                  strokeWidth: 2,
-                  stroke: color,
-                  fill: color,
-                  transform: `rotate(${
-                    angle * (180 / Math.PI) + 90
-                  }, ${px}, ${py})`,
-                }),
+                  case "blue":
+                    qx = (source.x + target.x) / 2 + dr / 2;
+                    qy = (source.y + target.y) / 2 + dr / 2;
+                }
+                //console.log("Results:", result);
+                //const isInResult = result && result.some(({ plink }) => plink === id);
+                const isInResult =
+                  result &&
+                  result.some((path) => path.some(({ plink }) => plink === id));
+                color = isInResult ? "yellow" : color;
+                const strokeWidth = isInResult ? 6 : 2;
+                const strokeOpacity = isInResult ? 0.8 : 0.6;
+                const splitT = 0.75;
+                const arrowHieght = 10;
+                const arrowWidth = 10;
 
-                React.createElement(
-                  "text",
-                  {
-                    x: (source.x + 2 * qx + target.x) / 4,
-                    y: (source.y + 2 * qy + target.y) / 4,
-                    fontSize: "22px",
-                    fill: "white",
-                    textAnchor: "middle",
-                    dominantBaseline: "middle",
-                  },
-                  weight
-                )
-              )
-            : React.createElement(
-                "g",
-                null,
-                React.createElement("line", {
-                  x1: source.x,
-                  y1: source.y,
-                  x2: target.x,
-                  y2: target.y,
-                  strokeWidth: strokeWidth,
-                  stroke: color,
-                  strokeOpacity: strokeOpacity,
-                  strokeDasharray: dashed ? "8,4" : undefined,
-                }),
-                React.createElement(
-                  "text",
-                  {
-                    x: (source.x + target.x) / 2,
-                    y: (source.y + target.y) / 2,
-                    fontSize: "22px",
-                    fill: "white",
-                    textAnchor: "middle",
-                    dominantBaseline: "middle",
-                  },
-                  id
-                )
-              );
-        },
-      })
+                let px =
+                  (1 - splitT) ** 2 * source.x +
+                  2 * (1 - splitT) * splitT * qx +
+                  splitT ** 2 * target.x;
+
+                let py =
+                  (1 - splitT) ** 2 * source.y +
+                  2 * (1 - splitT) * splitT * qy +
+                  splitT ** 2 * target.y;
+
+                let x1 = px,
+                  y1 = py - arrowHieght;
+                let x2 = px - arrowWidth,
+                  y2 = py + arrowHieght;
+                let x3 = px + arrowWidth,
+                  y3 = py + arrowHieght;
+
+                // Calculate the derivative at the 75% point
+                let dx75 =
+                  2 * (1 - splitT) * (qx - source.x) +
+                  2 * splitT * (target.x - qx);
+                let dy75 =
+                  2 * (1 - splitT) * (qy - source.y) +
+                  2 * splitT * (target.y - qy);
+
+                // Calculate the angle of the derivative
+                let angle = Math.atan2(dy75, dx75);
+                // Return straight line or curved line based on whether the link is lift or slope
+                return slope
+                  ? React.createElement(
+                      "g",
+                      null,
+
+                      React.createElement("path", {
+                        d: `M${source.x} ${source.y} Q${qx} ${qy} ${target.x} ${target.y}`,
+                        strokeWidth: strokeWidth,
+                        stroke: color,
+                        strokeOpacity: strokeOpacity,
+                        strokeDasharray: dashed ? "8,4" : undefined,
+                        fill: "none",
+                        //markerStart: "url(#arrow)",
+                      }),
+
+                      React.createElement("polygon", {
+                        points: `${x1},${y1} ${x2},${y2} ${x3},${y3}`,
+                        strokeWidth: 2,
+                        stroke: color,
+                        fill: color,
+                        transform: `rotate(${
+                          angle * (180 / Math.PI) + 90
+                        }, ${px}, ${py})`,
+                      }),
+
+                      React.createElement(
+                        "text",
+                        {
+                          x: (source.x + 2 * qx + target.x) / 4,
+                          y: (source.y + 2 * qy + target.y) / 4,
+                          fontSize: "22px",
+                          fill: "white",
+                          textAnchor: "middle",
+                          dominantBaseline: "middle",
+                        },
+                        weight
+                      )
+                    )
+                  : React.createElement(
+                      "g",
+                      null,
+                      React.createElement("line", {
+                        x1: source.x,
+                        y1: source.y,
+                        x2: target.x,
+                        y2: target.y,
+                        strokeWidth: strokeWidth,
+                        stroke: color,
+                        strokeOpacity: strokeOpacity,
+                        strokeDasharray: dashed ? "8,4" : undefined,
+                      }),
+                      React.createElement(
+                        "text",
+                        {
+                          x: (source.x + target.x) / 2,
+                          y: (source.y + target.y) / 2,
+                          fontSize: "22px",
+                          fill: "white",
+                          textAnchor: "middle",
+                          dominantBaseline: "middle",
+                        },
+                        id
+                      )
+                    );
+              },
+            })
+          )
+        )
     );
   };
 
