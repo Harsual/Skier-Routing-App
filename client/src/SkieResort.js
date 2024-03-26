@@ -1,5 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from "react";
+import { useEffect, useState } from "react";
 import { DefaultNode, Graph } from "@visx/network";
 import { Zoom } from "@visx/zoom";
 //import { RectClipPath } from "@visx/clip-path";
@@ -24,6 +25,32 @@ export default function SkiResort({
     skewX: 0,
     skewY: 0,
   };
+
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [containerHeight, setContainerHeight] = useState(0);
+
+  useEffect(() => {
+    // Function to calculate container dimensions
+    const updateDimensions = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight; // or any other way you calculate height
+      console.log(width, height);
+      setContainerWidth(width);
+      setContainerHeight(height);
+    };
+
+    // Initial call to set dimensions
+    updateDimensions();
+
+    // Event listener for window resize
+    window.addEventListener("resize", updateDimensions);
+
+    // Cleanup function to remove event listener
+    return () => {
+      window.removeEventListener("resize", updateDimensions);
+    };
+  }, []);
+
   const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
@@ -32,8 +59,8 @@ export default function SkiResort({
     return React.createElement(
       Zoom,
       {
-        width: width,
-        height: height,
+        width: containerWidth,
+        height: containerHeight,
         scaleXMin: 1,
         scaleXMax: 4,
         scaleYMin: 1,
@@ -84,7 +111,7 @@ export default function SkiResort({
             onMouseUp: zoom.dragEnd,
             onDoubleClick: (e) => {
               console.log("clicked!!");
-              //console.log(zoom.containerRef);
+              console.log(zoom);
               //console.log(localPoint(e.nativeEvent));
               const point2 = localPoint(e.nativeEvent) || { x: 0, y: 0 };
               //console.log(zoom.transformMatrix);
@@ -98,7 +125,9 @@ export default function SkiResort({
           // Drawing the graph
           React.createElement(
             "g",
-            { transform: zoom.toString() },
+            {
+              transform: zoom.toString(),
+            },
 
             React.createElement(Graph, {
               graph,

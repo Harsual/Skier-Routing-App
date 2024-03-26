@@ -1,9 +1,15 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    /*justify-content: center;*/
+    /*align-items: center;
     flex-direction: column;
-    height: 100vh;
+    /*height: 100vh;*/
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width of viewport */
+  height: 100vh;
+   
 
 }
 
@@ -24,10 +30,9 @@
     height: auto;
 }
 
-.graph-container1 {
-    width: 70%;
-    height: auto;
-    display: block;
+.graph-container {
+    /*height: auto;
+    display: block;*/
     
 }
 
