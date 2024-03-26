@@ -21,12 +21,10 @@ function App() {
   return SkiResortData ? (
     <div>
       <div className="container">
-        <header>Weclome to the Ski-resort App</header>
         <div className="graph-container">
-          <h1>Graph Visualization</h1>
           <SkiResort
-            height={400}
-            width={800}
+            height="100vh"
+            width="100vw"
             skiResortData={SkiResortData}
             popupIsOpen={popupIsOpen}
             setPopupIsOpen={setPopupIsOpen}
@@ -39,11 +37,6 @@ function App() {
           isOpen={popupIsOpen}
           onClose={setPopupIsOpen}
         ></Popup>
-        <div>
-          <button className="large-button">Find Path</button>
-          <button className="large-button">Find Facility </button>
-          <button className="large-button">Create Profile</button>
-        </div>
       </div>
     </div>
   ) : (

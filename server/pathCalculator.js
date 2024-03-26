@@ -1,3 +1,15 @@
+function getPreferencedPath(paths, preference) {
+  difficultyPref = preference.skills;
+  difficultyPref.push("gray");
+  //console.log(difficultyPref);
+
+  let filteredPaths = paths.filter((path) =>
+    path.every((item) => !item.color || difficultyPref.includes(item.color))
+  );
+
+  return filteredPaths;
+}
+
 function bfs(graph, startNodeID, endNodeID) {
   let queue = [[{ pnode: startNodeID, plink: null }]];
   let paths = [];
@@ -16,18 +28,25 @@ function bfs(graph, startNodeID, endNodeID) {
         edge.source.id === node &&
         !path.some((p) => p.pnode === edge.target.id)
       ) {
-        queue.push([...path, { pnode: edge.target.id, plink: edge.id }]);
+        queue.push([
+          ...path,
+          { pnode: edge.target.id, plink: edge.id, color: edge.color },
+        ]);
       }
       if (
         !edge.slope &&
         edge.target.id === node &&
         !path.some((p) => p.pnode === edge.source.id)
       ) {
-        queue.push([...path, { pnode: edge.source.id, plink: edge.id }]);
+        queue.push([
+          ...path,
+          { pnode: edge.source.id, plink: edge.id, color: edge.color },
+        ]);
       }
     }
   }
 
+  //getPreferencedPath(paths);
   return paths;
 }
 
@@ -101,4 +120,4 @@ function bfs(graph, startNodeID, endNodeID) {
   return path;
 }*/
 
-module.exports = { bfs };
+module.exports = { bfs, getPreferencedPath };
