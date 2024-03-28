@@ -4,25 +4,9 @@
     /*align-items: center;
     flex-direction: column;
     /*height: 100vh;*/
-    position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw; /* Full width of viewport */
-  height: 100vh;
+  
+  border: 2px solid blue;
    
-
-}
-
-.image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .image {
@@ -33,11 +17,11 @@
 .graph-container {
     /*height: auto;
     display: block;*/
+    height: 100vh;
+    border: 2px solid black;
+    /*width: 100%;*/
+    
     
 }
 
-.large-button {
-    font-size: 20px;
-    padding: 10px 20px;
-}
 

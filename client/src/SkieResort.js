@@ -13,7 +13,7 @@ export default function SkiResort({
   width,
   height,
   skiResortData,
-  setPopupIsOpen = { setPopupIsOpen },
+  setDMenuIsOpen = { setDMenuIsOpen },
   result = { result },
   setResult = { setResult },
 }) {
@@ -29,7 +29,7 @@ export default function SkiResort({
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Function to calculate container dimensions
     const updateDimensions = () => {
       const width = window.innerWidth;
@@ -49,7 +49,7 @@ export default function SkiResort({
     return () => {
       window.removeEventListener("resize", updateDimensions);
     };
-  }, []);
+  }, []);*/
 
   const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
@@ -59,8 +59,8 @@ export default function SkiResort({
     return React.createElement(
       Zoom,
       {
-        width: containerWidth,
-        height: containerHeight,
+        width: width,
+        height: height,
         scaleXMin: 1,
         scaleXMax: 4,
         scaleYMin: 1,
@@ -73,12 +73,21 @@ export default function SkiResort({
           {
             width,
             height,
-            ref: zoom.containerRef,
+            //ref: zoom.containerRef,
             //transform: zoom.toString(),
             //style: { touchAction: "none" },
           },
 
-          React.createElement(
+          React.createElement("image", {
+            xlinkHref: "mountain.jpg",
+            x: 0,
+            y: 0,
+            width,
+            height,
+            preserveAspectRatio: "xMidYMid slice",
+          }),
+
+          /*React.createElement(
             "defs",
             null,
             React.createElement(
@@ -93,17 +102,17 @@ export default function SkiResort({
                 xlinkHref: "mountainmap.jpg",
                 width: "1",
                 height: "1",
-                preserveAspectRatio: "none",
+                preserveAspectRatio: "xMidYMid slice",
               })
             )
           ),
           // Drawing the background
-          React.createElement("rect", {
+          /*React.createElement("rect", {
             width,
             height,
             rx: 14,
             fill: "url(#image-background)",
-            onTouchStart: zoom.dragStart,
+            /*onTouchStart: zoom.dragStart,
             onTouchMove: zoom.dragMove,
             onTouchEnd: zoom.dragEnd,
             onMouseDown: zoom.dragStart,
@@ -119,21 +128,21 @@ export default function SkiResort({
               zoom.scale({ scaleX: 1.1, scaleY: 1.1, point2 });
               //zoom.scale({ x: 0, y: 0 }, 1.7);
             },
-            transform: zoom.toString(),
-          }),
+            //transform: zoom.toString(),
+          }),*/
 
           // Drawing the graph
           React.createElement(
             "g",
             {
-              transform: zoom.toString(),
+              //transform: zoom.toString(),
             },
 
             React.createElement(Graph, {
               graph,
-              top: 20,
+              //top: 0,
               left: 100,
-              transform: zoom.toString(),
+              //transform: zoom.toString(),
 
               // Drawing the nodes
               nodeComponent: ({ node }) => {
@@ -173,15 +182,15 @@ export default function SkiResort({
               linkComponent: ({
                 link: { source, target, dashed, slope, color, weight, id },
               }) => {
-                // Calculations for the curved line
+                // Calculations for the curved line: Bezier
                 const dx = target.x - source.x;
                 const dy = target.y - source.y;
                 const dr = Math.sqrt(dx * dx + dy * dy);
                 var qx;
                 var qy;
-
-                const fromNode = slope ? source.id : null;
-                const toNode = slope ? target.id : null;
+                //console.log(color);
+                //const fromNode = slope ? source.id : null;
+                //const toNode = slope ? target.id : null;
                 // Calculate the control point for the Bézier curve based on color
                 switch (color) {
                   case "red":
@@ -190,14 +199,23 @@ export default function SkiResort({
                     break;
 
                   case "black":
-                    qx = (source.x + target.x) / 2 + dr / 4;
-                    qy = (source.y + target.y) / 2 + dr / 4;
+                    qx = (source.x + target.x) / 2 + dr / 2;
+                    qy = (source.y + target.y) / 2 + dr / 2;
                     break;
 
                   case "blue":
-                    qx = (source.x + target.x) / 2 + dr / 2;
-                    qy = (source.y + target.y) / 2 + dr / 2;
+                    qx = (source.x + target.x) / 2 + dr / 4;
+                    qy = (source.y + target.y) / 2 + dr / 4;
+                    console.log("its entering");
+
+                    break;
+                  default:
+                    qx = 0;
+                    qy = 0;
+                    break;
                 }
+
+                console.log(color);
                 //console.log("Results:", result);
                 //const isInResult = result && result.some(({ plink }) => plink === id);
                 const isInResult =
@@ -263,18 +281,14 @@ export default function SkiResort({
                         }, ${px}, ${py})`,
                       }),
 
-                      React.createElement(
-                        "text",
-                        {
-                          x: (source.x + 2 * qx + target.x) / 4,
-                          y: (source.y + 2 * qy + target.y) / 4,
-                          fontSize: "22px",
-                          fill: "white",
-                          textAnchor: "middle",
-                          dominantBaseline: "middle",
-                        },
-                        weight
-                      )
+                      React.createElement("text", {
+                        x: (source.x + 2 * qx + target.x) / 4,
+                        y: (source.y + 2 * qy + target.y) / 4,
+                        fontSize: "22px",
+                        fill: "white",
+                        textAnchor: "middle",
+                        dominantBaseline: "middle",
+                      })
                     )
                   : React.createElement(
                       "g",
@@ -284,9 +298,9 @@ export default function SkiResort({
                         y1: source.y,
                         x2: target.x,
                         y2: target.y,
-                        strokeWidth: strokeWidth,
+                        strokeWidth: 5,
                         stroke: color,
-                        strokeOpacity: strokeOpacity,
+                        strokeOpacity: 1,
                         strokeDasharray: dashed ? "8,4" : undefined,
                       }),
                       React.createElement(
@@ -346,8 +360,8 @@ export default function SkiResort({
         })
         .then((data) => {
           setResult(data.paths);
-          console.log(setPopupIsOpen);
-          setPopupIsOpen(true);
+          //console.log(setPopupIsOpen);
+          setDMenuIsOpen(true);
         })
         .catch((error) => {
           console.error(
