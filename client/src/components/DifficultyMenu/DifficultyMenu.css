@@ -1,0 +1,14 @@
+.popup { 
+    position: fixed;
+    background-color: white;
+    z-index: 9999;
+    bottom: 0;
+    left: 50%;
+    width:70%;
+    opacity: 0.6;
+    transform: translate(-50%,0);
+}
+
+.popup-inner {
+
+}

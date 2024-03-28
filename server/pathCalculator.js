@@ -1,6 +1,6 @@
 function getPreferencedPath(paths, preference) {
   difficultyPref = preference.skills;
-  difficultyPref.push("gray");
+  difficultyPref.push("green");
   //console.log(difficultyPref);
 
   let filteredPaths = paths.filter((path) =>
