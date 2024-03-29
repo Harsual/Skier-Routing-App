@@ -68,7 +68,7 @@ const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
         <label>
           <input
             type="checkbox"
-            name="Red"
+            name="red"
             onChange={handleChange}
           />
           Red
@@ -76,7 +76,7 @@ const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
         <label>
           <input
             type="checkbox"
-            name="Black"
+            name="black"
             onChange={handleChange}
           />
           Black
