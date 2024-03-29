@@ -33,7 +33,7 @@ const CriteriaMenu = ({ isOpen, onClose, setResult, set }) => {
     //     console.error("There was a problem with your fetch operation:", error);
     //   });
     // // Close the popup
-    // onClose(false);
+    onClose(false);
     // setCMenu(true);
   };
 
@@ -42,41 +42,61 @@ const CriteriaMenu = ({ isOpen, onClose, setResult, set }) => {
   }
   return (
     <div className="popup">
-      <div>Please select Criteria:</div>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="option1"
-            checked={selectedOption === "option1"}
-            onChange={handleOptionChange}
-          />
-          Option 1
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            value="option2"
-            checked={selectedOption === "option2"}
-            onChange={handleOptionChange}
-          />
-          Option 2
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            value="option3"
-            checked={selectedOption === "option3"}
-            onChange={handleOptionChange}
-          />
-          Option 3
-        </label>
+      <div className="popup-header">
+        Please select Criteria:
+        </div>
+      <div className="popup-content">
+        
+        {/*<div>Please select Criteria:</div>*/}
+        <div className="options">
+          <label>
+            <input
+              type="radio"
+              value="shortest"
+              checked={selectedOption === "shortest"}
+              onChange={handleOptionChange}
+            />
+            Shortest
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="easiest"
+              checked={selectedOption === "easiest"}
+              onChange={handleOptionChange}
+            />
+            Easiest
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="fastest"
+              checked={selectedOption === "fastest"}
+              onChange={handleOptionChange}
+            />
+            Fastest
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="minimumliftusage"
+              checked={selectedOption === "minimumliftusage"}
+              onChange={handleOptionChange}
+            />
+            minimum lift usage
+          </label>
+          <div>
+          <button className="popup-close" 
+          onClick={() => onClose(false)} 
+          style={{ position: 'absolute', top: '10px', right: '10px', background: 'red', color: 'white' }}
+          >
+            ×
+          </button>
+          </div> 
+          
+        </div>
+        <button className="popup-button" onClick={handleSubmit}>Submit</button>
       </div>
-
-      <button onClick={handleSubmit}>Submit</button>
-      {/* <button onClick={onClose}>Close</button> */}
     </div>
   );
 };
