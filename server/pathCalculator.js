@@ -50,6 +50,15 @@ function bfs(graph, startNodeID, endNodeID) {
   return paths;
 }
 
+function encodePathInfo(paths) {
+  //console.log(paths);
+  //pathObject = {};
+  //paths.forEach((path, index) => {
+  //const pathName = `path`;
+  //});
+  //return paths;
+}
+
 // OLD WAY OF CALCULATING SHORTEST PATH
 
 // Finding the next node to start exploring
@@ -120,4 +129,4 @@ function bfs(graph, startNodeID, endNodeID) {
   return path;
 }*/
 
-module.exports = { bfs, getPreferencedPath };
+module.exports = { bfs, getPreferencedPath, encodePathInfo };
