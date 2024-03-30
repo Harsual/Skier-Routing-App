@@ -146,9 +146,9 @@ app.post("/calculate-paths", (req, res) => {
 
 app.post("/calculate-preference", (req, res) => {
   const preference = req.body;
-  //console.log(preference);
+  console.log(preference);
   paths = pathCalculator.getPreferencedPath(paths, preference);
-  pathCalculator.encodePathInfo(paths);
+  paths = pathCalculator.encodePathInfo(paths, graph.links);
   res.json({ paths });
 });
 

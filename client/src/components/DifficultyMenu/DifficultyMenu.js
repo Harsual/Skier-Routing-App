@@ -1,9 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./DifficultyMenu.css";
 
-const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
+const DifficultyMenu = ({
+  isOpen,
+  onClose,
+  setResult,
+  result,
+  setCMenu,
+  setAllPaths,
+}) => {
   // State to store the checked status of each skill level
   const [skills, setSkills] = useState([]);
+
+  /*useEffect(() => {
+    // This code runs once when the component mounts
+    //console.log("Component mounted");
+
+    if (!isOpen) {
+      console.log("reset skills!!");
+    }
+
+    /*return () => {
+      console.log("Difficulty: Component unmounted");
+    };
+  }, [isOpen]);*/
 
   // Handler to update the state when a checkbox is clicked
   const handleChange = (e) => {
@@ -18,7 +38,7 @@ const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
 
   // Handler to submit the selected skills
   const handleSubmit = () => {
-    console.log(skills);
+    //console.log(skills);
 
     // Calling the server path calculation API
     fetch("/calculate-preference", {
@@ -37,6 +57,8 @@ const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
         return response.json();
       })
       .then((data) => {
+        console.log(data.paths);
+        setAllPaths(data.paths);
         setResult(data.paths);
       })
       .catch((error) => {
@@ -46,6 +68,7 @@ const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
     // Close the popup
     onClose(false);
     setCMenu(true);
+    setSkills([]);
   };
 
   if (!isOpen) {
@@ -53,44 +76,38 @@ const DifficultyMenu = ({ isOpen, onClose, setResult, setCMenu }) => {
   }
   return (
     <div className="popupd">
-      <div className="popupd-header">
-        Please select your skill level:
-      </div>
+      <div className="popupd-header">Please select your skill level:</div>
       <div className="popupd-content">
         <label>
-          <input
-            type="checkbox"
-            name="blue"
-            onChange={handleChange}
-          />
+          <input type="checkbox" name="blue" onChange={handleChange} />
           Blue
         </label>
         <label>
-          <input
-            type="checkbox"
-            name="red"
-            onChange={handleChange}
-          />
+          <input type="checkbox" name="red" onChange={handleChange} />
           Red
         </label>
         <label>
-          <input
-            type="checkbox"
-            name="black"
-            onChange={handleChange}
-          />
+          <input type="checkbox" name="black" onChange={handleChange} />
           Black
         </label>
         {/* Additional checkboxes for other skill levels */}
       </div>
       <button
-          className="popupd-close"
-          onClick={() => onClose(false)}
-          style={{ position: 'absolute', top: '10px', right: '10px', background: 'red', color: 'white' }}
-        >
-          ×
-        </button>
-        <button className="popupd-button" onClick={handleSubmit}>Submit</button>
+        className="popupd-close"
+        onClick={() => onClose(false)}
+        style={{
+          position: "absolute",
+          top: "10px",
+          right: "10px",
+          background: "red",
+          color: "white",
+        }}
+      >
+        ×
+      </button>
+      <button className="popupd-button" onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
   );
 };

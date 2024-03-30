@@ -12,6 +12,7 @@ function App() {
   const [DMenuIsOpen, setDMenuIsOpen] = useState(false);
   const [CMenuIsOpen, setCMenuIsOpen] = useState(false);
   const [result, setResult] = useState(null);
+  const [allPaths, setAllPaths] = useState(null);
 
   useEffect(() => {
     fetch("/api")
@@ -69,14 +70,19 @@ function App() {
         </div>
         <DifficultyMenu
           setResult={setResult}
+          result={result}
           isOpen={DMenuIsOpen}
           onClose={setDMenuIsOpen}
           setCMenu={setCMenuIsOpen}
+          setAllPaths={setAllPaths}
         ></DifficultyMenu>
         <CriteriaMenu
           setResult={setResult}
+          result={result}
           isOpen={CMenuIsOpen}
           onClose={setCMenuIsOpen}
+          setAllPaths={setAllPaths}
+          allPaths={allPaths}
         ></CriteriaMenu>
       </div>
     </div>

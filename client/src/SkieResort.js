@@ -206,7 +206,6 @@ export default function SkiResort({
                   case "blue":
                     qx = (source.x + target.x) / 2 + dr / 4;
                     qy = (source.y + target.y) / 2 + dr / 4;
-                    console.log("its entering");
 
                     break;
                   default:
@@ -215,12 +214,18 @@ export default function SkiResort({
                     break;
                 }
 
-                console.log(color);
+                //console.log(color);
                 //console.log("Results:", result);
                 //const isInResult = result && result.some(({ plink }) => plink === id);
+                // const isInResult =
+                //   result &&
+                //   result.some((path) => path.some(({ plink }) => plink === id));
+
                 const isInResult =
                   result &&
-                  result.some((path) => path.some(({ plink }) => plink === id));
+                  result.some((pathObj) =>
+                    pathObj.path.some(({ plink }) => plink === id)
+                  );
                 color = isInResult ? "yellow" : color;
                 const strokeWidth = isInResult ? 6 : 2;
                 const strokeOpacity = isInResult ? 0.8 : 0.6;
