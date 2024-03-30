@@ -1,82 +1,192 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CriteriaMenu.css";
 
-const CriteriaMenu = ({ isOpen, onClose, setResult, set }) => {
+const CriteriaMenu = ({
+  isOpen,
+  onClose,
+  setResult,
+  result,
+  allPaths,
+  setAllPaths,
+}) => {
   const [selectedOption, setSelectedOption] = useState("");
+  const [shortestPath, setShortestPath] = useState(null);
+  const [easiestPath, setEasiestPath] = useState(null);
+  const [fastestPath, setFastestPath] = useState(null);
+  const [MLUPath, setMLUPath] = useState(null);
+
+  useEffect(() => {
+    // This code runs once when the component mounts
+    //console.log("Component mounted");
+
+    if (result == null) {
+      setEasiestPath(null);
+      setShortestPath(null);
+      setFastestPath(null);
+      onClose(false);
+      console.log("reset Info");
+    }
+
+    return () => {
+      console.log("Component unmounted");
+    };
+  }, [result]);
 
   const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
+    const selectedValue = event.target.value;
+
+    setSelectedOption(selectedValue);
+
+    switch (selectedValue) {
+      case "shortest":
+        if (shortestPath !== null) {
+          setResult([shortestPath]);
+        } else {
+          // Find the path with the least totalLength
+          const shortestPath = allPaths.reduce((shortest, current) => {
+            if (
+              shortest === null ||
+              current.totalLength < shortest.totalLength
+            ) {
+              return current;
+            } else {
+              return shortest;
+            }
+          }, null);
+
+          console.log("Shortest Path:", shortestPath);
+          setResult([shortestPath]);
+          setShortestPath(shortestPath);
+        }
+        break;
+
+      case "easiest":
+        if (easiestPath !== null) {
+          setResult([easiestPath]);
+        } else {
+          const easiestPath = allPaths.reduce((easiest, current) => {
+            if (
+              easiest === null ||
+              current.difficultyScore < easiest.difficultyScore
+            ) {
+              return current;
+            } else {
+              return easiest;
+            }
+          }, null);
+
+          console.log("Easiest Path:", easiestPath);
+          setResult([easiestPath]);
+          setEasiestPath(easiestPath);
+        }
+        break;
+
+      case "fastest":
+        if (fastestPath !== null) {
+          setResult([fastestPath]);
+        } else {
+          const fastestPath = allPaths.reduce((fastest, current) => {
+            if (fastest === null || current.totalTime < fastest.totalTime) {
+              return current;
+            } else {
+              return fastest;
+            }
+          }, null);
+          console.log("Fastest Path:", fastestPath);
+          setResult([fastestPath]);
+          setFastestPath(fastestPath);
+        }
+        break;
+
+      case "minimumliftusage":
+        if (MLUPath !== null) {
+          setResult([MLUPath]);
+        } else {
+          const MLUPath = allPaths.reduce((minimunTimeOnLift, current) => {
+            if (
+              minimunTimeOnLift === null ||
+              current.totalTimeOnLift < minimunTimeOnLift.totalTimeOnLift
+            ) {
+              return current;
+            } else {
+              return minimunTimeOnLift;
+            }
+          }, null);
+          console.log("MinimumLiftsPath:", MLUPath);
+          setResult([MLUPath]);
+          setMLUPath(MLUPath);
+          break;
+        }
+    }
   };
 
-  const handleSubmit = () => {
-    // console.log(skills);
-    // // Calling the server path calculation API
-    // fetch("/calculate-preference", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     skills: skills,
-    //   }),
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw new Error("Network response was not ok");
-    //     }
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     setResult(data.paths);
-    //   })
-    //   .catch((error) => {
-    //     console.error("There was a problem with your fetch operation:", error);
-    //   });
-    // // Close the popup
-    // onClose(false);
-    // setCMenu(true);
-  };
+  const handleSubmit = () => {};
 
   if (!isOpen) {
     return null;
   }
   return (
     <div className="popup">
-      <div>Please select Criteria:</div>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="option1"
-            checked={selectedOption === "option1"}
-            onChange={handleOptionChange}
-          />
-          Option 1
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            value="option2"
-            checked={selectedOption === "option2"}
-            onChange={handleOptionChange}
-          />
-          Option 2
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            value="option3"
-            checked={selectedOption === "option3"}
-            onChange={handleOptionChange}
-          />
-          Option 3
-        </label>
+      <div className="popup-header">Please select Criteria:</div>
+      <div className="popup-content">
+        {/*<div>Please select Criteria:</div>*/}
+        <div className="options">
+          <label>
+            <input
+              type="radio"
+              value="shortest"
+              checked={selectedOption === "shortest"}
+              onChange={handleOptionChange}
+            />
+            Shortest
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="easiest"
+              checked={selectedOption === "easiest"}
+              onChange={handleOptionChange}
+            />
+            Easiest
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="fastest"
+              checked={selectedOption === "fastest"}
+              onChange={handleOptionChange}
+            />
+            Fastest
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="minimumliftusage"
+              checked={selectedOption === "minimumliftusage"}
+              onChange={handleOptionChange}
+            />
+            minimum lift usage
+          </label>
+          <div>
+            <button
+              className="popup-close"
+              onClick={() => onClose(false)}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "red",
+                color: "white",
+              }}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+        <button className="popup-button" onClick={handleSubmit}>
+          Submit
+        </button>
       </div>
-
-      <button onClick={handleSubmit}>Submit</button>
-      {/* <button onClick={onClose}>Close</button> */}
     </div>
   );
 };

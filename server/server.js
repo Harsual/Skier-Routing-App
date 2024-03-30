@@ -1,7 +1,9 @@
 const express = require("express");
-const calculatePath = require("./pathCalculator").calculatePath;
-const bfs = require("./pathCalculator").bfs;
-const getPreferencedPath = require("./pathCalculator").getPreferencedPath;
+//const calculatePath = require("./pathCalculator").calculatePath;
+//const bfs = require("./pathCalculator").bfs;
+//const getPreferencedPath = require("./pathCalculator").getPreferencedPath;
+const pathCalculator = require("./pathCalculator");
+
 const app = express();
 
 app.use(express.json());
@@ -136,16 +138,17 @@ app.post("/calculate-paths", (req, res) => {
   //console.log("HELLO");
 
   // Performing path calculation based on the provided data
-  paths = bfs(graph, startNodeId, endNodeId);
+  paths = pathCalculator.bfs(graph, startNodeId, endNodeId);
 
-  console.log(paths);
+  //console.log(paths);
   res.json({ paths });
 });
 
 app.post("/calculate-preference", (req, res) => {
   const preference = req.body;
   console.log(preference);
-  paths = getPreferencedPath(paths, preference);
+  paths = pathCalculator.getPreferencedPath(paths, preference);
+  paths = pathCalculator.encodePathInfo(paths, graph.links);
   res.json({ paths });
 });
 
