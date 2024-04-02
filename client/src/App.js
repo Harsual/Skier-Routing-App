@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Map from "./SkieResort";
 import SkiResort from "./SkieResort";
-import { DifficultyMenu, Rectangle} from './components/DifficultyMenu/DifficultyMenu';
+import DifficultyMenu from './components/DifficultyMenu/DifficultyMenu';
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
+import MapLegend from "./components/MapLegend/MapLegend";
 
 function App() {
   // State to handle interactioon from node.js server and this react app
@@ -81,7 +82,7 @@ function App() {
           setCMenu={setCMenuIsOpen}
           setAllPaths={setAllPaths}
         ></DifficultyMenu>
-        <Rectangle />
+        <MapLegend />
         <CriteriaMenu
           setResult={setResult}
           result={result}

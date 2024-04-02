@@ -5,6 +5,7 @@ import { DefaultNode, Graph } from "@visx/network";
 import { Zoom } from "@visx/zoom";
 //import { RectClipPath } from "@visx/clip-path";
 import { localPoint } from "@visx/event";
+import MapLegend from './components/MapLegend/MapLegend';
 
 //export const background = "#272b4d";
 
@@ -211,6 +212,7 @@ export default function SkiResort({
                   // Perform your calculations here using imageWidth and imageHeight
                 }}
               />
+                
 
               <Graph
                 graph={graph}
@@ -389,7 +391,9 @@ export default function SkiResort({
                     </g>
                   );
                 }}
+                
               />
+              <MapLegend />
             </g>
           </svg>
         )}
