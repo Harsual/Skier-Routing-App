@@ -1,0 +1,35 @@
+.container {
+    /*display: block;
+    justify-content: center;*/
+    /*align-items: center;
+    flex-direction: column;
+    /*height: 100vh;*/
+    height: 100vh;
+    width: 100vw;
+  
+  /*border: 2px solid blue;*/
+   
+}
+
+.image {
+    width: 70%;
+    height: auto;
+}
+
+.graph-container {
+    /*height: auto;
+    display: block;
+    height: 100vh;
+    border: 2px solid black;
+    width: 100%;*/
+   height: inherit;
+   width: inherit;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+  
+    
+    
+}
+
+

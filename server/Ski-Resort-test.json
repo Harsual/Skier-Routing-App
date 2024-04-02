@@ -1,0 +1,527 @@
+{
+	"Lifts" : [
+		{
+			"id": 100, 
+			"Name":  "Turrachbahn", 
+			"StartNodeID": "100S", 
+			"EndNodeID": "100E", 
+			"color": "green", 
+			"time": 7
+		}, 
+
+		{
+			"id": 101, 
+			"Name":  "Seitensprunglift", 
+			"StartNodeID": "100S", 
+			"EndNodeID": "101E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 102, 
+			"Name":  "Weitentallift", 
+			"StartNodeID": "102S", 
+			"EndNodeID": "102E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 103, 
+			"Name":  "Sonnenbahn", 
+			"StartNodeID": "102S", 
+			"EndNodeID": "103E", 
+			"color": "green", 
+			"time": 7
+		}, 
+		{
+			"id": 104, 
+			"Name":  "Zirbenwaldbahn", 
+			"StartNodeID": "100S", 
+			"EndNodeID": "104E", 
+			"color": "green", 
+			"time": 7
+		}, 
+		{
+			"id": 105, 
+			"Name":  "Maulwurf", 
+			"StartNodeID": "114E", 
+			"EndNodeID": "105E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 106, 
+			"Name":  "Ottifantenlift", 
+			"StartNodeID": "107E", 
+			"EndNodeID": "106E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 107, 
+			"Name":  "Übungswiesenlift", 
+			"StartNodeID": "108S", 
+			"EndNodeID": "107E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 108, 
+			"Name":  "Engländerlift", 
+			"StartNodeID": "108S", 
+			"EndNodeID": "105E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 109, 
+			"Name":  "Panoramabahn", 
+			"StartNodeID": "109S", 
+			"EndNodeID": "109E", 
+			"color": "green", 
+			"time": 10
+		}, 
+		{
+			"id": 110, 
+			"Name":  "Kornockbahn", 
+			"StartNodeID": "110S", 
+			"EndNodeID": "105E", 
+			"color": "green", 
+			"time": 7
+		}, 
+		{
+			"id": 111, 
+			"Name":  "Hüttenexpress", 
+			"StartNodeID": "109E", 
+			"EndNodeID": "111E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 112, 
+			"Name":  "Hirschkogellift", 
+			"StartNodeID": "112S", 
+			"EndNodeID": "112E", 
+			"color": "green", 
+			"time": 5
+		}, 
+		{
+			"id": 113, 
+			"Name":  "Schafalmbahn", 
+			"StartNodeID": "113S", 
+			"EndNodeID": "113E", 
+			"color": "green", 
+			"time": 7
+		}, 
+		{
+			"id": 114, 
+			"Name":  "Wildkopfbahn", 
+			"StartNodeID": "100S", 
+			"EndNodeID": "114E", 
+			"color": "green", 
+			"time": 7
+		}
+
+	], 
+
+
+"Slopes":[
+
+        {
+			"id": 1, 
+			"Name":  "Kornockabfahrt", 
+			"StartNodeID": "110S", 
+			"EndNodeID": "105E", 
+			"color": "blue", 
+			"length": 2350
+		}, 
+
+	
+		
+		{
+			"id": 2, 
+			"Name":  "Hirschkogelabfahrt", 
+			"StartNodeID": "112S", 
+			"EndNodeID": "105E", 
+			"color": "red", 
+			"length": 800
+		}, 
+
+		{ 
+		"id" : 3,
+		"Name" : "Pauliabfahrt",
+		"StartNodeID" : "112S",
+		"EndNodeID" : "105E",
+		"color": "red",
+		"length": 1300 },	
+
+		{ 
+		"id" : 4,
+		"Name" : "MAPAKI Familienabfahrt",
+		"StartNodeID" : "113S",
+		"EndNodeID" : "105E",
+		"color": "red",
+		"length": 1100 },	
+
+		{ 
+		"id" : 5, 
+		"Name" : "Engländerabfahrt",
+		"StartNodeID" : "108S",
+		"EndNodeID" : "105E",
+		"color": "red",
+		"length": 300 },	
+
+		{ 
+		"id" : 6,
+		"Name" : "Übungswiesenabfahrt links",
+		"StartNodeID" : "107E",
+		"EndNodeID" : "108S",
+		"color": "red",
+		"length": 400 },	
+
+		{ 
+		"id" : 7,
+		"Name" : "Übungswiesenabfahrt rechts",
+		"StartNodeID" : "108S",
+		"EndNodeID" : "107E",
+		"color": "blue",
+		"length": 500 },	
+
+
+		{ 
+		"id" : 9,
+		"Name" : "Abfahrt Hüttenexpress",
+		"StartNodeID" : "109E",
+		"EndNodeID" : "111E",
+		"color": "red",
+		"length": 400 },	
+
+		{ 
+		"id" : 12,
+		"Name" : "Panoramaabfahrt",
+		"StartNodeID" : "109S",
+		"EndNodeID" : "109E",
+		"color": "red",
+		"length": 950 },	
+
+		{ 
+		"id" : 13,
+		"Name" : "Ländereckabfahrt",
+		"StartNodeID" : "109E",
+		"EndNodeID" : "107E",
+		"color": "blue",
+		"length": 400 },	
+
+		{ 
+		"id" : 14,
+		"Name" : "Schafalmabfahrt",
+		"StartNodeID" : "113S",
+		"EndNodeID" : "113E",
+		"color": "red",
+		"length": 1350 },	
+
+		{ 
+		"id" : 15,
+		"Name" : "Schafnase",
+		"StartNodeID" : "113S",
+		"EndNodeID" : "113E",
+		"color": "black",
+		"length": 600 },	
+
+		{ 
+		"id" : 17,
+		"Name" : "Lampelabfahrt",
+		"StartNodeID" : "112S",
+		"EndNodeID" : "113E",
+		"color": "blue",
+		"length": 400 },	
+
+		{ 
+		"id" : 18,
+		"Name" : "Märchenwaldabfahrt",
+		"StartNodeID" : "100S",
+		"EndNodeID" : "104E",
+		"color": "blue",
+		"length": 1900 },	
+
+		{ 
+		"id" : 19,
+		"Name" : "Zirbenwaldabfahrt",
+		"StartNodeID" : "100S",
+		"EndNodeID" : "104E",
+		"color": "red",
+		"length": 1200 },	
+
+		{ 
+		"id" : 20,
+		"Name" : "FIS - Abfahrt",
+		"StartNodeID" : "101E",
+		"EndNodeID" : "100E",
+		"color": "red",
+		"length": 2150 },	
+	
+		{ 
+		"id": 21, 
+		"Name": "Eisenhutabfahrt",
+		"StartNodeID" : "100S",
+		"EndNodeID": "100E",
+		"color": "red",
+		"length": 1550 },	
+		
+		{ 
+		"id": 22, 
+		"Name": "Seitensprung",
+		"StartNodeID" : "100S",
+		"EndNodeID": "102E",
+		"color": "red",
+		"length": 800 },
+	
+		{ 
+		"id": 23, 
+		"Name": "Schwarzseeabfahrt",
+		"StartNodeID" : "103E",
+		"EndNodeID": "102E",
+		"color": "red",
+		"length": 1450 },	
+
+		{ 
+		"id": 24, 
+		"Name": "Weitentalabfahrt",
+		"StartNodeID" : "102S",
+		"EndNodeID": "102E",
+		"color": "red",
+		"length": 1400 },
+	
+		{ 
+		"id": 25, 
+		"Name": "Abfahrt Sonnenbahn",
+		"StartNodeID" : "102S",
+		"EndNodeID": "103E",
+		"color": "red",
+		"length": 830 },	
+
+		{ 
+		"id": 26, 
+		"Name": "Wildkopfabfahrt",
+		"StartNodeID" : "100S",
+		"EndNodeID": "114E",
+		"color": "blue",
+		"length": 700 },
+	
+
+		{ 
+		"id": 28, 
+		"Name": "Skiweg zur Zirbenwaldbahn",
+		"StartNodeID" : "114E",
+		"EndNodeID": "104E",
+		"color": "blue",
+		"length": 300 },
+	
+		{ 
+		"id": 31, 
+		"Name": "Skiweg zur Turrachbahn",
+		"StartNodeID" : "102E",
+		"EndNodeID": "100E",
+		"color": "blue",
+		"length": 2100 },	
+		
+		{ 
+		"id": 32, 
+		"Name": "Skiweg zur Sonnenbahn",
+		"StartNodeID" : "103E",
+		"EndNodeID": "100S",
+		"color": "blue",
+		"length": 1250 },
+	
+		{ 
+		"id": 33, 
+		"Name": "Ski - Rodelweg",
+		"StartNodeID" : "102S",
+		"EndNodeID": "103E",
+		"color": "blue",
+		"length": 880 },	
+	
+
+		{ 
+		"id": 36, 
+		"Name": "Alibi für Seitensprung",
+		"StartNodeID" : "100S",
+		"EndNodeID": "101E",
+		"color": "blue",
+		"length": 650 },
+	
+		{ 
+		"id": 38, 
+		"Name": "Verbindungspiste Engländer-Kornock",
+		"StartNodeID" : "100S",
+		"EndNodeID": "100E",
+		"color": "blue",
+		"length": 400 },
+	
+		{ 
+		"id": 39, 
+		"Name": "Verbindungspiste Kornock-Wildkopf",
+		"StartNodeID" : "100S",
+		"EndNodeID": "104E",
+		"color": "black",
+		"length": 400 }
+
+
+], 
+
+	"startandEndpoints": [
+		{
+			"id": "100S", 
+			"x": 500 ,
+			"y": 400 
+
+		}, 
+
+		{
+			"id": "100E", 
+			"x": 140 ,
+			"y": 900 
+
+		}, 
+		
+		{
+			"id": "101E", 
+			"x": 250 ,
+			"y": 470 
+
+		}, 
+		
+		{
+			"id": "102S", 
+			"x": 500 ,
+			"y": 250  
+
+		}, 
+
+		{
+			"id": "102E", 
+			"x": 140 ,
+			"y": 450  
+
+		}, 
+		
+		{
+			"id": "103E", 
+			"x": 700 ,
+			"y": 330  
+
+		}, 
+		
+	
+		{
+			"id": "104E", 
+			"x": 715 ,
+			"y": 830 
+
+		}, 
+
+		{
+			"id": "114E", 
+			"x": 727 ,
+			"y": 510  
+
+		},
+
+
+		{
+			"id": "105E", 
+			"x": 850 ,
+			"y": 530  
+
+		}, 
+
+		{
+			"id": "108S", 
+			"x": 1020 ,
+			"y": 350  
+
+		},  
+
+
+
+		{
+			"id": "110S", 
+			"x": 1290 ,
+			"y": 220  
+
+		},  
+
+
+
+		{
+			"id": "107E", 
+			"x": 800 ,
+			"y": 370  
+
+		}, 
+
+
+		{
+			"id": "106E", 
+			"x": 830 ,
+			"y": 440 
+
+		}, 
+
+		{
+			"id": "109S", 
+			"x": 780 ,
+			"y": 280 
+
+		}, 
+
+		{
+			"id": "109E", 
+			"x": 920 ,
+			"y": 300 
+
+		}, 
+
+
+		{
+			"id": "111E", 
+			"x": 1050 ,
+			"y": 305 
+
+		},	
+		
+		{
+			"id": "112S", 
+			"x": 1280 ,
+			"y": 400  
+
+		}, 
+
+		{
+			"id": "112E", 
+			"x": 1120 ,
+			"y": 650 
+
+		},
+		
+		{
+			"id": "113S", 
+			"x": 1500 ,
+			"y": 280  
+
+		}, 
+
+		{
+			"id": "113E", 
+			"x": 1380 ,
+			"y": 830 
+
+		}
+
+	]
+}
+
+
+
+
+
