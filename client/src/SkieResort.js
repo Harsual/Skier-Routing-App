@@ -13,6 +13,7 @@ export default function SkiResort({
   width,
   height,
   skiResortData,
+  setSkiResortData = { setSkiResortData },
   setDMenuIsOpen = { setDMenuIsOpen },
   result = { result },
   setResult = { setResult },
@@ -28,6 +29,107 @@ export default function SkiResort({
 
   const [containerWidth, setContainerWidth] = useState(0);
   const [containerHeight, setContainerHeight] = useState(0);
+  const [originalSRData, setOriginalSRData] = useState(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [firstEffectComplete, setFirstEffectComplete] = useState(false);
+  //const [graph, setGraph] = useState(skiResortData);
+  //setGraph(skiResortData);
+
+  var viewportHeight = 993;
+  var viewportWidth = 1728;
+  //var imageWidth = width;
+  //var imageHeight = height;
+  var imageWidth;
+  var imageHeight;
+  //var graphOffsetx = 0;
+  //var graphOffsety = 0;
+
+  useEffect(() => {
+    //console.log("SkiResort Data:", skiResortData);
+    //console.log("OriginalSRData:", originalSRData);
+
+    if (skiResortData && !originalSRData) {
+      //console.log("setting OriginalData");
+      setOriginalSRData(skiResortData);
+    }
+
+    return () => {
+      //setSkiResortData({});
+    };
+  }, []);
+
+  useEffect(() => {
+    //console.log("Testing");
+    var naturalWidth = 1280;
+    var naturalHeight = 854;
+    //console.log(naturalWidth, naturalHeight);
+    // Get the width and height of the SVG container
+    //var svgWidth = imageElement.viewportElement.clientWidth;
+    //var svgHeight = imageElement.viewportElement.clientHeight;
+
+    //console.log(svgHeight, svgWidth);
+    // Calculate the aspect ratio of the image
+    var aspectRatio = naturalWidth / naturalHeight;
+    //console.log("AspectRatio:", aspectRatio);
+    // Perform your calculations here using imageWidth and imageHeight
+    if (width / height > aspectRatio) {
+      // The SVG container is wider than the image, so the height of the image will be equal to the height of the SVG container
+      console.log("Container is wider than image");
+      imageHeight = height;
+      //console.log("imageHeight: ", imageHeight);
+      imageWidth = imageHeight * aspectRatio;
+    } else {
+      // The SVG container is taller than the image, so the width of the image will be equal to the width of the SVG container
+      console.log("Container is taller than image");
+      imageWidth = width;
+      imageHeight = imageWidth / aspectRatio;
+    }
+
+    let graphOffsetx = (width - imageWidth) / 2;
+    let graphOffsety = (height - imageHeight) / 2;
+
+    setOffset({ x: graphOffsetx, y: graphOffsety });
+    //console.log(graphOffsetx, graphOffsety);
+    var widthScaleFactor = imageWidth / 1728;
+    var heightScaleFactor = imageHeight / 993;
+    //console.log(widthScaleFactor, heightScaleFactor);
+
+    if (originalSRData && originalSRData.nodes && originalSRData.links) {
+      console.log("It entered");
+      const updatedNodes = originalSRData.nodes.map((node) => ({
+        ...node,
+        x: Math.round(node.x * widthScaleFactor),
+        y: Math.round(node.y * heightScaleFactor),
+      }));
+
+      // Update links
+      const updatedLinks = originalSRData.links.map((link) => ({
+        ...link,
+        source: {
+          ...link.source,
+          x: Math.round(link.source.x * widthScaleFactor),
+          y: Math.round(link.source.y * heightScaleFactor),
+        },
+        target: {
+          ...link.target,
+          x: Math.round(link.target.x * widthScaleFactor),
+          y: Math.round(link.target.y * heightScaleFactor),
+        },
+      }));
+
+      const updatedSkiResortData = {
+        ...skiResortData,
+        nodes: updatedNodes,
+        links: updatedLinks,
+      };
+
+      console.log(updatedSkiResortData);
+      setSkiResortData(updatedSkiResortData);
+    }
+
+    //viewportWidth = width;
+    //viewportHeight = height;
+  }, [width, height]);
 
   /*useEffect(() => {
     // Function to calculate container dimensions
@@ -38,299 +140,261 @@ export default function SkiResort({
       setContainerWidth(width);
       setContainerHeight(height);
     };
-
-    // Initial call to set dimensions
+     // Initial call to set dimensions
     updateDimensions();
-
-    // Event listener for window resize
+     // Event listener for window resize
     window.addEventListener("resize", updateDimensions);
-
-    // Cleanup function to remove event listener
+     // Cleanup function to remove event listener
     return () => {
       window.removeEventListener("resize", updateDimensions);
     };
   }, []);*/
 
-  const { nodes, links } = skiResortData;
+  //const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
-
+  let graph = {
+    nodes: skiResortData.nodes,
+    links: skiResortData.links,
+  };
   // Function to handle drawing the Map
   const drawMap = () => {
-    return React.createElement(
-      Zoom,
-      {
-        width: width,
-        height: height,
-        scaleXMin: 1,
-        scaleXMax: 4,
-        scaleYMin: 1,
-        scaleYMax: 4,
-        initialTransformMatrix: initialTransform,
-      },
-      (zoom) =>
-        React.createElement(
-          "svg",
-          {
-            width,
-            height,
-            //ref: zoom.containerRef,
-            //transform: zoom.toString(),
-            //style: { touchAction: "none" },
-          },
+    // Calculate scale factors for both width and height
 
-          React.createElement("image", {
-            xlinkHref: "mountain.jpg",
-            x: 0,
-            y: 0,
-            width,
-            height,
-            preserveAspectRatio: "xMidYMid slice",
-          }),
+    //console.log(widthScaleFactor, heightScaleFactor);
+    // Choose the smaller scale factor to ensure the entire image fits within the SVG container
+    //const scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
 
-          /*React.createElement(
-            "defs",
-            null,
-            React.createElement(
-              "pattern",
-              {
-                id: "image-background",
-                width: "100%",
-                height: "100%",
-                patternContentUnits: "objectBoundingBox",
-              },
-              React.createElement("image", {
-                xlinkHref: "mountainmap.jpg",
-                width: "1",
-                height: "1",
-                preserveAspectRatio: "xMidYMid slice",
-              })
-            )
-          ),
-          // Drawing the background
-          /*React.createElement("rect", {
-            width,
-            height,
-            rx: 14,
-            fill: "url(#image-background)",
-            /*onTouchStart: zoom.dragStart,
-            onTouchMove: zoom.dragMove,
-            onTouchEnd: zoom.dragEnd,
-            onMouseDown: zoom.dragStart,
-            onMouseMove: zoom.dragMove,
-            onMouseUp: zoom.dragEnd,
-            onDoubleClick: (e) => {
-              console.log("clicked!!");
-              console.log(zoom);
-              //console.log(localPoint(e.nativeEvent));
-              const point2 = localPoint(e.nativeEvent) || { x: 0, y: 0 };
-              //console.log(zoom.transformMatrix);
-              //console.log(zoom.transformMatrix.scaleX);
-              zoom.scale({ scaleX: 1.1, scaleY: 1.1, point2 });
-              //zoom.scale({ x: 0, y: 0 }, 1.7);
-            },
-            //transform: zoom.toString(),
-          }),*/
+    return (
+      <Zoom
+        width={width}
+        height={height}
+        scaleXMin={1}
+        scaleXMax={4}
+        scaleYMin={1}
+        scaleYMax={4}
+        initialTransformMatrix={initialTransform}
+      >
+        {(zoom) => (
+          <svg width={width} height={height} ref={zoom.containerRef}>
+            <rect
+              width={width}
+              height={height}
+              //rx={14}
+              fill="transparent"
+              onTouchStart={zoom.dragStart}
+              onTouchMove={zoom.dragMove}
+              onTouchEnd={zoom.dragEnd}
+              onMouseDown={zoom.dragStart}
+              onMouseMove={zoom.dragMove}
+              onMouseUp={zoom.dragEnd}
+              onMouseLeave={() => {
+                if (zoom.isDragging) zoom.dragEnd();
+              }}
+              onDoubleClick={(event) => {
+                const point = localPoint(event) || { x: 0, y: 0 };
+                zoom.scale({ scaleX: 1.1, scaleY: 1.1, point });
+              }}
+            />
+            <g transform={zoom.toString()}>
+              <image
+                id="map-background"
+                xlinkHref="mountain.jpg"
+                x={0}
+                y={0}
+                width={width}
+                height={height}
+                //preserveAspectRatio="xMidYMid meet"
+                onLoad={(event) => {
+                  //imageWidth = event.target.naturalWidth; // Get the intrinsic width of the image
+                  //imageHeight = event.target.naturalHeight; // Get the intrinsic height of the image
+                  //console.log(imageWidth, imageHeight);
+                  // Perform your calculations here using imageWidth and imageHeight
+                }}
+              />
 
-          // Drawing the graph
-          React.createElement(
-            "g",
-            {
-              //transform: zoom.toString(),
-            },
+              <Graph
+                graph={graph}
+                left={offset.x}
+                top={offset.y}
+                nodeComponent={({ node }) => {
+                  var node_color = "green";
+                  var stroke = "";
+                  console.log(offset.x, offset.y);
+                  //var node_color = node.color;
+                  //node.x = Math.ceil(node.x * widthScaleFactor);
+                  //node.y = Math.ceil(node.y * heightScaleFactor);
+                  var node_txt = "";
+                  if (node.id === startNodeId) {
+                    node_color = "red";
+                    stroke = "white";
+                    node_txt = "Start";
+                  } else if (node.id === EndNodeId) {
+                    node_color = "blue";
+                    node_txt = "End";
+                  }
 
-            React.createElement(Graph, {
-              graph,
-              //top: 0,
-              left: 100,
-              //transform: zoom.toString(),
-
-              // Drawing the nodes
-              nodeComponent: ({ node }) => {
-                var node_color = node.color;
-
-                if (node.id === startNodeId) {
-                  node_color = "red";
-                } else if (node.id === EndNodeId) {
-                  node_color = "blue";
-                }
-
-                return React.createElement(
-                  "g",
-                  null,
-
-                  React.createElement(DefaultNode, {
-                    fill: node_color,
-                    id: node.id,
-                    onClick: () => handleNodeClick(node),
-                  }),
-
-                  React.createElement(
-                    "text",
-                    {
-                      fill: "white",
-                      fontSize: "13px",
-                      textAnchor: "middle",
-                      dominantBaseline: "middle",
-                      pointerEvents: "none",
-                    },
-                    node.id
-                  )
-                );
-              },
-
-              // Drawing the links
-              linkComponent: ({
-                link: { source, target, dashed, slope, color, weight, id },
-              }) => {
-                // Calculations for the curved line: Bezier
-                const dx = target.x - source.x;
-                const dy = target.y - source.y;
-                const dr = Math.sqrt(dx * dx + dy * dy);
-                var qx;
-                var qy;
-                //console.log(color);
-                //const fromNode = slope ? source.id : null;
-                //const toNode = slope ? target.id : null;
-                // Calculate the control point for the Bézier curve based on color
-                switch (color) {
-                  case "red":
-                    qx = (source.x + target.x) / 2 - dr / 4;
-                    qy = (source.y + target.y) / 2 - dr / 4;
-                    break;
-
-                  case "black":
-                    qx = (source.x + target.x) / 2 + dr / 2;
-                    qy = (source.y + target.y) / 2 + dr / 2;
-                    break;
-
-                  case "blue":
-                    qx = (source.x + target.x) / 2 + dr / 4;
-                    qy = (source.y + target.y) / 2 + dr / 4;
-
-                    break;
-                  default:
-                    qx = 0;
-                    qy = 0;
-                    break;
-                }
-
-                //console.log(color);
-                //console.log("Results:", result);
-                //const isInResult = result && result.some(({ plink }) => plink === id);
-                // const isInResult =
-                //   result &&
-                //   result.some((path) => path.some(({ plink }) => plink === id));
-
-                const isInResult =
-                  result &&
-                  result.some((pathObj) =>
-                    pathObj.path.some(({ plink }) => plink === id)
+                  return (
+                    <g>
+                      <DefaultNode
+                        fill={node_color}
+                        id={node.id}
+                        r={10}
+                        stroke={stroke}
+                        strokeWidth={3}
+                        style={{
+                          zIndex: 100,
+                        }}
+                        onClick={() => handleNodeClick(node)}
+                      />
+                      <text
+                        fill="white"
+                        fontSize="13px"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        pointerEvents="none"
+                      ></text>
+                    </g>
                   );
-                color = isInResult ? "yellow" : color;
-                const strokeWidth = isInResult ? 6 : 2;
-                const strokeOpacity = isInResult ? 0.8 : 0.6;
-                const splitT = 0.75;
-                const arrowHieght = 10;
-                const arrowWidth = 10;
+                }}
+                linkComponent={({
+                  link: { source, target, dashed, slope, color, weight, id },
+                }) => {
+                  // Calculations for the curved line: Bezier
+                  const dx = target.x - source.x;
+                  const dy = target.y - source.y;
+                  const dr = Math.sqrt(dx * dx + dy * dy);
+                  var qx;
+                  var qy;
+                  //console.log(color);
+                  //const fromNode = slope ? source.id : null;
+                  //const toNode = slope ? target.id : null;
+                  // Calculate the control point for the Bézier curve based on color
+                  switch (color) {
+                    case "red":
+                      qx = (source.x + target.x) / 2 - dr / 4;
+                      qy = (source.y + target.y) / 2 - dr / 4;
+                      break;
 
-                let px =
-                  (1 - splitT) ** 2 * source.x +
-                  2 * (1 - splitT) * splitT * qx +
-                  splitT ** 2 * target.x;
+                    case "black":
+                      qx = (source.x + target.x) / 2 + dr / 2;
+                      qy = (source.y + target.y) / 2 + dr / 2;
+                      break;
 
-                let py =
-                  (1 - splitT) ** 2 * source.y +
-                  2 * (1 - splitT) * splitT * qy +
-                  splitT ** 2 * target.y;
+                    case "blue":
+                      qx = (source.x + target.x) / 2 + dr / 4;
+                      qy = (source.y + target.y) / 2 + dr / 4;
 
-                let x1 = px,
-                  y1 = py - arrowHieght;
-                let x2 = px - arrowWidth,
-                  y2 = py + arrowHieght;
-                let x3 = px + arrowWidth,
-                  y3 = py + arrowHieght;
+                      break;
+                    default:
+                      qx = 0;
+                      qy = 0;
+                      break;
+                  }
 
-                // Calculate the derivative at the 75% point
-                let dx75 =
-                  2 * (1 - splitT) * (qx - source.x) +
-                  2 * splitT * (target.x - qx);
-                let dy75 =
-                  2 * (1 - splitT) * (qy - source.y) +
-                  2 * splitT * (target.y - qy);
+                  //console.log(color);
+                  //console.log("Results:", result);
+                  //const isInResult = result && result.some(({ plink }) => plink === id);
+                  // const isInResult =
+                  //   result &&
+                  //   result.some((path) => path.some(({ plink }) => plink === id));
 
-                // Calculate the angle of the derivative
-                let angle = Math.atan2(dy75, dx75);
-                // Return straight line or curved line based on whether the link is lift or slope
-                return slope
-                  ? React.createElement(
-                      "g",
-                      null,
-
-                      React.createElement("path", {
-                        d: `M${source.x} ${source.y} Q${qx} ${qy} ${target.x} ${target.y}`,
-                        strokeWidth: strokeWidth,
-                        stroke: color,
-                        strokeOpacity: strokeOpacity,
-                        strokeDasharray: dashed ? "8,4" : undefined,
-                        fill: "none",
-                        //markerStart: "url(#arrow)",
-                      }),
-
-                      React.createElement("polygon", {
-                        points: `${x1},${y1} ${x2},${y2} ${x3},${y3}`,
-                        strokeWidth: 2,
-                        stroke: color,
-                        fill: color,
-                        transform: `rotate(${
-                          angle * (180 / Math.PI) + 90
-                        }, ${px}, ${py})`,
-                      }),
-
-                      React.createElement("text", {
-                        x: (source.x + 2 * qx + target.x) / 4,
-                        y: (source.y + 2 * qy + target.y) / 4,
-                        fontSize: "22px",
-                        fill: "white",
-                        textAnchor: "middle",
-                        dominantBaseline: "middle",
-                      })
-                    )
-                  : React.createElement(
-                      "g",
-                      null,
-                      React.createElement("line", {
-                        x1: source.x,
-                        y1: source.y,
-                        x2: target.x,
-                        y2: target.y,
-                        strokeWidth: 5,
-                        stroke: color,
-                        strokeOpacity: 1,
-                        strokeDasharray: dashed ? "8,4" : undefined,
-                      }),
-                      React.createElement(
-                        "text",
-                        {
-                          x: (source.x + target.x) / 2,
-                          y: (source.y + target.y) / 2,
-                          fontSize: "22px",
-                          fill: "white",
-                          textAnchor: "middle",
-                          dominantBaseline: "middle",
-                        },
-                        id
-                      )
+                  const isInResult =
+                    result &&
+                    result.some((pathObj) =>
+                      pathObj.path.some(({ plink }) => plink === id)
                     );
-              },
-            })
-          )
-        )
-    );
-  };
+                  color = isInResult ? "yellow" : color;
+                  const strokeWidth = isInResult ? 6 : 2;
+                  const strokeOpacity = isInResult ? 0.8 : 0.6;
+                  const splitT = 0.75;
+                  const arrowHieght = 7;
+                  const arrowWidth = 5;
 
-  let graph = {
-    nodes,
-    links,
+                  let px =
+                    (1 - splitT) ** 2 * source.x +
+                    2 * (1 - splitT) * splitT * qx +
+                    splitT ** 2 * target.x;
+
+                  let py =
+                    (1 - splitT) ** 2 * source.y +
+                    2 * (1 - splitT) * splitT * qy +
+                    splitT ** 2 * target.y;
+
+                  let x1 = px,
+                    y1 = py - arrowHieght;
+                  let x2 = px - arrowWidth,
+                    y2 = py + arrowHieght;
+                  let x3 = px + arrowWidth,
+                    y3 = py + arrowHieght;
+
+                  // Calculate the derivative at the 75% point
+                  let dx75 =
+                    2 * (1 - splitT) * (qx - source.x) +
+                    2 * splitT * (target.x - qx);
+                  let dy75 =
+                    2 * (1 - splitT) * (qy - source.y) +
+                    2 * splitT * (target.y - qy);
+
+                  // Calculate the angle of the derivative
+                  let angle = Math.atan2(dy75, dx75);
+                  // Return straight line or curved line based on whether the link is lift or slope
+                  return slope ? (
+                    <g>
+                      <path
+                        d={`M${source.x} ${source.y} Q${qx} ${qy} ${target.x} ${target.y}`}
+                        strokeWidth={strokeWidth}
+                        stroke={color}
+                        strokeOpacity={strokeOpacity}
+                        strokeDasharray={dashed ? "8,4" : undefined}
+                        fill="none"
+                      />
+                      <polygon
+                        points={`${x1},${y1} ${x2},${y2} ${x3},${y3}`}
+                        strokeWidth={2}
+                        stroke={color}
+                        fill={color}
+                        transform={`rotate(${
+                          angle * (180 / Math.PI) + 90
+                        }, ${px}, ${py})`}
+                      />
+                      <text
+                        x={(source.x + 2 * qx + target.x) / 4}
+                        y={(source.y + 2 * qy + target.y) / 4}
+                        fontSize="22px"
+                        fill="white"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                      />
+                    </g>
+                  ) : (
+                    <g>
+                      <line
+                        x1={source.x}
+                        y1={source.y}
+                        x2={target.x}
+                        y2={target.y}
+                        strokeWidth={5}
+                        stroke={color}
+                        strokeOpacity={1}
+                        strokeDasharray={dashed ? "8,4" : undefined}
+                      />
+                      <text
+                        x={(source.x + target.x) / 2}
+                        y={(source.y + target.y) / 2}
+                        fontSize="22px"
+                        fill="white"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                      ></text>
+                    </g>
+                  );
+                }}
+              />
+            </g>
+          </svg>
+        )}
+      </Zoom>
+    );
   };
 
   /*const togglePopup = () => {
@@ -342,6 +406,8 @@ export default function SkiResort({
   const [EndNodeId, setEndNodeId] = React.useState(null);
   //const [result, setResult] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
+
+  //console.log(height, width);
 
   // Function waiting on start and endpoint selection
   React.useEffect(() => {

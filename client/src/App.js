@@ -8,7 +8,7 @@ import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
 
 function App() {
   // State to handle interactioon from node.js server and this react app
-  const [SkiResortData, setSkiResortData] = useState([{}]);
+  const [SkiResortData, setSkiResortData] = useState();
   const [DMenuIsOpen, setDMenuIsOpen] = useState(false);
   const [CMenuIsOpen, setCMenuIsOpen] = useState(false);
   const [result, setResult] = useState(null);
@@ -19,22 +19,26 @@ function App() {
       .then((response) => response.json())
       .then((data) => {
         //prepareData(data);
-        console.log(data);
+        //console.log(data);
         setSkiResortData(data);
       });
   }, []);
 
   const [viewportDimensions, setViewportDimensions] = useState({
-    width: 0,
-    height: 0,
+    viewportWidth: 0,
+    viewportHeight: 0,
   });
 
   useEffect(() => {
     // Function to update viewport dimensions
     const updateViewportDimensions = () => {
       setViewportDimensions({
-        width: window.screen.availWidth,
-        height: window.screen.availHeight,
+        //width: window.screen.availWidth,
+        //height: window.screen.availHeight,
+        //viewportWidth: window.innerWidth,
+        //viewportHeight: window.innerHeight,
+        viewportWidth: document.documentElement.scrollWidth,
+        viewportHeight: document.documentElement.scrollHeight,
       });
     };
 
@@ -60,6 +64,7 @@ function App() {
                 width={width}
                 height={height}
                 skiResortData={SkiResortData}
+                setSkiResortData={setSkiResortData}
                 DMenuIsOpen={DMenuIsOpen}
                 setDMenuIsOpen={setDMenuIsOpen}
                 result={result}
