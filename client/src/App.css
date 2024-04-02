@@ -1,11 +1,13 @@
 .container {
-    display: block;
-    /*justify-content: center;*/
+    /*display: block;
+    justify-content: center;*/
     /*align-items: center;
     flex-direction: column;
     /*height: 100vh;*/
+    height: 100vh;
+    width: 100vw;
   
-  border: 2px solid blue;
+  /*border: 2px solid blue;*/
    
 }
 
@@ -16,10 +18,16 @@
 
 .graph-container {
     /*height: auto;
-    display: block;*/
+    display: block;
     height: 100vh;
     border: 2px solid black;
-    /*width: 100%;*/
+    width: 100%;*/
+   height: inherit;
+   width: inherit;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+  
     
     
 }
