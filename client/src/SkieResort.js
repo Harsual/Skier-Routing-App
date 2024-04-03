@@ -5,6 +5,10 @@ import { DefaultNode, Graph } from "@visx/network";
 import { Zoom } from "@visx/zoom";
 //import { RectClipPath } from "@visx/clip-path";
 import { localPoint } from "@visx/event";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCableCar } from '@fortawesome/free-solid-svg-icons'; 
+import { faPersonSkiing } from '@fortawesome/free-solid-svg-icons';
+
 
 //export const background = "#272b4d";
 
@@ -53,7 +57,7 @@ export default function SkiResort({
 
   const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
-
+              // Drawing the links
   // Function to handle drawing the Map
   const drawMap = () => {
     return React.createElement(
@@ -87,50 +91,6 @@ export default function SkiResort({
             preserveAspectRatio: "xMidYMid slice",
           }),
 
-          /*React.createElement(
-            "defs",
-            null,
-            React.createElement(
-              "pattern",
-              {
-                id: "image-background",
-                width: "100%",
-                height: "100%",
-                patternContentUnits: "objectBoundingBox",
-              },
-              React.createElement("image", {
-                xlinkHref: "mountainmap.jpg",
-                width: "1",
-                height: "1",
-                preserveAspectRatio: "xMidYMid slice",
-              })
-            )
-          ),
-          // Drawing the background
-          /*React.createElement("rect", {
-            width,
-            height,
-            rx: 14,
-            fill: "url(#image-background)",
-            /*onTouchStart: zoom.dragStart,
-            onTouchMove: zoom.dragMove,
-            onTouchEnd: zoom.dragEnd,
-            onMouseDown: zoom.dragStart,
-            onMouseMove: zoom.dragMove,
-            onMouseUp: zoom.dragEnd,
-            onDoubleClick: (e) => {
-              console.log("clicked!!");
-              console.log(zoom);
-              //console.log(localPoint(e.nativeEvent));
-              const point2 = localPoint(e.nativeEvent) || { x: 0, y: 0 };
-              //console.log(zoom.transformMatrix);
-              //console.log(zoom.transformMatrix.scaleX);
-              zoom.scale({ scaleX: 1.1, scaleY: 1.1, point2 });
-              //zoom.scale({ x: 0, y: 0 }, 1.7);
-            },
-            //transform: zoom.toString(),
-          }),*/
-
           // Drawing the graph
           React.createElement(
             "g",
@@ -153,7 +113,11 @@ export default function SkiResort({
                 } else if (node.id === EndNodeId) {
                   node_color = "blue";
                 }
-
+                 // Calculate coordinates for the icon position (middle of the node)
+                const iconSize = 20; // Adjust the size of the icon as needed
+                const iconX = 100;
+                const iconY = 200;
+               
                 return React.createElement(
                   "g",
                   null,
@@ -162,6 +126,23 @@ export default function SkiResort({
                     fill: node_color,
                     id: node.id,
                     onClick: () => handleNodeClick(node),
+                    
+                  }),
+
+                  React.createElement(FontAwesomeIcon, {
+                    icon: faCableCar,
+                    x: iconX,
+                    y: iconY,
+                    width: iconSize,
+                    height: iconSize
+                  }),
+
+                  React.createElement(FontAwesomeIcon, {
+                    icon: faPersonSkiing,
+                    x: 200,
+                    y: 500,
+                    width: iconSize,
+                    height: iconSize
                   }),
 
                   React.createElement(
@@ -178,7 +159,7 @@ export default function SkiResort({
                 );
               },
 
-              // Drawing the links
+
               linkComponent: ({
                 link: { source, target, dashed, slope, color, weight, id },
               }) => {
@@ -413,3 +394,5 @@ export default function SkiResort({
 
   return width < 10 ? null : drawMap();
 }
+
+
