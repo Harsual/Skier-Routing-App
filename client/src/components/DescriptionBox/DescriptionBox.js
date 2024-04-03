@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./box.css";
+import styles from "./DescriptionBox.module.css";
 import { PiPathBold } from "react-icons/pi";
 import { GiPathDistance } from "react-icons/gi";
 import { TbAerialLift } from "react-icons/tb";
 import { RiMapPinTimeFill } from "react-icons/ri";
 import { SiLevelsdotfyi } from "react-icons/si";
 
-function Box() {
+const DescriptionBox = ({}) => {
   const [selectedPath, setSelectedPath] = useState(null);
   const [showContainer, setShowContainer] = useState(true);
 
@@ -35,38 +35,50 @@ function Box() {
   };
 
   return (
-    <div className={`container ${showContainer ? "" : "hidden"}`}>
-      <div className="close-button" onClick={handleCloseContainer}>
+    <div
+      className={`${styles.container} ${showContainer ? "" : styles.hidden}`}
+    >
+      <div className={styles["close-button"]} onClick={handleCloseContainer}>
         x
       </div>
-      <div className="menu-container">
-        <div className="menu">
+      <div className={styles["menu-container"]}>
+        <div className={styles.menu}>
           <div
-            className={`path ${selectedPath === "finalpath" ? "clicked" : ""}`}
+            className={`${styles.path} ${
+              selectedPath === "finalpath" ? styles.clicked : ""
+            }`}
             onClick={() => handleClick("finalpath")}
           >
-            <PiPathBold className="imagestyle" />
+            <PiPathBold className={styles.imagestyle} />
           </div>
           <div
-            className={`path ${selectedPath === "distance" ? "clicked" : ""}`}
+            className={`${styles.path} ${
+              selectedPath === "distance" ? styles.clicked : ""
+            }`}
             onClick={() => handleClick("distance")}
           >
             <GiPathDistance />
           </div>
           <div
-            className={`path ${selectedPath === "time" ? "clicked" : ""}`}
+            className={`${styles.path} ${
+              selectedPath === "time" ? styles.clicked : ""
+            }`}
             onClick={() => handleClick("time")}
           >
             <RiMapPinTimeFill />
           </div>
           <div
-            className={`path ${selectedPath === "lift" ? "clicked" : ""}`}
+            className={`${styles.path} ${
+              selectedPath === "lift" ? styles.clicked : ""
+            }`}
             onClick={() => handleClick("lift")}
           >
             <TbAerialLift />
           </div>
           <div
-            className={`path ${selectedPath === "difficulty" ? "clicked" : ""}`}
+            className={`${styles.path} ${
+              selectedPath === "difficulty" ? styles.clicked : ""
+            }`}
             onClick={() => handleClick("difficulty")}
           >
             <SiLevelsdotfyi />
@@ -75,7 +87,7 @@ function Box() {
       </div>
 
       {selectedPath && (
-        <div className="box">
+        <div className={styles.box}>
           <div>
             {selectedPath === "finalpath" && (
               <div>
@@ -102,6 +114,6 @@ function Box() {
       )}
     </div>
   );
-}
+};
 
-export default Box;
+export default DescriptionBox;

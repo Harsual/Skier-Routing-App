@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import Map from "./SkieResort";
 import SkiResort from "./SkieResort";
 import DifficultyMenu from "./components/DifficultyMenu/DifficultyMenu";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
+import DescriptionBox from "./components/DescriptionBox/DescriptionBox";
 
 function App() {
   // State to handle interactioon from node.js server and this react app

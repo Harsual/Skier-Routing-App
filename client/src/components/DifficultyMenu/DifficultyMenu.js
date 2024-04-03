@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./DifficultyMenu.css";
+import styles from "./DifficultyMenu.module.css";
 
 const DifficultyMenu = ({
   isOpen,
@@ -86,14 +86,13 @@ const DifficultyMenu = ({
     setSkills(["blue", "red", "black"]);
   };
 
-  /*if (!isOpen) {
-    return null;
-  }*/
   return (
-    <div className={`popupd ${isOpen ? "active" : ""}`}>
-      <div className="popupd-header">Please select your skill level:</div>
-      <div className="popupd-content">
-        <div className="popupd-labels">
+    <div className={`${styles.popupd} ${isOpen ? styles.active : ""}`}>
+      <div className={styles["popupd-header"]}>
+        Please select your skill level:
+      </div>
+      <div className={styles["popupd-content"]}>
+        <div className={styles["popupd-labels"]}>
           <label>
             <input
               type="checkbox"
@@ -125,7 +124,7 @@ const DifficultyMenu = ({
         {/* Additional checkboxes for other skill levels */}
       </div>
       <button
-        className="popupd-close"
+        className={styles["popupd-close"]}
         onClick={() => onClose(false)}
         style={{
           position: "absolute",
@@ -137,7 +136,7 @@ const DifficultyMenu = ({
       >
         ×
       </button>
-      <button className="popupd-button" onClick={handleSubmit}>
+      <button className={styles["popupd-button"]} onClick={handleSubmit}>
         Submit
       </button>
     </div>

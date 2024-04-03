@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import "./CriteriaMenu.css";
+import styles from "./CriteriaMenu.module.css";
 
 const CriteriaMenu = ({
   isOpen,
@@ -142,11 +142,11 @@ const CriteriaMenu = ({
     return null;
   }*/
   return (
-    <div className={`popup ${isOpen ? "active" : ""}`}>
-      <div className="popup-header">Please select Criteria:</div>
-      <div className="popup-content">
+    <div className={`${styles.popup} ${isOpen ? styles.active : ""}`}>
+      <div className={styles["popup-header"]}>Please select Criteria:</div>
+      <div className={styles["popup-content"]}>
         {/*<div>Please select Criteria:</div>*/}
-        <div className="options">
+        <div className={styles.options}>
           <label>
             <input
               type="radio"
@@ -185,7 +185,7 @@ const CriteriaMenu = ({
           </label>
           <div>
             <button
-              className="popup-close"
+              className={styles["popup-close"]}
               onClick={resetInfo}
               style={{
                 position: "absolute",
@@ -199,7 +199,7 @@ const CriteriaMenu = ({
             </button>
           </div>
         </div>
-        <button className="popup-button" onClick={handleSubmit}>
+        <button className={styles["popup-button"]} onClick={handleSubmit}>
           Submit
         </button>
       </div>
