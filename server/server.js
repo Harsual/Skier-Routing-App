@@ -140,15 +140,17 @@ app.post("/calculate-paths", (req, res) => {
   // Performing path calculation based on the provided data
   paths = pathCalculator.bfs(graph, startNodeId, endNodeId);
 
-  //console.log(paths);
+  //console.log(JSON.stringify(paths, null, 2));
+
   res.json({ paths });
 });
 
 app.post("/calculate-preference", (req, res) => {
   const preference = req.body;
-  console.log(preference);
+  //console.log(preference);
   paths = pathCalculator.getPreferencedPath(paths, preference);
   paths = pathCalculator.encodePathInfo(paths, graph.links);
+  console.log(JSON.stringify(paths, null, 2));
   res.json({ paths });
 });
 

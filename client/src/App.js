@@ -13,6 +13,8 @@ function App() {
   const [CMenuIsOpen, setCMenuIsOpen] = useState(false);
   const [result, setResult] = useState(null);
   const [allPaths, setAllPaths] = useState(null);
+  const [startNodeId, setStartNodeId] = React.useState(null);
+  const [EndNodeId, setEndNodeId] = React.useState(null);
 
   useEffect(() => {
     fetch("/api")
@@ -69,6 +71,10 @@ function App() {
                 setDMenuIsOpen={setDMenuIsOpen}
                 result={result}
                 setResult={setResult}
+                setStartNodeId={setStartNodeId}
+                startNodeId={startNodeId}
+                setEndNodeId={setEndNodeId}
+                EndNodeId={EndNodeId}
               />
             )}
           </ParentSize>
@@ -85,6 +91,8 @@ function App() {
           setResult={setResult}
           result={result}
           isOpen={CMenuIsOpen}
+          setStartNodeId={setStartNodeId}
+          setEndNodeId={setEndNodeId}
           onClose={setCMenuIsOpen}
           setAllPaths={setAllPaths}
           allPaths={allPaths}

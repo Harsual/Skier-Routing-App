@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import "./CriteriaMenu.css";
 
 const CriteriaMenu = ({
@@ -8,12 +8,26 @@ const CriteriaMenu = ({
   result,
   allPaths,
   setAllPaths,
+  setEndNodeId,
+  setStartNodeId,
 }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [shortestPath, setShortestPath] = useState(null);
   const [easiestPath, setEasiestPath] = useState(null);
   const [fastestPath, setFastestPath] = useState(null);
   const [MLUPath, setMLUPath] = useState(null);
+
+  const resetInfo = () => {
+    console.log("called");
+    setResult(null);
+    setSelectedOption(null);
+    setEasiestPath(null);
+    setFastestPath(null);
+    setMLUPath(null);
+    setAllPaths(null);
+    setEndNodeId(null);
+    setStartNodeId(null);
+  };
 
   useEffect(() => {
     // This code runs once when the component mounts
@@ -23,6 +37,8 @@ const CriteriaMenu = ({
       setEasiestPath(null);
       setShortestPath(null);
       setFastestPath(null);
+      setMLUPath(null);
+      setSelectedOption(null);
       onClose(false);
       console.log("reset Info");
     }
@@ -170,7 +186,7 @@ const CriteriaMenu = ({
           <div>
             <button
               className="popup-close"
-              onClick={() => onClose(false)}
+              onClick={resetInfo}
               style={{
                 position: "absolute",
                 top: "10px",

@@ -69,7 +69,11 @@ function encodePathInfo(paths, linkInfo) {
     for (let i = 1; i < path.length; i++) {
       let plinkId = path[i].plink; // Get the plink id for the current step
       let link = linkInfo.find((info) => info.id === plinkId); // Find the corresponding link info
-
+      //console.log(link);
+      if (link.Name) {
+        //console.log(link.Name);
+        path[i].name = link.Name;
+      }
       if (link.length) {
         totalLength += link.length;
       }
