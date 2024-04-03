@@ -66,30 +66,33 @@ const DifficultyMenu = ({
       });
 
     // Close the popup
+    // console 
     onClose(false);
     setCMenu(true);
     setSkills([]);
   };
 
-  if (!isOpen) {
+  /*if (!isOpen) {
     return null;
-  }
+  }*/
   return (
-    <div className="popupd">
+    <div className={`popupd ${isOpen ? "active" : ""}`}>
       <div className="popupd-header">Please select your skill level:</div>
       <div className="popupd-content">
-        <label>
-          <input type="checkbox" name="blue" onChange={handleChange} />
-          Blue
-        </label>
-        <label>
-          <input type="checkbox" name="red" onChange={handleChange} />
-          Red
-        </label>
-        <label>
-          <input type="checkbox" name="black" onChange={handleChange} />
-          Black
-        </label>
+        <div className="popupd-labels">
+          <label>
+            <input type="checkbox" name="blue" onChange={handleChange} />
+            Blue
+          </label>
+          <label>
+            <input type="checkbox" name="red" onChange={handleChange} />
+            Red
+          </label>
+          <label>
+            <input type="checkbox" name="black" onChange={handleChange} />
+            Black
+          </label>
+        </div>
         {/* Additional checkboxes for other skill levels */}
       </div>
       <button
@@ -112,4 +115,4 @@ const DifficultyMenu = ({
   );
 };
 
-export default DifficultyMenu;
+export { DifficultyMenu};
