@@ -5,7 +5,14 @@ import { DefaultNode, Graph } from "@visx/network";
 import { Zoom } from "@visx/zoom";
 //import { RectClipPath } from "@visx/clip-path";
 import { localPoint } from "@visx/event";
+
 import MapLegend from './components/MapLegend/MapLegend';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCableCar } from '@fortawesome/free-solid-svg-icons'; 
+import { faPersonSkiing } from '@fortawesome/free-solid-svg-icons';
+
+
 
 //export const background = "#272b4d";
 
@@ -153,6 +160,7 @@ export default function SkiResort({
 
   //const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
+
   let graph = {
     nodes: skiResortData.nodes,
     links: skiResortData.links,
@@ -304,6 +312,7 @@ export default function SkiResort({
                     result &&
                     result.some((pathObj) =>
                       pathObj.path.some(({ plink }) => plink === id)
+
                     );
                   color = isInResult ? "yellow" : color;
                   const strokeWidth = isInResult ? 6 : 2;
@@ -483,3 +492,5 @@ export default function SkiResort({
 
   return width < 10 ? null : drawMap();
 }
+
+
