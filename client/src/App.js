@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Map from "./SkieResort";
 import SkiResort from "./SkieResort";
-import DifficultyMenu from "./components/DifficultyMenu/DifficultyMenu";
+import { DifficultyMenu, Rectangle} from './components/DifficultyMenu/DifficultyMenu';
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
 
@@ -76,6 +76,7 @@ function App() {
           setCMenu={setCMenuIsOpen}
           setAllPaths={setAllPaths}
         ></DifficultyMenu>
+        <Rectangle />
         <CriteriaMenu
           setResult={setResult}
           result={result}

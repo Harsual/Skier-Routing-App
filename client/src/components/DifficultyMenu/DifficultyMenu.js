@@ -66,30 +66,33 @@ const DifficultyMenu = ({
       });
 
     // Close the popup
+    // console 
     onClose(false);
     setCMenu(true);
     setSkills([]);
   };
 
-  if (!isOpen) {
+  /*if (!isOpen) {
     return null;
-  }
+  }*/
   return (
-    <div className="popupd">
+    <div className={`popupd ${isOpen ? "active" : ""}`}>
       <div className="popupd-header">Please select your skill level:</div>
       <div className="popupd-content">
-        <label>
-          <input type="checkbox" name="blue" onChange={handleChange} />
-          Blue
-        </label>
-        <label>
-          <input type="checkbox" name="red" onChange={handleChange} />
-          Red
-        </label>
-        <label>
-          <input type="checkbox" name="black" onChange={handleChange} />
-          Black
-        </label>
+        <div className="popupd-labels">
+          <label>
+            <input type="checkbox" name="blue" onChange={handleChange} />
+            Blue
+          </label>
+          <label>
+            <input type="checkbox" name="red" onChange={handleChange} />
+            Red
+          </label>
+          <label>
+            <input type="checkbox" name="black" onChange={handleChange} />
+            Black
+          </label>
+        </div>
         {/* Additional checkboxes for other skill levels */}
       </div>
       <button
@@ -112,4 +115,25 @@ const DifficultyMenu = ({
   );
 };
 
-export default DifficultyMenu;
+const Rectangle = () => (
+  <div class="map-key">
+  <div class="map-key-item">
+    <span class="dot green"></span>
+    <span class="label">Lifts</span>
+  </div>
+  <div class="map-key-item">
+    <span class="dot blue"></span>
+    <span class="label">Easy Slopes</span>
+  </div>
+  <div class="map-key-item">
+    <span class="dot red"></span>
+    <span class="label">Moderate Slopes</span>
+  </div>
+  <div class="map-key-item">
+    <span class="dot black"></span>
+    <span class="label">Difficult Slopes</span>
+  </div>
+</div>
+);
+
+export { DifficultyMenu, Rectangle };

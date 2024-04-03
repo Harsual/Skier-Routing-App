@@ -79,7 +79,7 @@ export default function SkiResort({
           },
 
           React.createElement("image", {
-            xlinkHref: "mountain.jpg",
+            xlinkHref: "Snow-Mountain.jpeg",
             x: 0,
             y: 0,
             width,
