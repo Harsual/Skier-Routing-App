@@ -5,7 +5,12 @@ import { DefaultNode, Graph } from "@visx/network";
 import { Zoom } from "@visx/zoom";
 //import { RectClipPath } from "@visx/clip-path";
 import { localPoint } from "@visx/event";
-import { resetInfo } from "./components/CriteriaMenu/CriteriaMenu";
+
+import MapLegend from "./components/MapLegend/MapLegend";
+
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+//import { faCableCar } from '@fortawesome/free-solid-svg-icons';
+//import { faPersonSkiing } from '@fortawesome/free-solid-svg-icons';
 
 //export const background = "#272b4d";
 
@@ -18,10 +23,6 @@ export default function SkiResort({
   setDMenuIsOpen = { setDMenuIsOpen },
   result = { result },
   setResult = { setResult },
-  setStartNodeId = { setStartNodeId },
-  startNodeId = { startNodeId },
-  setEndNodeId = { setEndNodeId },
-  EndNodeId = { EndNodeId },
 }) {
   const initialTransform = {
     scaleX: 1,
@@ -49,19 +50,6 @@ export default function SkiResort({
   //var graphOffsetx = 0;
   //var graphOffsety = 0;
 
-  // useEffect(() => {
-  //   //console.log("SkiResort Data:", skiResortData);
-  //   //console.log("OriginalSRData:", originalSRData);
-
-  //   if (result !== null) {
-  //     //console.log("setting OriginalData");
-  //     set;
-  //   }
-
-  //   return () => {
-  //     //setSkiResortData({});
-  //   };
-  // }, [result]);
   useEffect(() => {
     //console.log("SkiResort Data:", skiResortData);
     //console.log("OriginalSRData:", originalSRData);
@@ -170,6 +158,7 @@ export default function SkiResort({
 
   //const { nodes, links } = skiResortData;
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
+
   let graph = {
     nodes: skiResortData.nodes,
     links: skiResortData.links,
@@ -216,7 +205,7 @@ export default function SkiResort({
             <g transform={zoom.toString()}>
               <image
                 id="map-background"
-                xlinkHref="mountain2.jpeg"
+                xlinkHref="Fiona-map.jpeg"
                 x={0}
                 y={0}
                 width={width}
@@ -315,21 +304,18 @@ export default function SkiResort({
                   // const isInResult =
                   //   result &&
                   //   result.some((path) => path.some(({ plink }) => plink === id));
-                  console.log(result);
+
                   const isInResult =
                     result &&
-                    result.some(
-                      (pathObj) =>
-                        pathObj &&
-                        pathObj.path &&
-                        pathObj.path.some(({ plink }) => plink === id)
+                    result.some((pathObj) =>
+                      pathObj.path.some(({ plink }) => plink === id)
                     );
                   color = isInResult ? "yellow" : color;
                   const strokeWidth = isInResult ? 6 : 2;
                   const strokeOpacity = isInResult ? 0.8 : 0.6;
-                  const splitT = 0.75;
-                  const arrowHieght = 7;
-                  const arrowWidth = 5;
+                  const splitT = 0.25;
+                  const arrowHieght = 5;
+                  const arrowWidth = 3;
 
                   let px =
                     (1 - splitT) ** 2 * source.x +
@@ -385,9 +371,7 @@ export default function SkiResort({
                         fill="white"
                         textAnchor="middle"
                         dominantBaseline="middle"
-                      >
-                        {id}
-                      </text>
+                      />
                     </g>
                   ) : (
                     <g>
@@ -425,7 +409,8 @@ export default function SkiResort({
   };*/
 
   // States to handle changes
-
+  const [startNodeId, setStartNodeId] = React.useState(null);
+  const [EndNodeId, setEndNodeId] = React.useState(null);
   //const [result, setResult] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
 
@@ -452,10 +437,7 @@ export default function SkiResort({
           return response.json();
         })
         .then((data) => {
-          if (data.paths && data.paths.length > 0) {
-            setResult(data.paths);
-          }
-
+          setResult(data.paths);
           //console.log(setPopupIsOpen);
           setDMenuIsOpen(true);
         })

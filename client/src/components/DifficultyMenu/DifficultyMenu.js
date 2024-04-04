@@ -81,6 +81,7 @@ const DifficultyMenu = ({
       });
 
     // Close the popup
+    // console
     onClose(false);
     setCMenu(true);
     setSkills(["blue", "red", "black"]);

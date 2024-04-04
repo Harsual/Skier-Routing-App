@@ -138,9 +138,6 @@ const CriteriaMenu = ({
 
   const handleSubmit = () => {};
 
-  /*if (!isOpen) {
-    return null;
-  }*/
   return (
     <div className={`${styles.popup} ${isOpen ? styles.active : ""}`}>
       <div className={styles["popup-header"]}>Please select Criteria:</div>
