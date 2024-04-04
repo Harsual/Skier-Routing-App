@@ -21,6 +21,10 @@ export default function SkiResort({
   skiResortData,
   setSkiResortData = { setSkiResortData },
   GraphData,
+  setStartNodeId = { setStartNodeId },
+  setEndNodeId = { setEndNodeId },
+  startNodeId,
+  endNodeId,
   setGraphData = { setGraphData },
   setDMenuIsOpen = { setDMenuIsOpen },
   result = { result },
@@ -220,7 +224,7 @@ export default function SkiResort({
                     node_color = "red";
                     stroke = "white";
                     node_txt = "Start";
-                  } else if (node.id === EndNodeId) {
+                  } else if (node.id === endNodeId) {
                     node_color = "blue";
                     node_txt = "End";
                   }
@@ -292,8 +296,11 @@ export default function SkiResort({
 
                   const isInResult =
                     result &&
-                    result.some((pathObj) =>
-                      pathObj.path.some(({ plink }) => plink === id)
+                    result.some(
+                      (pathObj) =>
+                        pathObj &&
+                        pathObj.path &&
+                        pathObj.path.some(({ plink }) => plink === id)
                     );
                   color = isInResult ? "yellow" : color;
                   const strokeWidth = isInResult ? 6 : 2;
@@ -394,8 +401,8 @@ export default function SkiResort({
   };*/
 
   // States to handle changes
-  const [startNodeId, setStartNodeId] = React.useState(null);
-  const [EndNodeId, setEndNodeId] = React.useState(null);
+  //const [startNodeId, setStartNodeId] = React.useState(null);
+  //const [EndNodeId, setEndNodeId] = React.useState(null);
   //const [result, setResult] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
 
@@ -403,7 +410,7 @@ export default function SkiResort({
 
   // Function waiting on start and endpoint selection
   React.useEffect(() => {
-    if (EndNodeId !== null && startNodeId !== null) {
+    if (endNodeId !== null && startNodeId !== null) {
       // Calling the server path calculation API
       fetch("/calculate-paths", {
         method: "POST",
@@ -412,7 +419,7 @@ export default function SkiResort({
         },
         body: JSON.stringify({
           startNodeId: startNodeId,
-          endNodeId: EndNodeId,
+          endNodeId: endNodeId,
         }),
       })
         .then((response) => {
@@ -435,7 +442,7 @@ export default function SkiResort({
 
       //togglePopup();
     }
-  }, [EndNodeId, startNodeId]);
+  }, [endNodeId, startNodeId]);
 
   // Handling a user-location when user clicks any empty space on the map (UNDER DEVELOPMENT)
   // const handleSVGClick = (event) => {
@@ -459,12 +466,12 @@ export default function SkiResort({
       setStartNodeId(null);
       setEndNodeId(null);
       setResult(null);
-    } else if (EndNodeId === node.id) {
+    } else if (endNodeId === node.id) {
       setEndNodeId(null);
       setResult(null);
     } else if (startNodeId === null) {
       setStartNodeId(node.id);
-    } else if (EndNodeId === null) {
+    } else if (endNodeId === null) {
       setEndNodeId(node.id);
     }
   };

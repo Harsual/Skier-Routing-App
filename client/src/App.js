@@ -17,8 +17,8 @@ function App() {
   const [CMenuIsOpen, setCMenuIsOpen] = useState(false);
   const [result, setResult] = useState(null);
   const [allPaths, setAllPaths] = useState(null);
-  const [startNodeId, setStartNodeId] = React.useState(null);
-  const [EndNodeId, setEndNodeId] = React.useState(null);
+  const [startNodeId, setStartNodeId] = useState(null);
+  const [EndNodeId, setEndNodeId] = useState(null);
 
   useEffect(() => {
     fetch("/api")
@@ -51,7 +51,7 @@ function App() {
                 setStartNodeId={setStartNodeId}
                 startNodeId={startNodeId}
                 setEndNodeId={setEndNodeId}
-                EndNodeId={EndNodeId}
+                endNodeId={EndNodeId}
               />
             )}
           </ParentSize>

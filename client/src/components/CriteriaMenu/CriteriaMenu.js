@@ -20,13 +20,6 @@ const CriteriaMenu = ({
   const resetInfo = () => {
     console.log("called");
     setResult(null);
-    setSelectedOption(null);
-    setEasiestPath(null);
-    setFastestPath(null);
-    setMLUPath(null);
-    setAllPaths(null);
-    setEndNodeId(null);
-    setStartNodeId(null);
   };
 
   useEffect(() => {
@@ -34,11 +27,15 @@ const CriteriaMenu = ({
     //console.log("Component mounted");
 
     if (result == null) {
+      setEndNodeId(null);
+      setStartNodeId(null);
       setEasiestPath(null);
       setShortestPath(null);
       setFastestPath(null);
       setMLUPath(null);
       setSelectedOption(null);
+      setAllPaths(null);
+
       onClose(false);
       console.log("reset Info");
     }
