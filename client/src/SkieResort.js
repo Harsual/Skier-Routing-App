@@ -20,6 +20,8 @@ export default function SkiResort({
   height,
   skiResortData,
   setSkiResortData = { setSkiResortData },
+  GraphData,
+  setGraphData = { setGraphData },
   setDMenuIsOpen = { setDMenuIsOpen },
   result = { result },
   setResult = { setResult },
@@ -53,26 +55,19 @@ export default function SkiResort({
   useEffect(() => {
     //console.log("SkiResort Data:", skiResortData);
     //console.log("OriginalSRData:", originalSRData);
-
-    if (skiResortData && !originalSRData) {
-      //console.log("setting OriginalData");
-      setOriginalSRData(skiResortData);
-    }
-
-    return () => {
-      //setSkiResortData({});
-    };
+    // if (skiResortData && !originalSRData) {
+    //   //console.log("setting OriginalData");
+    //   setOriginalSRData(skiResortData);
+    // }
   }, []);
 
   useEffect(() => {
-    //console.log("Testing");
     var naturalWidth = 1280;
     var naturalHeight = 854;
     //console.log(naturalWidth, naturalHeight);
     // Get the width and height of the SVG container
     //var svgWidth = imageElement.viewportElement.clientWidth;
     //var svgHeight = imageElement.viewportElement.clientHeight;
-
     //console.log(svgHeight, svgWidth);
     // Calculate the aspect ratio of the image
     var aspectRatio = naturalWidth / naturalHeight;
@@ -90,26 +85,22 @@ export default function SkiResort({
       imageWidth = width;
       imageHeight = imageWidth / aspectRatio;
     }
-
     let graphOffsetx = (width - imageWidth) / 2;
     let graphOffsety = (height - imageHeight) / 2;
-
     setOffset({ x: graphOffsetx, y: graphOffsety });
     //console.log(graphOffsetx, graphOffsety);
     var widthScaleFactor = imageWidth / 1728;
     var heightScaleFactor = imageHeight / 993;
     //console.log(widthScaleFactor, heightScaleFactor);
-
-    if (originalSRData && originalSRData.nodes && originalSRData.links) {
-      console.log("It entered");
-      const updatedNodes = originalSRData.nodes.map((node) => ({
+    if (skiResortData && skiResortData.nodes && skiResortData.links) {
+      console.log("Testing");
+      const updatedNodes = skiResortData.nodes.map((node) => ({
         ...node,
         x: Math.round(node.x * widthScaleFactor),
         y: Math.round(node.y * heightScaleFactor),
       }));
-
       // Update links
-      const updatedLinks = originalSRData.links.map((link) => ({
+      const updatedLinks = skiResortData.links.map((link) => ({
         ...link,
         source: {
           ...link.source,
@@ -122,20 +113,14 @@ export default function SkiResort({
           y: Math.round(link.target.y * heightScaleFactor),
         },
       }));
-
-      const updatedSkiResortData = {
-        ...skiResortData,
+      const updatedGraphData = {
+        ...GraphData,
         nodes: updatedNodes,
         links: updatedLinks,
       };
-
-      console.log(updatedSkiResortData);
-      setSkiResortData(updatedSkiResortData);
+      setGraphData(updatedGraphData);
     }
-
-    //viewportWidth = width;
-    //viewportHeight = height;
-  }, [width, height]);
+  }, [width, height, skiResortData]);
 
   /*useEffect(() => {
     // Function to calculate container dimensions
@@ -160,8 +145,8 @@ export default function SkiResort({
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
   let graph = {
-    nodes: skiResortData.nodes,
-    links: skiResortData.links,
+    nodes: GraphData.nodes,
+    links: GraphData.links,
   };
   // Function to handle drawing the Map
   const drawMap = () => {
@@ -226,7 +211,7 @@ export default function SkiResort({
                 nodeComponent={({ node }) => {
                   var node_color = "green";
                   var stroke = "";
-                  console.log(offset.x, offset.y);
+                  //console.log(offset.x, offset.y);
                   //var node_color = node.color;
                   //node.x = Math.ceil(node.x * widthScaleFactor);
                   //node.y = Math.ceil(node.y * heightScaleFactor);
