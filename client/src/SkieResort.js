@@ -151,7 +151,7 @@ export default function SkiResort({
                 var qx;
                 var qy;
                 var isgandondola = false; 
-                if (id==100) {isgandondola=true}
+                if (id==109) {isgandondola=true}
                 //console.log(color);
                 //const fromNode = slope ? source.id : null;
                 //const toNode = slope ? target.id : null;
