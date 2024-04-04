@@ -90,28 +90,32 @@ const DescriptionBox = ({ finalPath, showDBox }) => {
 
       {selectedPath && (
         <div className={styles.box}>
-          <div>
-            {selectedPath === "finalpath" && (
-              <div>
-                <p>Path:</p>
-                {finalPath.path.map((item, index) => (
-                  <div>{item.name}</div>
-                ))}
-              </div>
-            )}
-            {selectedPath === "distance" && (
-              <div>Total Length: {finalPath.totalLength}</div>
-            )}
-            {selectedPath === "time" && (
-              <div>Total Time: {finalPath.totalTime}</div>
-            )}
-            {selectedPath === "lift" && (
-              <div>Total Time on Lift: {finalPath.totalTimeOnLift}</div>
-            )}
-            {selectedPath === "difficulty" && (
-              <div>Difficulty Score: {finalPath.difficultyScore}</div>
-            )}
-          </div>
+          {finalPath && (
+            <div>
+              {selectedPath === "finalpath" && (
+                <div>
+                  <p>Path:</p>
+                  {finalPath && finalPath.path && finalPath.path.length > 0 ? (
+                    finalPath.path.map((item, index) => <div>{item.name}</div>)
+                  ) : (
+                    <div>No paths available</div>
+                  )}
+                </div>
+              )}
+              {selectedPath === "distance" && (
+                <div>Total Length: {finalPath.totalLength}</div>
+              )}
+              {selectedPath === "time" && (
+                <div>Total Time: {finalPath.totalTime}</div>
+              )}
+              {selectedPath === "lift" && (
+                <div>Total Time on Lift: {finalPath.totalTimeOnLift}</div>
+              )}
+              {selectedPath === "difficulty" && (
+                <div>Difficulty Score: {finalPath.difficultyScore}</div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
