@@ -10,6 +10,8 @@ const CriteriaMenu = ({
   setAllPaths,
   setEndNodeId,
   setStartNodeId,
+  setFinalPath,
+  setShowDBox,
 }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [shortestPath, setShortestPath] = useState(null);
@@ -35,7 +37,7 @@ const CriteriaMenu = ({
       setMLUPath(null);
       setSelectedOption(null);
       setAllPaths(null);
-
+      setShowDBox(false);
       onClose(false);
       console.log("reset Info");
     }
@@ -54,6 +56,8 @@ const CriteriaMenu = ({
       case "shortest":
         if (shortestPath !== null) {
           setResult([shortestPath]);
+          setFinalPath(shortestPath);
+          setShowDBox(true);
         } else {
           // Find the path with the least totalLength
           const shortestPath = allPaths.reduce((shortest, current) => {
@@ -69,13 +73,17 @@ const CriteriaMenu = ({
 
           console.log("Shortest Path:", shortestPath);
           setResult([shortestPath]);
+          setFinalPath(shortestPath);
           setShortestPath(shortestPath);
+          setShowDBox(true);
         }
         break;
 
       case "easiest":
         if (easiestPath !== null) {
           setResult([easiestPath]);
+          setFinalPath(easiestPath);
+          setShowDBox(true);
         } else {
           const easiestPath = allPaths.reduce((easiest, current) => {
             if (
@@ -90,13 +98,17 @@ const CriteriaMenu = ({
 
           console.log("Easiest Path:", easiestPath);
           setResult([easiestPath]);
+          setFinalPath(easiestPath);
           setEasiestPath(easiestPath);
+          setShowDBox(true);
         }
         break;
 
       case "fastest":
         if (fastestPath !== null) {
           setResult([fastestPath]);
+          setFinalPath(fastestPath);
+          setShowDBox(true);
         } else {
           const fastestPath = allPaths.reduce((fastest, current) => {
             if (fastest === null || current.totalTime < fastest.totalTime) {
@@ -107,13 +119,17 @@ const CriteriaMenu = ({
           }, null);
           console.log("Fastest Path:", fastestPath);
           setResult([fastestPath]);
+          setFinalPath(fastestPath);
           setFastestPath(fastestPath);
+          setShowDBox(true);
         }
         break;
 
       case "minimumliftusage":
         if (MLUPath !== null) {
           setResult([MLUPath]);
+          setFinalPath(MLUPath);
+          setShowDBox(true);
         } else {
           const MLUPath = allPaths.reduce((minimunTimeOnLift, current) => {
             if (
@@ -127,7 +143,9 @@ const CriteriaMenu = ({
           }, null);
           console.log("MinimumLiftsPath:", MLUPath);
           setResult([MLUPath]);
+          setFinalPath(MLUPath);
           setMLUPath(MLUPath);
+          setShowDBox(true);
           break;
         }
     }
