@@ -113,10 +113,6 @@ export default function SkiResort({
                 } else if (node.id === EndNodeId) {
                   node_color = "blue";
                 }
-                 // Calculate coordinates for the icon position (middle of the node)
-                const iconSize = 20; // Adjust the size of the icon as needed
-                const iconX = 100;
-                const iconY = 200;
                
                 return React.createElement(
                   "g",
@@ -129,21 +125,6 @@ export default function SkiResort({
                     
                   }),
 
-                  React.createElement(FontAwesomeIcon, {
-                    icon: faCableCar,
-                    x: iconX,
-                    y: iconY,
-                    width: iconSize,
-                    height: iconSize
-                  }),
-
-                  React.createElement(FontAwesomeIcon, {
-                    icon: faPersonSkiing,
-                    x: 200,
-                    y: 500,
-                    width: iconSize,
-                    height: iconSize
-                  }),
 
                   React.createElement(
                     "text",
@@ -169,6 +150,8 @@ export default function SkiResort({
                 const dr = Math.sqrt(dx * dx + dy * dy);
                 var qx;
                 var qy;
+                var isgandondola = false; 
+                if (id==100) {isgandondola=true}
                 //console.log(color);
                 //const fromNode = slope ? source.id : null;
                 //const toNode = slope ? target.id : null;
@@ -289,18 +272,45 @@ export default function SkiResort({
                         strokeOpacity: 1,
                         strokeDasharray: dashed ? "8,4" : undefined,
                       }),
+
+                       // Circle in the middle of the lifts
+                       React.createElement("circle", {
+                      cx: (source.x + target.x) / 2,
+                      cy: (source.y + target.y) / 2,
+                      r: 15, 
+                      fill: "green", // Change the fill color as needed
+                      stroke: color,
+                      strokeWidth: 2,
+                       }),
+                     
+                       isgandondola && React.createElement(FontAwesomeIcon, {
+                        icon: faCableCar,
+                        x:  (source.x + target.x) / 2-10,
+                        y: (source.y + target.y) / 2-10,
+                        width: 20,
+                        height: 20
+                      }),
+    
+                      !isgandondola && React.createElement(FontAwesomeIcon, {
+                        icon: faPersonSkiing,
+                        x:  (source.x + target.x) / 2-10,
+                        y: (source.y + target.y) / 2-10,
+                        width: 20,
+                        height: 20
+                      }),
+
                       React.createElement(
                         "text",
                         {
-                          x: (source.x + target.x) / 2,
-                          y: (source.y + target.y) / 2,
+                          x: (source.x + target.x) / 2-10,
+                          y: (source.y + target.y) / 2-10,
                           fontSize: "22px",
                           fill: "white",
                           textAnchor: "middle",
                           dominantBaseline: "middle",
                         },
                         id
-                      )
+                      ) 
                     );
               },
             })

@@ -1,21 +1,21 @@
 import "./MapLegend.css";
 const MapLegend = () => (
-    <div class="map-key">
-    <div class="map-key-item">
-      <span class="dot green"></span>
-      <span class="label">Lifts</span>
+    <div className="map-key">
+    <div className="map-key-item">
+      <span className="dot green"></span>
+      <span className="label">Lifts</span>
     </div>
-    <div class="map-key-item">
-      <span class="dot blue"></span>
-      <span class="label">Easy Slopes</span>
+    <div className="map-key-item">
+      <span className="dot blue"></span>
+      <span className="label">Easy Slopes</span>
     </div>
-    <div class="map-key-item">
-      <span class="dot red"></span>
-      <span class="label">Moderate Slopes</span>
+    <div className="map-key-item">
+      <span className="dot red"></span>
+      <span className="label">Moderate Slopes</span>
     </div>
-    <div class="map-key-item">
-      <span class="dot black"></span>
-      <span class="label">Difficult Slopes</span>
+    <div className="map-key-item">
+      <span className="dot black"></span>
+      <span className="label">Difficult Slopes</span>
     </div>
   </div>
   );

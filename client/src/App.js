@@ -6,6 +6,7 @@ import {DifficultyMenu} from './components/DifficultyMenu/DifficultyMenu';
 import MapLegend from "./components/MapLegend/MapLegend";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
+import PopUp from "./components/PopUp/PopUp";
 
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
   const [CMenuIsOpen, setCMenuIsOpen] = useState(false);
   const [result, setResult] = useState(null);
   const [allPaths, setAllPaths] = useState(null);
+  const [popUp, setPopUp] = useState(true); {/* State true so that pop up shows with every time that page loads */ }
+
 
   useEffect(() => {
     fetch("/api")
@@ -54,7 +57,8 @@ function App() {
   return SkiResortData ? (
     <div>
       <div className="container">
-        <div className="graph-container">
+        <div className="graph-container"> {/* Add transparency when the webpage loads but not working */ } 
+        {popUp && <PopUp setPopUp={setPopUp} />}
           {/*<ParentSize>{({ width, height }) => <Example width={width} height={height} />}</ParentSize>,*/}
           <ParentSize>
             {({ width, height }) => (
