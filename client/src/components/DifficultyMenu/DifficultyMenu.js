@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./DifficultyMenu.css";
+import styles from "./DifficultyMenu.module.css";
 
 const DifficultyMenu = ({
   isOpen,
@@ -10,8 +10,23 @@ const DifficultyMenu = ({
   setAllPaths,
 }) => {
   // State to store the checked status of each skill level
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState(["blue", "black", "red"]);
 
+  useEffect(() => {
+    // This code runs once when the component mounts
+    //console.log("Component mounted");
+
+    if (result == null) {
+      setSkills(["blue", "black", "red"]);
+      onClose(false);
+
+      console.log("reset Info");
+    }
+
+    return () => {
+      console.log("Component unmounted");
+    };
+  }, [result]);
   /*useEffect(() => {
     // This code runs once when the component mounts
     //console.log("Component mounted");
@@ -69,34 +84,48 @@ const DifficultyMenu = ({
     // console
     onClose(false);
     setCMenu(true);
-    setSkills([]);
+    setSkills(["blue", "red", "black"]);
   };
 
-  /*if (!isOpen) {
-    return null;
-  }*/
   return (
-    <div className={`popupd ${isOpen ? "active" : ""}`}>
-      <div className="popupd-header">Please select your skill level:</div>
-      <div className="popupd-content">
-        <div className="popupd-labels">
+    <div className={`${styles.popupd} ${isOpen ? styles.active : ""}`}>
+      <div className={styles["popupd-header"]}>
+        Please select your skill level:
+      </div>
+      <div className={styles["popupd-content"]}>
+        <div className={styles["popupd-labels"]}>
           <label>
-            <input type="checkbox" name="blue" onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="blue"
+              checked={skills.includes("blue")}
+              onChange={handleChange}
+            />
             Blue
           </label>
           <label>
-            <input type="checkbox" name="red" onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="red"
+              checked={skills.includes("red")}
+              onChange={handleChange}
+            />
             Red
           </label>
           <label>
-            <input type="checkbox" name="black" onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="black"
+              checked={skills.includes("black")}
+              onChange={handleChange}
+            />
             Black
           </label>
         </div>
         {/* Additional checkboxes for other skill levels */}
       </div>
       <button
-        className="popupd-close"
+        className={styles["popupd-close"]}
         onClick={() => onClose(false)}
         style={{
           position: "absolute",
@@ -108,7 +137,7 @@ const DifficultyMenu = ({
       >
         ×
       </button>
-      <button className="popupd-button" onClick={handleSubmit}>
+      <button className={styles["popupd-button"]} onClick={handleSubmit}>
         Submit
       </button>
     </div>

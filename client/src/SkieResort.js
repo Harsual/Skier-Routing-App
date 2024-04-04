@@ -20,6 +20,12 @@ export default function SkiResort({
   height,
   skiResortData,
   setSkiResortData = { setSkiResortData },
+  GraphData,
+  setStartNodeId = { setStartNodeId },
+  setEndNodeId = { setEndNodeId },
+  startNodeId,
+  endNodeId,
+  setGraphData = { setGraphData },
   setDMenuIsOpen = { setDMenuIsOpen },
   result = { result },
   setResult = { setResult },
@@ -53,26 +59,19 @@ export default function SkiResort({
   useEffect(() => {
     //console.log("SkiResort Data:", skiResortData);
     //console.log("OriginalSRData:", originalSRData);
-
-    if (skiResortData && !originalSRData) {
-      //console.log("setting OriginalData");
-      setOriginalSRData(skiResortData);
-    }
-
-    return () => {
-      //setSkiResortData({});
-    };
+    // if (skiResortData && !originalSRData) {
+    //   //console.log("setting OriginalData");
+    //   setOriginalSRData(skiResortData);
+    // }
   }, []);
 
   useEffect(() => {
-    //console.log("Testing");
     var naturalWidth = 1280;
     var naturalHeight = 854;
     //console.log(naturalWidth, naturalHeight);
     // Get the width and height of the SVG container
     //var svgWidth = imageElement.viewportElement.clientWidth;
     //var svgHeight = imageElement.viewportElement.clientHeight;
-
     //console.log(svgHeight, svgWidth);
     // Calculate the aspect ratio of the image
     var aspectRatio = naturalWidth / naturalHeight;
@@ -90,26 +89,22 @@ export default function SkiResort({
       imageWidth = width;
       imageHeight = imageWidth / aspectRatio;
     }
-
     let graphOffsetx = (width - imageWidth) / 2;
     let graphOffsety = (height - imageHeight) / 2;
-
     setOffset({ x: graphOffsetx, y: graphOffsety });
     //console.log(graphOffsetx, graphOffsety);
     var widthScaleFactor = imageWidth / 1728;
     var heightScaleFactor = imageHeight / 993;
     //console.log(widthScaleFactor, heightScaleFactor);
-
-    if (originalSRData && originalSRData.nodes && originalSRData.links) {
-      console.log("It entered");
-      const updatedNodes = originalSRData.nodes.map((node) => ({
+    if (skiResortData && skiResortData.nodes && skiResortData.links) {
+      console.log("Testing");
+      const updatedNodes = skiResortData.nodes.map((node) => ({
         ...node,
         x: Math.round(node.x * widthScaleFactor),
         y: Math.round(node.y * heightScaleFactor),
       }));
-
       // Update links
-      const updatedLinks = originalSRData.links.map((link) => ({
+      const updatedLinks = skiResortData.links.map((link) => ({
         ...link,
         source: {
           ...link.source,
@@ -122,20 +117,14 @@ export default function SkiResort({
           y: Math.round(link.target.y * heightScaleFactor),
         },
       }));
-
-      const updatedSkiResortData = {
-        ...skiResortData,
+      const updatedGraphData = {
+        ...GraphData,
         nodes: updatedNodes,
         links: updatedLinks,
       };
-
-      console.log(updatedSkiResortData);
-      setSkiResortData(updatedSkiResortData);
+      setGraphData(updatedGraphData);
     }
-
-    //viewportWidth = width;
-    //viewportHeight = height;
-  }, [width, height]);
+  }, [width, height, skiResortData]);
 
   /*useEffect(() => {
     // Function to calculate container dimensions
@@ -160,8 +149,8 @@ export default function SkiResort({
   //const [popupIsOpen, setPopupIsOpen] = useState(false);
 
   let graph = {
-    nodes: skiResortData.nodes,
-    links: skiResortData.links,
+    nodes: GraphData.nodes,
+    links: GraphData.links,
   };
   // Function to handle drawing the Map
   const drawMap = () => {
@@ -226,7 +215,7 @@ export default function SkiResort({
                 nodeComponent={({ node }) => {
                   var node_color = "green";
                   var stroke = "";
-                  console.log(offset.x, offset.y);
+                  //console.log(offset.x, offset.y);
                   //var node_color = node.color;
                   //node.x = Math.ceil(node.x * widthScaleFactor);
                   //node.y = Math.ceil(node.y * heightScaleFactor);
@@ -235,7 +224,7 @@ export default function SkiResort({
                     node_color = "red";
                     stroke = "white";
                     node_txt = "Start";
-                  } else if (node.id === EndNodeId) {
+                  } else if (node.id === endNodeId) {
                     node_color = "blue";
                     node_txt = "End";
                   }
@@ -307,8 +296,11 @@ export default function SkiResort({
 
                   const isInResult =
                     result &&
-                    result.some((pathObj) =>
-                      pathObj.path.some(({ plink }) => plink === id)
+                    result.some(
+                      (pathObj) =>
+                        pathObj &&
+                        pathObj.path &&
+                        pathObj.path.some(({ plink }) => plink === id)
                     );
                   color = isInResult ? "yellow" : color;
                   const strokeWidth = isInResult ? 6 : 2;
@@ -397,7 +389,6 @@ export default function SkiResort({
                   );
                 }}
               />
-              <MapLegend />
             </g>
           </svg>
         )}
@@ -410,8 +401,8 @@ export default function SkiResort({
   };*/
 
   // States to handle changes
-  const [startNodeId, setStartNodeId] = React.useState(null);
-  const [EndNodeId, setEndNodeId] = React.useState(null);
+  //const [startNodeId, setStartNodeId] = React.useState(null);
+  //const [EndNodeId, setEndNodeId] = React.useState(null);
   //const [result, setResult] = React.useState(null);
   //const [skierLoc, setSkierLoc] = React.useState(null);
 
@@ -419,7 +410,7 @@ export default function SkiResort({
 
   // Function waiting on start and endpoint selection
   React.useEffect(() => {
-    if (EndNodeId !== null && startNodeId !== null) {
+    if (endNodeId !== null && startNodeId !== null) {
       // Calling the server path calculation API
       fetch("/calculate-paths", {
         method: "POST",
@@ -428,7 +419,7 @@ export default function SkiResort({
         },
         body: JSON.stringify({
           startNodeId: startNodeId,
-          endNodeId: EndNodeId,
+          endNodeId: endNodeId,
         }),
       })
         .then((response) => {
@@ -451,7 +442,7 @@ export default function SkiResort({
 
       //togglePopup();
     }
-  }, [EndNodeId, startNodeId]);
+  }, [endNodeId, startNodeId]);
 
   // Handling a user-location when user clicks any empty space on the map (UNDER DEVELOPMENT)
   // const handleSVGClick = (event) => {
@@ -475,12 +466,12 @@ export default function SkiResort({
       setStartNodeId(null);
       setEndNodeId(null);
       setResult(null);
-    } else if (EndNodeId === node.id) {
+    } else if (endNodeId === node.id) {
       setEndNodeId(null);
       setResult(null);
     } else if (startNodeId === null) {
       setStartNodeId(node.id);
-    } else if (EndNodeId === null) {
+    } else if (endNodeId === null) {
       setEndNodeId(node.id);
     }
   };

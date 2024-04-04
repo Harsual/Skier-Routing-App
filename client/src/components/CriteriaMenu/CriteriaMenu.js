@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./CriteriaMenu.css";
+import React, { useState, useEffect, createContext, useContext } from "react";
+import styles from "./CriteriaMenu.module.css";
 
 const CriteriaMenu = ({
   isOpen,
@@ -8,6 +8,8 @@ const CriteriaMenu = ({
   result,
   allPaths,
   setAllPaths,
+  setEndNodeId,
+  setStartNodeId,
 }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [shortestPath, setShortestPath] = useState(null);
@@ -15,14 +17,25 @@ const CriteriaMenu = ({
   const [fastestPath, setFastestPath] = useState(null);
   const [MLUPath, setMLUPath] = useState(null);
 
+  const resetInfo = () => {
+    console.log("called");
+    setResult(null);
+  };
+
   useEffect(() => {
     // This code runs once when the component mounts
     //console.log("Component mounted");
 
     if (result == null) {
+      setEndNodeId(null);
+      setStartNodeId(null);
       setEasiestPath(null);
       setShortestPath(null);
       setFastestPath(null);
+      setMLUPath(null);
+      setSelectedOption(null);
+      setAllPaths(null);
+
       onClose(false);
       console.log("reset Info");
     }
@@ -122,16 +135,12 @@ const CriteriaMenu = ({
 
   const handleSubmit = () => {};
 
-
-  
   return (
-
-    <div className={`popup ${isOpen ? "active" : ""}`}>
-
-      <div className="popup-header">Please select Criteria:</div>
-      <div className="popup-content">
+    <div className={`${styles.popup} ${isOpen ? styles.active : ""}`}>
+      <div className={styles["popup-header"]}>Please select Criteria:</div>
+      <div className={styles["popup-content"]}>
         {/*<div>Please select Criteria:</div>*/}
-        <div className="options">
+        <div className={styles.options}>
           <label>
             <input
               type="radio"
@@ -170,8 +179,8 @@ const CriteriaMenu = ({
           </label>
           <div>
             <button
-              className="popup-close"
-              onClick={() => onClose(false)}
+              className={styles["popup-close"]}
+              onClick={resetInfo}
               style={{
                 position: "absolute",
                 top: "10px",
@@ -184,7 +193,7 @@ const CriteriaMenu = ({
             </button>
           </div>
         </div>
-        <button className="popup-button" onClick={handleSubmit}>
+        <button className={styles["popup-button"]} onClick={handleSubmit}>
           Submit
         </button>
       </div>

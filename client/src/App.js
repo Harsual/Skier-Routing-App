@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import Map from "./SkieResort";
 import SkiResort from "./SkieResort";
 
 import DifficultyMenu from "./components/DifficultyMenu/DifficultyMenu";
@@ -8,14 +7,18 @@ import MapLegend from "./components/MapLegend/MapLegend";
 
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
+import DescriptionBox from "./components/DescriptionBox/DescriptionBox";
 
 function App() {
   // State to handle interactioon from node.js server and this react app
   const [SkiResortData, setSkiResortData] = useState();
+  const [GraphData, setGraphData] = useState({});
   const [DMenuIsOpen, setDMenuIsOpen] = useState(false);
   const [CMenuIsOpen, setCMenuIsOpen] = useState(false);
   const [result, setResult] = useState(null);
   const [allPaths, setAllPaths] = useState(null);
+  const [startNodeId, setStartNodeId] = useState(null);
+  const [EndNodeId, setEndNodeId] = useState(null);
 
   useEffect(() => {
     fetch("/api")
@@ -25,35 +28,6 @@ function App() {
         //console.log(data);
         setSkiResortData(data);
       });
-  }, []);
-
-  const [viewportDimensions, setViewportDimensions] = useState({
-    viewportWidth: 0,
-    viewportHeight: 0,
-  });
-
-  useEffect(() => {
-    // Function to update viewport dimensions
-    const updateViewportDimensions = () => {
-      setViewportDimensions({
-        //width: window.screen.availWidth,
-        //height: window.screen.availHeight,
-        //viewportWidth: window.innerWidth,
-        //viewportHeight: window.innerHeight,
-        viewportWidth: document.documentElement.scrollWidth,
-        viewportHeight: document.documentElement.scrollHeight,
-      });
-    };
-
-    // Initial call to update viewport dimensions
-    updateViewportDimensions();
-
-    // Cleanup function to remove event listener after initial render
-    // This ensures that the event listener is removed after the first render
-    // and doesn't continue to listen for subsequent changes
-    window.removeEventListener("resize", updateViewportDimensions);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return SkiResortData ? (
@@ -68,10 +42,16 @@ function App() {
                 height={height}
                 skiResortData={SkiResortData}
                 setSkiResortData={setSkiResortData}
+                GraphData={GraphData}
+                setGraphData={setGraphData}
                 DMenuIsOpen={DMenuIsOpen}
                 setDMenuIsOpen={setDMenuIsOpen}
                 result={result}
                 setResult={setResult}
+                setStartNodeId={setStartNodeId}
+                startNodeId={startNodeId}
+                setEndNodeId={setEndNodeId}
+                endNodeId={EndNodeId}
               />
             )}
           </ParentSize>
@@ -91,6 +71,8 @@ function App() {
           setResult={setResult}
           result={result}
           isOpen={CMenuIsOpen}
+          setStartNodeId={setStartNodeId}
+          setEndNodeId={setEndNodeId}
           onClose={setCMenuIsOpen}
           setAllPaths={setAllPaths}
           allPaths={allPaths}
