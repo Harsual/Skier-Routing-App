@@ -1,44 +1,45 @@
 .container {
   background: #676767;
-  width: 400px;
+  width: 250px;
+  /*height: 330px;*/
   height: auto;
-  position: relative;
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  border-radius: 5px;
+  transform: translate(110%,0);
+  transition: transform 1.3s ease;
+}
+.container.active {
+  transform: translate(0,0);
 }
 .box {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  margin: auto;
-  margin-top: 10px;
+  
+  margin: 10px 10px;
+  
   background: #fafafa;
   border-radius: 5px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  
   opacity: 80%;
 }
 
 .path {
-  font-size: 30px;
+  font-size: 25px;
   cursor: pointer;
   margin: 5px;
   padding: 3px;
 }
-/* .menu-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-left: 50px;
-} */
+
 .menu {
   display: flex;
   flex-direction: row;
   border: 2px inset #fafafa;
-  margin-top: 20px;
-  margin-right: 35px;
-  margin-left: 35px;
+  margin: 15px;
   border-radius: 5px;
   justify-content: space-evenly;
-  height: 60px;
+  
   align-content: center;
 }
 .clicked {

@@ -19,6 +19,8 @@ function App() {
   const [allPaths, setAllPaths] = useState(null);
   const [startNodeId, setStartNodeId] = useState(null);
   const [EndNodeId, setEndNodeId] = useState(null);
+  const [finalPath, setFinalPath] = useState(null);
+  const [showDBox, setShowDBox] = useState(false);
 
   useEffect(() => {
     fetch("/api")
@@ -33,6 +35,10 @@ function App() {
   return SkiResortData ? (
     <div>
       <div className="container">
+        <DescriptionBox
+          finalPath={finalPath}
+          showDBox={showDBox}
+        ></DescriptionBox>
         <div className="graph-container">
           {/*<ParentSize>{({ width, height }) => <Example width={width} height={height} />}</ParentSize>,*/}
           <ParentSize>
@@ -56,6 +62,7 @@ function App() {
             )}
           </ParentSize>
         </div>
+
         <DifficultyMenu
           setResult={setResult}
           result={result}
@@ -76,6 +83,8 @@ function App() {
           onClose={setCMenuIsOpen}
           setAllPaths={setAllPaths}
           allPaths={allPaths}
+          setFinalPath={setFinalPath}
+          setShowDBox={setShowDBox}
         ></CriteriaMenu>
       </div>
     </div>

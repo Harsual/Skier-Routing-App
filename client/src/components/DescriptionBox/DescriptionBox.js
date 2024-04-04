@@ -6,9 +6,9 @@ import { TbAerialLift } from "react-icons/tb";
 import { RiMapPinTimeFill } from "react-icons/ri";
 import { SiLevelsdotfyi } from "react-icons/si";
 
-const DescriptionBox = ({}) => {
+const DescriptionBox = ({ finalPath, showDBox }) => {
   const [selectedPath, setSelectedPath] = useState(null);
-  const [showContainer, setShowContainer] = useState(true);
+  //const [showDBox, setShowDBox] = useState(false);
 
   const data = [
     {
@@ -26,21 +26,23 @@ const DescriptionBox = ({}) => {
       difficultyScore: 0,
     },
   ];
+  console.log(finalPath);
+
+  if (finalPath) {
+  }
 
   const handleClick = (path) => {
     setSelectedPath(path === selectedPath ? null : path);
   };
   const handleCloseContainer = () => {
-    setShowContainer(false);
+    //setShowDBox(false);
   };
 
   return (
-    <div
-      className={`${styles.container} ${showContainer ? "" : styles.hidden}`}
-    >
-      <div className={styles["close-button"]} onClick={handleCloseContainer}>
+    <div className={`${styles.container} ${showDBox ? styles.active : ""}`}>
+      {/* <div className={styles["close-button"]} onClick={handleCloseContainer}>
         x
-      </div>
+      </div> */}
       <div className={styles["menu-container"]}>
         <div className={styles.menu}>
           <div
@@ -88,28 +90,32 @@ const DescriptionBox = ({}) => {
 
       {selectedPath && (
         <div className={styles.box}>
-          <div>
-            {selectedPath === "finalpath" && (
-              <div>
-                <p>Path:</p>
-                {data[0].path.map((item, index) => (
-                  <div key={index}>{item}</div>
-                ))}
-              </div>
-            )}
-            {selectedPath === "distance" && (
-              <div>Total Length: {data[0].totalLength}</div>
-            )}
-            {selectedPath === "time" && (
-              <div>Total Time: {data[0].totalTime}</div>
-            )}
-            {selectedPath === "lift" && (
-              <div>Total Time on Lift: {data[0].totalTimeOnLift}</div>
-            )}
-            {selectedPath === "difficulty" && (
-              <div>Difficulty Score: {data[0].difficultyScore}</div>
-            )}
-          </div>
+          {finalPath && (
+            <div>
+              {selectedPath === "finalpath" && (
+                <div>
+                  <p>Path:</p>
+                  {finalPath && finalPath.path && finalPath.path.length > 0 ? (
+                    finalPath.path.map((item, index) => <div>{item.name}</div>)
+                  ) : (
+                    <div>No paths available</div>
+                  )}
+                </div>
+              )}
+              {selectedPath === "distance" && (
+                <div>Total Length: {finalPath.totalLength}</div>
+              )}
+              {selectedPath === "time" && (
+                <div>Total Time: {finalPath.totalTime}</div>
+              )}
+              {selectedPath === "lift" && (
+                <div>Total Time on Lift: {finalPath.totalTimeOnLift}</div>
+              )}
+              {selectedPath === "difficulty" && (
+                <div>Difficulty Score: {finalPath.difficultyScore}</div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
