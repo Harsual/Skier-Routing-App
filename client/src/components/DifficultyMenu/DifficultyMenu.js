@@ -66,7 +66,7 @@ const DifficultyMenu = ({
       });
 
     // Close the popup
-    // console 
+    // console
     onClose(false);
     setCMenu(true);
     setSkills([]);
@@ -115,4 +115,4 @@ const DifficultyMenu = ({
   );
 };
 
-export { DifficultyMenu};
+export default DifficultyMenu;
