@@ -21,6 +21,10 @@ function App() {
   const [EndNodeId, setEndNodeId] = useState(null);
   const [finalPath, setFinalPath] = useState(null);
   const [showDBox, setShowDBox] = useState(false);
+  const [popUp, setPopUp] = useState(true);
+  {
+    /* State true so that pop up shows with every time that page loads */
+  }
 
   useEffect(() => {
     fetch("/getDB")
