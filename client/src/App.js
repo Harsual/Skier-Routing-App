@@ -8,6 +8,7 @@ import MapLegend from "./components/MapLegend/MapLegend";
 import ParentSize from "@visx/responsive/lib/components/ParentSize";
 import CriteriaMenu from "./components/CriteriaMenu/CriteriaMenu";
 import DescriptionBox from "./components/DescriptionBox/DescriptionBox";
+import InstructionBox from "./components/InstructionBox/InstructionBox";
 
 function App() {
   // State to handle interactioon from node.js server and this react app
@@ -21,6 +22,8 @@ function App() {
   const [EndNodeId, setEndNodeId] = useState(null);
   const [finalPath, setFinalPath] = useState(null);
   const [showDBox, setShowDBox] = useState(false);
+  const [popUp, setPopUp] = useState(true); {/* State true so that pop up shows with every time that page loads */ }
+
 
   useEffect(() => {
     fetch("/api")
@@ -40,6 +43,7 @@ function App() {
           showDBox={showDBox}
         ></DescriptionBox>
         <div className="graph-container">
+          {popUp && <InstructionBox setPopUp={setPopUp} />}
           {/*<ParentSize>{({ width, height }) => <Example width={width} height={height} />}</ParentSize>,*/}
           <ParentSize>
             {({ width, height }) => (

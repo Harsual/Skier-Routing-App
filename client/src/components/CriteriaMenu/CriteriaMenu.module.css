@@ -1,7 +1,7 @@
 .popup { 
     position: fixed;
     /*background-color: white;*/
-    background-color:rgba(159, 178, 225, 0.9);
+    background-color:rgba(253, 253, 254, 0.9);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -10,7 +10,7 @@
     opacity: 0.8;
     bottom: 0;
     left: 50%; 
-    width: 30%;
+    width: 35%;
     transform: translate(-50%,100%);
     transition: transform 1.3s ease;
     
@@ -43,7 +43,7 @@
 }
 
 .popup-content {
-    padding: 20px;
+    padding: 15px;
 }
 
 /*.popup-button {
@@ -67,7 +67,8 @@
     }
 }
 
-
-.popup-inner {
-
-}
+.resetButtonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; /* or any suitable value */
+  }

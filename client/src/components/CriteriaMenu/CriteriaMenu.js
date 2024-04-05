@@ -151,8 +151,6 @@ const CriteriaMenu = ({
     }
   };
 
-  const handleSubmit = () => {};
-
   return (
     <div className={`${styles.popup} ${isOpen ? styles.active : ""}`}>
       <div className={styles["popup-header"]}>Please select Criteria:</div>
@@ -211,9 +209,11 @@ const CriteriaMenu = ({
             </button>
           </div>
         </div>
-        <button className={styles["popup-button"]} onClick={handleSubmit}>
-          Submit
+        <div className={styles.resetButtonContainer}>
+        <button className={styles["popup-button"]} onClick={resetInfo}>
+          Select Different points
         </button>
+      </div>
       </div>
     </div>
   );

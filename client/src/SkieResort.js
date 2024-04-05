@@ -8,9 +8,9 @@ import { localPoint } from "@visx/event";
 
 import MapLegend from "./components/MapLegend/MapLegend";
 
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faCableCar } from '@fortawesome/free-solid-svg-icons';
-//import { faPersonSkiing } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCableCar } from '@fortawesome/free-solid-svg-icons';
+import { faPersonSkiing } from '@fortawesome/free-solid-svg-icons';
 
 //export const background = "#272b4d";
 
@@ -261,6 +261,8 @@ export default function SkiResort({
                 const dr = Math.sqrt(dx * dx + dy * dy);
                 var qx;
                 var qy;
+                var isgandondola = false; 
+                if (id==109) {isgandondola=true}
                 //console.log(color);
                 //const fromNode = slope ? source.id : null;
                 //const toNode = slope ? target.id : null;
@@ -376,6 +378,30 @@ export default function SkiResort({
                       stroke={color}
                       strokeOpacity={1}
                       strokeDasharray={dashed ? "8,4" : undefined}
+                    />
+                    <circle 
+                    // Circle in the middle of the lifts
+                       //React.createElement("circle", {
+                      cx={(source.x + target.x) / 2} 
+                      cy={(source.y + target.y) / 2}
+                      r={15} 
+                      fill={"green"} // Change the fill color as needed
+                      stroke={color}
+                      strokeWidth={2} 
+                    />
+                    isgandondola && <FontAwesomeIcon
+                      icon={faCableCar}
+                      x={(source.x + target.x) / 2-10}
+                      y={(source.y + target.y) / 2-10}
+                      width={20}
+                      height={20} 
+                    />
+                    !isgandondola && <FontAwesomeIcon
+                      icon={faPersonSkiing}
+                      x={(source.x + target.x) / 2-10}
+                      y={(source.y + target.y) / 2-10}
+                      width={20}
+                      height={20}
                     />
                     <text
                       x={(source.x + target.x) / 2}
