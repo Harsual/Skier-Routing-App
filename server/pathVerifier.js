@@ -48,7 +48,7 @@ function encodePathAttr(paths, linkInfo) {
         totalTimeOnLift += link.time;
         totalTime += link.time;
       } else if (link.slope) {
-        totalTime += link.length / 833.33;
+        totalTime += link.length / 416.667;
 
         switch (link.color) {
           case "blue":

@@ -1,10 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { DefaultNode, Graph } from "@visx/network";
-import { Zoom } from "@visx/zoom";
-//import { RectClipPath } from "@visx/clip-path";
-import { localPoint } from "@visx/event";
 
 import HoverBox from "./components/HoverBox/HoverBox";
 
@@ -30,43 +27,21 @@ export default function SkiResort({
   result = { result },
   setResult = { setResult },
 }) {
-  const initialTransform = {
-    scaleX: 1,
-    scaleY: 1,
-    translateX: 0,
-    translateY: 0,
-    skewX: 0,
-    skewY: 0,
-  };
-
-  const [containerWidth, setContainerWidth] = useState(0);
-  const [containerHeight, setContainerHeight] = useState(0);
-  const [originalSRData, setOriginalSRData] = useState(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [firstEffectComplete, setFirstEffectComplete] = useState(false);
+
   const [iconIsHovered, setIconIsHovered] = useState(false);
-  const [iconHoveredID, setIconHoveredID] = useState(null);
+
   const [linkInfo, setLinkInfo] = useState(null);
+  const timerRef = useRef(null);
   //const [graph, setGraph] = useState(skiResortData);
   //setGraph(skiResortData);
 
-  var viewportHeight = 993;
-  var viewportWidth = 1728;
   //var imageWidth = width;
   //var imageHeight = height;
   var imageWidth;
   var imageHeight;
   //var graphOffsetx = 0;
   //var graphOffsety = 0;
-
-  useEffect(() => {
-    //console.log("SkiResort Data:", skiResortData);
-    //console.log("OriginalSRData:", originalSRData);
-    // if (skiResortData && !originalSRData) {
-    //   //console.log("setting OriginalData");
-    //   setOriginalSRData(skiResortData);
-    // }
-  }, []);
 
   useEffect(() => {
     if (linkInfo !== null) {
@@ -76,34 +51,29 @@ export default function SkiResort({
   useEffect(() => {
     var naturalWidth = 1280;
     var naturalHeight = 854;
-    //console.log(naturalWidth, naturalHeight);
-    // Get the width and height of the SVG container
-    //var svgWidth = imageElement.viewportElement.clientWidth;
-    //var svgHeight = imageElement.viewportElement.clientHeight;
-    //console.log(svgHeight, svgWidth);
+
     // Calculate the aspect ratio of the image
     var aspectRatio = naturalWidth / naturalHeight;
-    //console.log("AspectRatio:", aspectRatio);
-    // Perform your calculations here using imageWidth and imageHeight
+
     if (width / height > aspectRatio) {
       // The SVG container is wider than the image, so the height of the image will be equal to the height of the SVG container
-      console.log("Container is wider than image");
+
       imageHeight = height;
       //console.log("imageHeight: ", imageHeight);
       imageWidth = imageHeight * aspectRatio;
     } else {
       // The SVG container is taller than the image, so the width of the image will be equal to the width of the SVG container
-      console.log("Container is taller than image");
+
       imageWidth = width;
       imageHeight = imageWidth / aspectRatio;
     }
     let graphOffsetx = (width - imageWidth) / 2;
     let graphOffsety = (height - imageHeight) / 2;
     setOffset({ x: graphOffsetx, y: graphOffsety });
-    //console.log(graphOffsetx, graphOffsety);
+
     var widthScaleFactor = imageWidth / 1728;
     var heightScaleFactor = imageHeight / 993;
-    //console.log(widthScaleFactor, heightScaleFactor);
+
     if (skiResortData && skiResortData.nodes && skiResortData.links) {
       console.log("Testing");
       const updatedNodes = skiResortData.nodes.map((node) => ({
@@ -137,12 +107,16 @@ export default function SkiResort({
   const handleIconMouseEnter = (id, source, target, slope, Name) => {
     setIconIsHovered(true);
     setLinkInfo({ id, source, target, slope, Name });
-    setIconHoveredID(id);
+
+    timerRef.current = setTimeout(() => {
+      setIconIsHovered(false);
+    }, 3000);
   };
 
   const handleIconMouseLeave = () => {
     setIconIsHovered(false);
-    setIconHoveredID(null);
+
+    clearTimeout(timerRef.current);
   };
 
   let graph = {
@@ -151,38 +125,9 @@ export default function SkiResort({
   };
   // Function to handle drawing the Map
   const drawMap = () => {
-    // Calculate scale factors for both width and height
-    console.log(graph.links);
-    //console.log(widthScaleFactor, heightScaleFactor);
-    // Choose the smaller scale factor to ensure the entire image fits within the SVG container
-    //const scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
-
-    // return true ? (
-    //   <HoverBox></HoverBox>
-    // ) : (
     return (
       <div>
         <svg width={width} height={height}>
-          {/* <rect
-              width={width}
-              height={height}
-              //rx={14}
-              fill="transparent"
-              onTouchStart={zoom.dragStart}
-              onTouchMove={zoom.dragMove}
-              onTouchEnd={zoom.dragEnd}
-              onMouseDown={zoom.dragStart}
-              onMouseMove={zoom.dragMove}
-              onMouseUp={zoom.dragEnd}
-              onMouseLeave={() => {
-                if (zoom.isDragging) zoom.dragEnd();
-              }}
-              onDoubleClick={(event) => {
-                const point = localPoint(event) || { x: 0, y: 0 };
-                zoom.scale({ scaleX: 1.1, scaleY: 1.1, point });
-              }}
-            /> */}
-          {/* <g transform={zoom.toString()}> */}
           <image
             id="map-background"
             xlinkHref="Fiona-map.jpeg"
@@ -192,12 +137,6 @@ export default function SkiResort({
             height={height}
             onClick={handleIconMouseLeave}
             //preserveAspectRatio="xMidYMid meet"
-            onLoad={(event) => {
-              //imageWidth = event.target.naturalWidth; // Get the intrinsic width of the image
-              //imageHeight = event.target.naturalHeight; // Get the intrinsic height of the image
-              //console.log(imageWidth, imageHeight);
-              // Perform your calculations here using imageWidth and imageHeight
-            }}
           />
 
           <Graph
@@ -207,10 +146,6 @@ export default function SkiResort({
             nodeComponent={({ node }) => {
               var node_color = "green";
               var stroke = "";
-              //console.log(offset.x, offset.y);
-              //var node_color = node.color;
-              //node.x = Math.ceil(node.x * widthScaleFactor);
-              //node.y = Math.ceil(node.y * heightScaleFactor);
               var node_txt = "";
               if (node.id === startNodeId) {
                 node_color = "red";
@@ -247,18 +182,6 @@ export default function SkiResort({
             linkComponent={({
               link: { source, target, dashed, slope, color, weight, id, Name },
             }) => {
-              // if (iconHoveredID === id) {
-              //   setLinkInfo({
-              //     source,
-              //     target,
-              //     dashed,
-              //     slope,
-              //     color,
-              //     weight,
-              //     id,
-              //   });
-              // }
-
               // Calculations for the curved line: Bezier
               const dx = target.x - source.x;
               const dy = target.y - source.y;
@@ -266,12 +189,10 @@ export default function SkiResort({
               var qx;
               var qy;
               var isgandondola = false;
-              if (id == 109) {
+              if (id === 109) {
                 isgandondola = true;
               }
-              //console.log(color);
-              //const fromNode = slope ? source.id : null;
-              //const toNode = slope ? target.id : null;
+
               // Calculate the control point for the Bézier curve based on color
               switch (color) {
                 case "red":
@@ -294,13 +215,6 @@ export default function SkiResort({
                   qy = 0;
                   break;
               }
-
-              //console.log(color);
-              //console.log("Results:", result);
-              //const isInResult = result && result.some(({ plink }) => plink === id);
-              // const isInResult =
-              //   result &&
-              //   result.some((path) => path.some(({ plink }) => plink === id));
 
               const isInResult =
                 result &&
@@ -387,7 +301,7 @@ export default function SkiResort({
                   />
                   <circle
                     // Circle in the middle of the lifts
-                    //React.createElement("circle", {
+
                     cx={(source.x + target.x) / 2}
                     cy={(source.y + target.y) / 2}
                     r={15}
@@ -432,8 +346,6 @@ export default function SkiResort({
               );
             }}
           />
-
-          {/* </g> */}
         </svg>
         {iconIsHovered && (
           <HoverBox
@@ -445,18 +357,6 @@ export default function SkiResort({
       </div>
     );
   };
-
-  /*const togglePopup = () => {
-    setPopupIsOpen(true);
-  };*/
-
-  // States to handle changes
-  //const [startNodeId, setStartNodeId] = React.useState(null);
-  //const [EndNodeId, setEndNodeId] = React.useState(null);
-  //const [result, setResult] = React.useState(null);
-  //const [skierLoc, setSkierLoc] = React.useState(null);
-
-  //console.log(height, width);
 
   // Function waiting on start and endpoint selection
   React.useEffect(() => {
@@ -480,7 +380,7 @@ export default function SkiResort({
         })
         .then((data) => {
           setResult(data.paths);
-          //console.log(setPopupIsOpen);
+
           setDMenuIsOpen(true);
         })
         .catch((error) => {
@@ -493,22 +393,6 @@ export default function SkiResort({
       //togglePopup();
     }
   }, [endNodeId, startNodeId]);
-
-  // Handling a user-location when user clicks any empty space on the map (UNDER DEVELOPMENT)
-  // const handleSVGClick = (event) => {
-  //   const svg = event.currentTarget;
-  //   const point = svg.createSVGPoint();
-  //   point.x = event.clientX;
-  //   point.y = event.clientY;
-  //   const { x, y } = point.matrixTransform(svg.getScreenCTM().inverse());
-  //   const startNode = {
-  //     id: nodes.length + 1,
-  //     x,
-  //     y,
-  //   };
-
-  //setSkierLoc(startNode);
-  //};
 
   // Setting the node that is clicked
   const handleNodeClick = (node) => {
