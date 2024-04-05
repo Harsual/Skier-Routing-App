@@ -23,7 +23,7 @@ function App() {
   const [showDBox, setShowDBox] = useState(false);
 
   useEffect(() => {
-    fetch("/api")
+    fetch("/getDB")
       .then((response) => response.json())
       .then((data) => {
         //prepareData(data);

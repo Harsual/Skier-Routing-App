@@ -1,6 +1,7 @@
 import "./MapLegend.css";
+
 const MapLegend = () => (
-    <div class="map-key">
+  <div class="map-key">
     <div class="map-key-item">
       <span class="dot green"></span>
       <span class="label">Lifts</span>
@@ -18,6 +19,6 @@ const MapLegend = () => (
       <span class="label">Difficult Slopes</span>
     </div>
   </div>
-  );
+);
 
-  export default MapLegend;
+export default MapLegend;

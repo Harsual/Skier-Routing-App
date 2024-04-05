@@ -211,9 +211,9 @@ const CriteriaMenu = ({
             </button>
           </div>
         </div>
-        <button className={styles["popup-button"]} onClick={handleSubmit}>
+        {/* <button className={styles["popup-button"]} onClick={handleSubmit}>
           Submit
-        </button>
+        </button> */}
       </div>
     </div>
   );

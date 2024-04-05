@@ -377,6 +377,7 @@ export default function SkiResort({
                       strokeOpacity={1}
                       strokeDasharray={dashed ? "8,4" : undefined}
                     />
+                    
                     <text
                       x={(source.x + target.x) / 2}
                       y={(source.y + target.y) / 2}
