@@ -27,18 +27,6 @@ const DifficultyMenu = ({
       console.log("Component unmounted");
     };
   }, [result]);
-  /*useEffect(() => {
-    // This code runs once when the component mounts
-    //console.log("Component mounted");
-
-    if (!isOpen) {
-      console.log("reset skills!!");
-    }
-
-    /*return () => {
-      console.log("Difficulty: Component unmounted");
-    };
-  }, [isOpen]);*/
 
   // Handler to update the state when a checkbox is clicked
   const handleChange = (e) => {

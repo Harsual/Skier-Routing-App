@@ -7,42 +7,14 @@ import { RiMapPinTimeFill } from "react-icons/ri";
 import { SiLevelsdotfyi } from "react-icons/si";
 
 const DescriptionBox = ({ finalPath, showDBox }) => {
-  const [selectedPath, setSelectedPath] = useState(null);
-  //const [showDBox, setShowDBox] = useState(false);
-
-  const data = [
-    {
-      path: ["apple", "banana", "orange"],
-      totalLength: 700,
-      totalTime: 12.84000336001344,
-      totalTimeOnLift: 12,
-      difficultyScore: 700,
-    },
-    {
-      path: ["pineapple", "mango", "grape"],
-      totalLength: 0,
-      totalTime: 19,
-      totalTimeOnLift: 19,
-      difficultyScore: 0,
-    },
-  ];
-  console.log(finalPath);
-
-  if (finalPath) {
-  }
+  const [selectedPath, setSelectedPath] = useState("finalpath");
 
   const handleClick = (path) => {
     setSelectedPath(path === selectedPath ? null : path);
   };
-  const handleCloseContainer = () => {
-    //setShowDBox(false);
-  };
 
   return (
     <div className={`${styles.container} ${showDBox ? styles.active : ""}`}>
-      {/* <div className={styles["close-button"]} onClick={handleCloseContainer}>
-        x
-      </div> */}
       <div className={styles["menu-container"]}>
         <div className={styles.menu}>
           <div

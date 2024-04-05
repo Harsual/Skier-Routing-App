@@ -1,5 +1,5 @@
-import React from 'react';
-import styles from './MapLegend.module.css';
+import React from "react";
+import styles from "./MapLegend.module.css";
 
 const MapLegend = () => (
   <div className={styles["map-key"]}>
@@ -23,6 +23,3 @@ const MapLegend = () => (
 );
 
 export default MapLegend;
-
-
-

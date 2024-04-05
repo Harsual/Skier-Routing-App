@@ -25,9 +25,6 @@ const CriteriaMenu = ({
   };
 
   useEffect(() => {
-    // This code runs once when the component mounts
-    //console.log("Component mounted");
-
     if (result == null) {
       setEndNodeId(null);
       setStartNodeId(null);
@@ -39,12 +36,9 @@ const CriteriaMenu = ({
       setAllPaths(null);
       setShowDBox(false);
       onClose(false);
-      console.log("reset Info");
     }
 
-    return () => {
-      console.log("Component unmounted");
-    };
+    return () => {};
   }, [result]);
 
   const handleOptionChange = (event) => {
@@ -71,7 +65,6 @@ const CriteriaMenu = ({
             }
           }, null);
 
-          console.log("Shortest Path:", shortestPath);
           setResult([shortestPath]);
           setFinalPath(shortestPath);
           setShortestPath(shortestPath);
@@ -96,7 +89,6 @@ const CriteriaMenu = ({
             }
           }, null);
 
-          console.log("Easiest Path:", easiestPath);
           setResult([easiestPath]);
           setFinalPath(easiestPath);
           setEasiestPath(easiestPath);
@@ -117,7 +109,7 @@ const CriteriaMenu = ({
               return fastest;
             }
           }, null);
-          console.log("Fastest Path:", fastestPath);
+
           setResult([fastestPath]);
           setFinalPath(fastestPath);
           setFastestPath(fastestPath);
@@ -141,7 +133,7 @@ const CriteriaMenu = ({
               return minimunTimeOnLift;
             }
           }, null);
-          console.log("MinimumLiftsPath:", MLUPath);
+
           setResult([MLUPath]);
           setFinalPath(MLUPath);
           setMLUPath(MLUPath);
@@ -210,10 +202,10 @@ const CriteriaMenu = ({
           </div>
         </div>
         <div className={styles.resetButtonContainer}>
-        <button className={styles["popup-button"]} onClick={resetInfo}>
-          Select Different points
-        </button>
-      </div>
+          <button className={styles["popup-button"]} onClick={resetInfo}>
+            Select Different points
+          </button>
+        </div>
       </div>
     </div>
   );

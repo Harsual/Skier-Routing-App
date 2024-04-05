@@ -22,15 +22,12 @@ function App() {
   const [EndNodeId, setEndNodeId] = useState(null);
   const [finalPath, setFinalPath] = useState(null);
   const [showDBox, setShowDBox] = useState(false);
-  const [popUp, setPopUp] = useState(true); {/* State true so that pop up shows with every time that page loads */ }
-
+  const [popUp, setPopUp] = useState(true);
 
   useEffect(() => {
-    fetch("/api")
+    fetch("/getDB")
       .then((response) => response.json())
       .then((data) => {
-        //prepareData(data);
-        //console.log(data);
         setSkiResortData(data);
       });
   }, []);
@@ -44,7 +41,6 @@ function App() {
         ></DescriptionBox>
         <div className="graph-container">
           {popUp && <InstructionBox setPopUp={setPopUp} />}
-          {/*<ParentSize>{({ width, height }) => <Example width={width} height={height} />}</ParentSize>,*/}
           <ParentSize>
             {({ width, height }) => (
               <SkiResort
