@@ -1,3 +1,10 @@
+var pPaths;
+
+function verifyPath(paths, linkInfo, preference) {
+  pPaths = filterPreferencedPath(paths, preference);
+  return encodePathAttr(pPaths, linkInfo);
+}
+
 function filterPreferencedPath(paths, preference) {
   difficultyPref = preference.skills;
   difficultyPref.push("green");
@@ -72,6 +79,5 @@ function encodePathAttr(paths, linkInfo) {
 }
 
 module.exports = {
-  filterPreferencedPath,
-  encodePathAttr,
+  verifyPath,
 };

@@ -7,8 +7,9 @@ class CPController {
   }
 
   pathVerifier(paths, linkInfo, preference) {
-    pPaths = pathVerifier.filterPreferencedPath(paths, preference);
-    return pathVerifier.encodePathAttr(pPaths, linkInfo);
+    return pathVerifier.verifyPath(paths, linkInfo, preference);
+    //pPaths = pathVerifier.filterPreferencedPath(paths, preference);
+    //return pathVerifier.encodePathAttr(pPaths, linkInfo);
   }
 }
 
