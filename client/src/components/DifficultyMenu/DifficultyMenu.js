@@ -112,19 +112,7 @@ const DifficultyMenu = ({
         </div>
         {/* Additional checkboxes for other skill levels */}
       </div>
-      <button
-        className={styles["popupd-close"]}
-        onClick={() => onClose(false)}
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          background: "red",
-          color: "white",
-        }}
-      >
-        ×
-      </button>
+
       <button className={styles["popupd-button"]} onClick={handleSubmit}>
         Submit
       </button>

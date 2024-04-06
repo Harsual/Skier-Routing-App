@@ -55,8 +55,8 @@
 
 .popup-x {
     align-self: flex-end; /* Align "X" button to the right */
-    margin-top: -1em; /* Adjust margin for spacing */
-    margin-right: -1em; /* Adjust margin for spacing */
+   /* margin-top: -1em;  Adjust margin for spacing 
+    margin-right: -1em; Adjust margin for spacing */
 }
 
 .popup-close {
