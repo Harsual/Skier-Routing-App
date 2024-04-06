@@ -75,13 +75,15 @@ const DescriptionBox = ({ finalPath, showDBox }) => {
                 </div>
               )}
               {selectedPath === "distance" && (
-                <div>Total Length: {finalPath.totalLength}</div>
+                <div>Total Length: {finalPath.totalLength} meters</div>
               )}
               {selectedPath === "time" && (
-                <div>Total Time: {finalPath.totalTime}</div>
+                <div>Total Time: {finalPath.totalTime.toFixed(2)} minutes</div>
               )}
               {selectedPath === "lift" && (
-                <div>Total Time on Lift: {finalPath.totalTimeOnLift}</div>
+                <div>
+                  Total Time on Lift: {finalPath.totalTimeOnLift} minutes
+                </div>
               )}
               {selectedPath === "difficulty" && (
                 <div>Difficulty Score: {finalPath.difficultyScore}</div>
