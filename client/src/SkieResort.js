@@ -30,6 +30,7 @@ export default function SkiResort({
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const [iconIsHovered, setIconIsHovered] = useState(false);
+  const [hoveredID, setHoveredID] = useState(null);
 
   const [linkInfo, setLinkInfo] = useState(null);
   const timerRef = useRef(null);
@@ -106,6 +107,7 @@ export default function SkiResort({
 
   const handleIconMouseEnter = (id, source, target, slope, Name) => {
     setIconIsHovered(true);
+    setHoveredID(id);
     setLinkInfo({ id, source, target, slope, Name });
 
     timerRef.current = setTimeout(() => {
@@ -231,6 +233,8 @@ export default function SkiResort({
               const splitT = 0.25;
               const arrowHieght = 5;
               const arrowWidth = 3;
+              const fillColor =
+                iconIsHovered && hoveredID === id ? "lightblue" : "green";
 
               let px =
                 (1 - splitT) ** 2 * source.x +
@@ -306,7 +310,7 @@ export default function SkiResort({
                     cx={(source.x + target.x) / 2}
                     cy={(source.y + target.y) / 2}
                     r={15}
-                    fill={"green"} // Change the fill color as needed
+                    fill={fillColor} // Change the fill color as needed
                     stroke={color}
                     strokeWidth={2}
                     style={{ cursor: "pointer" }}
