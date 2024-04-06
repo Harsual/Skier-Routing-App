@@ -30,6 +30,7 @@
     background-color: #4727c9;
     color: white;
     margin: 10px 10px;
+    cursor: pointer;
 }
 
 .popup-button:hover {
@@ -46,6 +47,10 @@
     padding: 15px;
 }
 
+.options label input{
+    cursor: pointer;
+}
+
 /*.popup-button {
     margin: 10px 10px;
 }*/
@@ -58,6 +63,7 @@
     border: none;
     color: #aaa;
     font-size: 24px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {

@@ -166,6 +166,7 @@ export default function SkiResort({
                     strokeWidth={3}
                     style={{
                       zIndex: 100,
+                      cursor: "pointer",
                     }}
                     onClick={() => handleNodeClick(node)}
                   />
@@ -308,6 +309,7 @@ export default function SkiResort({
                     fill={"green"} // Change the fill color as needed
                     stroke={color}
                     strokeWidth={2}
+                    style={{ cursor: "pointer" }}
                     onMouseEnter={() =>
                       handleIconMouseEnter(id, source, target, slope, Name)
                     }
