@@ -45,11 +45,6 @@ export default function SkiResort({
   //var graphOffsety = 0;
 
   useEffect(() => {
-    if (linkInfo !== null) {
-      console.log(linkInfo.slope);
-    }
-  }, [linkInfo]);
-  useEffect(() => {
     var naturalWidth = 1280;
     var naturalHeight = 854;
 
@@ -112,13 +107,12 @@ export default function SkiResort({
 
     timerRef.current = setTimeout(() => {
       setIconIsHovered(false);
-    }, 3000);
+    }, 5000);
   };
 
   const handleIconMouseLeave = () => {
-    setIconIsHovered(false);
-
     clearTimeout(timerRef.current);
+    setIconIsHovered(false);
   };
 
   let graph = {
@@ -146,16 +140,33 @@ export default function SkiResort({
             left={offset.x}
             top={offset.y}
             nodeComponent={({ node }) => {
-              var node_color = "green";
-              var stroke = "";
+              //var node_color = "green";
+              var node_color = "#15BC3F";
+              var strokeWidth = 2;
+
+              const isInResult =
+                result &&
+                result.some(
+                  (pathObj) =>
+                    pathObj &&
+                    pathObj.path &&
+                    pathObj.path.some(({ pnode }) => pnode === node.id)
+                );
+
+              node_color = isInResult ? "#FFD700" : node_color;
+
+              var stroke = "black";
               var node_txt = "";
               if (node.id === startNodeId) {
                 node_color = "red";
                 stroke = "white";
                 node_txt = "Start";
+                strokeWidth = 3;
               } else if (node.id === endNodeId) {
                 node_color = "blue";
                 node_txt = "End";
+                stroke = "blue";
+                strokeWidth = 3;
               }
 
               return (
@@ -165,7 +176,7 @@ export default function SkiResort({
                     id={node.id}
                     r={10}
                     stroke={stroke}
-                    strokeWidth={3}
+                    strokeWidth={strokeWidth}
                     style={{
                       zIndex: 100,
                       cursor: "pointer",
@@ -191,6 +202,9 @@ export default function SkiResort({
               const dr = Math.sqrt(dx * dx + dy * dy);
               var qx;
               var qy;
+              var strokeOpacity = 1;
+              var slopeWidth = 2;
+              var liftWidth = 4;
               var isgandondola = false;
               if (id === 109) {
                 isgandondola = true;
@@ -216,6 +230,7 @@ export default function SkiResort({
                 default:
                   qx = 0;
                   qy = 0;
+                  color = "#15BC3F";
                   break;
               }
 
@@ -227,14 +242,15 @@ export default function SkiResort({
                     pathObj.path &&
                     pathObj.path.some(({ plink }) => plink === id)
                 );
-              color = isInResult ? "yellow" : color;
-              const strokeWidth = isInResult ? 6 : 2;
-              const strokeOpacity = isInResult ? 0.8 : 0.6;
+              color = isInResult ? "#FFD700" : color;
+              slopeWidth = isInResult ? 6 : 2;
+              liftWidth = isInResult ? 6 : 4;
+              strokeOpacity = 1;
               const splitT = 0.25;
               const arrowHieght = 5;
               const arrowWidth = 3;
               const fillColor =
-                iconIsHovered && hoveredID === id ? "lightblue" : "green";
+                iconIsHovered && hoveredID === id ? "lightblue" : color;
 
               let px =
                 (1 - splitT) ** 2 * source.x +
@@ -268,7 +284,7 @@ export default function SkiResort({
                 <g>
                   <path
                     d={`M${source.x} ${source.y} Q${qx} ${qy} ${target.x} ${target.y}`}
-                    strokeWidth={strokeWidth}
+                    strokeWidth={slopeWidth}
                     stroke={color}
                     strokeOpacity={strokeOpacity}
                     strokeDasharray={dashed ? "8,4" : undefined}
@@ -276,21 +292,22 @@ export default function SkiResort({
                   />
                   <polygon
                     points={`${x1},${y1} ${x2},${y2} ${x3},${y3}`}
-                    strokeWidth={2}
+                    strokeWidth={slopeWidth}
+                    strokeOpacity={strokeOpacity}
                     stroke={color}
                     fill={color}
                     transform={`rotate(${
                       angle * (180 / Math.PI) + 90
                     }, ${px}, ${py})`}
                   />
-                  <text
+                  {/* <text
                     x={(source.x + 2 * qx + target.x) / 4}
                     y={(source.y + 2 * qy + target.y) / 4}
                     fontSize="22px"
                     fill="white"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                  />
+                  /> */}
                 </g>
               ) : (
                 <g>
@@ -299,9 +316,9 @@ export default function SkiResort({
                     y1={source.y}
                     x2={target.x}
                     y2={target.y}
-                    strokeWidth={5}
+                    strokeWidth={liftWidth}
                     stroke={color}
-                    strokeOpacity={1}
+                    strokeOpacity={strokeOpacity}
                     strokeDasharray={dashed ? "8,4" : undefined}
                   />
                   <circle
@@ -311,7 +328,7 @@ export default function SkiResort({
                     cy={(source.y + target.y) / 2}
                     r={15}
                     fill={fillColor} // Change the fill color as needed
-                    stroke={color}
+                    //stroke={color}
                     strokeWidth={2}
                     style={{ cursor: "pointer" }}
                     onMouseEnter={() =>
@@ -322,32 +339,33 @@ export default function SkiResort({
                   {isgandondola && (
                     <FontAwesomeIcon
                       icon={faCableCar}
-                      x={(source.x + target.x) / 2 - 10}
-                      y={(source.y + target.y) / 2 - 10}
-                      width={20}
-                      height={20}
+                      x={(source.x + target.x) / 2 - 8}
+                      y={(source.y + target.y) / 2 - 8}
+                      width={16}
+                      height={16}
+                      color="white"
                       style={{ pointerEvents: "none" }}
                     />
                   )}
                   {!isgandondola && (
                     <FontAwesomeIcon
                       icon={faPersonSkiing}
-                      x={(source.x + target.x) / 2 - 10}
-                      y={(source.y + target.y) / 2 - 10}
-                      width={20}
-                      height={20}
+                      x={(source.x + target.x) / 2 - 8}
+                      y={(source.y + target.y) / 2 - 8}
+                      width={16}
+                      height={16}
+                      color="white"
                       style={{ pointerEvents: "none" }}
                     />
                   )}
-                  <text
+                  {/* <text
                     x={(source.x + target.x) / 2}
                     y={(source.y + target.y) / 2}
                     fontSize="22px"
                     fill="white"
                     textAnchor="middle"
                     dominantBaseline="middle"
-                  ></text>
-                  <g id="one"></g>
+                  ></text> */}
                 </g>
               );
             }}
@@ -386,7 +404,6 @@ export default function SkiResort({
         })
         .then((data) => {
           setResult(data.paths);
-
           setDMenuIsOpen(true);
         })
         .catch((error) => {
@@ -395,8 +412,6 @@ export default function SkiResort({
             error
           );
         });
-
-      //togglePopup();
     }
   }, [endNodeId, startNodeId]);
 

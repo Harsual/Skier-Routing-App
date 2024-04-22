@@ -1,23 +1,53 @@
 .box{
     position: fixed;
     background-color: white;
-   
     font: .8em sans-serif;
     top: 0px;
     left: 0px;
-    width: 100px;
+    width: 160px;
     height: 50px; 
     color: black;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     
 
 }
 
 .tip{
-    width: 40px;
+    width: 20px;
     height: 20px;
+    background-color: white;
+    position:absolute;
+    transform: translateY(25px) rotate(45deg);
 }
+
+.info{
+    
+    display: flex;
+    align-items: center;
+}
+.info div{
+    display: inline-block ;
+    margin: 0 4px;
+    
+    
+}
+
+.circle {
+    /* width: 20px; 
+    height: 20px; */
+    height: 20px;
+    width: 20px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    
+    
+    background-color: #15BC3F; 
+    border-radius: 50%;
+    
+  }
 
