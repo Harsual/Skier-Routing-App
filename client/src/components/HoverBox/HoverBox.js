@@ -1,5 +1,7 @@
 import React from "react";
 import styles from "./HoverBox.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 const HoverBox = (props) => {
   return (
@@ -16,9 +18,17 @@ const HoverBox = (props) => {
     <div
       className={styles.box}
       //style={{ left: `${props.x}px`, top: `${props.y}px` }}
-      style={{ transform: `translate(${props.x - 50}px, ${props.y - 60}px)` }}
+      style={{ transform: `translate(${props.x - 80}px, ${props.y - 70}px)` }}
     >
-      {props.liftName}
+      <div className={styles.info}>
+        <div className={styles.circle}>
+          <FontAwesomeIcon icon={faCheck} color="white" />
+        </div>
+
+        <div>{props.liftName}</div>
+      </div>
+
+      <div className={styles.tip}></div>
     </div>
   );
 };

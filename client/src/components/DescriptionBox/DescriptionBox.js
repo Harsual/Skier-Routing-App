@@ -62,34 +62,44 @@ const DescriptionBox = ({ finalPath, showDBox }) => {
 
       {selectedPath && (
         <div className={styles.box}>
-          {finalPath && (
-            <div>
-              {selectedPath === "finalpath" && (
-                <div>
-                  <p>Path:</p>
-                  {finalPath && finalPath.path && finalPath.path.length > 0 ? (
-                    finalPath.path.map((item, index) => <div>{item.name}</div>)
-                  ) : (
-                    <div>No paths available</div>
-                  )}
-                </div>
-              )}
-              {selectedPath === "distance" && (
+          <div>
+            {selectedPath === "finalpath" && (
+              <div>
+                <p>Path:</p>
+                {finalPath && finalPath.path && finalPath.path.length > 0 ? (
+                  finalPath.path.map((item, index) => <div>{item.name}</div>)
+                ) : (
+                  <div>No path available</div>
+                )}
+              </div>
+            )}
+            {selectedPath === "distance" &&
+              (finalPath && finalPath.totalLength ? (
                 <div>Total Length: {finalPath.totalLength} meters</div>
-              )}
-              {selectedPath === "time" && (
+              ) : (
+                <div>No distance available</div>
+              ))}
+            {selectedPath === "time" &&
+              (finalPath && finalPath.totalTime ? (
                 <div>Total Time: {finalPath.totalTime.toFixed(2)} minutes</div>
-              )}
-              {selectedPath === "lift" && (
+              ) : (
+                <div>No total time available</div>
+              ))}
+            {selectedPath === "lift" &&
+              (finalPath && finalPath.totalTimeOnLift ? (
                 <div>
                   Total Time on Lift: {finalPath.totalTimeOnLift} minutes
                 </div>
-              )}
-              {selectedPath === "difficulty" && (
+              ) : (
+                <div>No time on lift available</div>
+              ))}
+            {selectedPath === "difficulty" &&
+              (finalPath && finalPath.difficultyScore ? (
                 <div>Difficulty Score: {finalPath.difficultyScore}</div>
-              )}
-            </div>
-          )}
+              ) : (
+                <div>No difficulty score available</div>
+              ))}
+          </div>
         </div>
       )}
     </div>
