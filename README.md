@@ -37,8 +37,8 @@ It includes classes for Ski Resort, Calculate Path Controller(CPController), and
  <div style= "align-items: center; float: left;">  
     <img src="Class-Diagram.png" alt="Class Diagram" width="900" height="700" style="float: left;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
-## Team
 
+### **Team:**
 This project was developed by [Osama Nori](https://github.com/Harsual), [Parinaz Shiri](https://github.com/parinaz-shiri), [Reetika Satelkar](https://github.com/Reetika14), [Fiona Okezie](https://github.com/FionaOkezie), and [Jaspreet Singh](https://github.com/singhjaspreet97).
 
 ## Instruction on how to run the application
