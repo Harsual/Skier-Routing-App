@@ -35,7 +35,7 @@ It helps clarify the structure and data flow within the application.
 The class diagram provides a detailed view of the classes and their relationships within the application.
 It includes classes for Ski Resort, Calculate Path Controller(CPController), and the system, and shows how they interact with each other.
  <div style= "align-items: center; float: left;">  
-    <img src="Diagram-Photos/Class-Diagram.png" alt="Class Diagram" width="1100" height="900" style="float: left;"/> &nbsp; &nbsp; 
+    <img src="Diagram-Photos/Class-Diagram.png" alt="Class Diagram" width="800" height="800" style="float: left;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
 
 ### **Team:**
