@@ -14,7 +14,7 @@ This is a group project to develop a pathfinding app for skiers at a ski resort.
 1. **Use Case Diagram:**
 The use case diagram represents the actors involved (skiers, administrators, and bank system) and their interactions with the app.
 At first, we looked at the project as a complete project for a ski resort and we implemented parts of the use cases which were the main use cases. This diagram outlines the key functionalities of the whole project such as user login, finding suitable paths, and selling tickets.
- <div style= "align-items: center; float: left;">  
+ <div style="max-width: 100%; overflow: hidden;">
     <img src="Diagram-Photos/Usecase-Diagram.png" alt="Usecase Diagram" width="900" height="700" style="float: left;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
 
