@@ -155,7 +155,7 @@ export default function SkiResort({
 
               node_color = isInResult ? "#FFD700" : node_color;
 
-              var stroke = "black";
+              var stroke = "";
               var node_txt = "";
               if (node.id === startNodeId) {
                 node_color = "red";
