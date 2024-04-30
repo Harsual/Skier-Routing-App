@@ -15,27 +15,27 @@ This is a group project to develop a pathfinding app for skiers at a ski resort.
 The use case diagram represents the actors involved (skiers, administrators, and bank system) and their interactions with the app.
 At first, we looked at the project as a complete project for a ski resort and we implemented parts of the use cases which were the main use cases. This diagram outlines the key functionalities of the whole project such as user login, finding suitable paths, and selling tickets.
  <div style="max-width: 100%; overflow: hidden; align-items: center;">
-    <img src="Diagram-Photos/Usecase-Diagram.png" alt="Usecase Diagram" width="900" height="700" style="float: left;"/> &nbsp; &nbsp; 
+    <img src="Diagram-Photos/Usecase-Diagram.png" alt="Usecase Diagram" style="width: 100%; height: auto;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
 
 2. **Sequence Diagram:**
 The sequence diagram visualizes the flow of interactions between the user and the system.
  <div style="max-width: 100%; overflow: hidden; align-items: center;">  
-    <img src="Diagram-Photos/Sequence-Diagram.png" alt="Sequence Diagram" width="900" height="700" style="float: left;"/> &nbsp; &nbsp; 
+    <img src="Diagram-Photos/Sequence-Diagram.png" alt="Sequence Diagram" style="width: 100%; height: auto;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
 
 3. **Domain Model Diagram:**
 The domain model diagram illustrates the relationships between different entities in the application, such as Path, Slope, Skier, etc.
 It helps clarify the structure and data flow within the application.
  <div style="max-width: 100%; overflow: hidden; align-items: center;"> 
-    <img src="Diagram-Photos/Domain-Model.png" alt="Domain-Model-Diagram" width="900" height="700" style="float: left;"/> &nbsp; &nbsp; 
+    <img src="Diagram-Photos/Domain-Model.png" alt="Domain-Model-Diagram" style="width: 100%; height: auto;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
 
 4. **Class Diagram:**
 The class diagram provides a detailed view of the classes and their relationships within the application.
 It includes classes for Ski Resort, Calculate Path Controller(CPController), and the system, and shows how they interact with each other.
  <div style="max-width: 100%; overflow: hidden; align-items: center;">  
-    <img src="Diagram-Photos/Class-Diagram.png" alt="Class Diagram" width="900" height="500" style="float: left;"/> &nbsp; &nbsp; 
+    <img src="Diagram-Photos/Class-Diagram.png" alt="Class Diagram" style="width: 100%; height: auto;"/> &nbsp; &nbsp; 
     </div> &nbsp; &nbsp;
 
 ### **Team:**
