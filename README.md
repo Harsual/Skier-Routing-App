@@ -1,5 +1,10 @@
 # Skier-Routing-App
+
 A web app that helps skiers find their way in a ski resort
+
+<div style="max-width: 100%; overflow: hidden; align-items: center;">
+    <img src="Diagram-Photos/app-screenshot.png" alt="App Screenshot" style="width: 100%; height: auto;"/> &nbsp; &nbsp; 
+    </div> &nbsp; &nbsp;
 
 ## **Skier-Routing-App**
 
@@ -39,17 +44,15 @@ It includes classes for Ski Resort, Calculate Path Controller(CPController), and
     </div> &nbsp; &nbsp;
 
 ### **Team:**
+
 This project was developed by [Osama Nori](https://github.com/Harsual), [Parinaz Shiri](https://github.com/parinaz-shiri), [Reetika Satelkar](https://github.com/Reetika14), [Fiona Okezie](https://github.com/FionaOkezie), and [Jaspreet Singh](https://github.com/singhjaspreet97).
 
 ## Instruction on how to run the application
 
-***IMPORTANT***
+**_IMPORTANT_**
 
 to run this app, the server must be run then the client. If Node js and npm are installed. The steps are as follows:
 
 1- Access the server directory using the terminal and run npm run dev.
 
 2- Access the client directory using a new terminal and run npm install first to get the modules and then npm start to start the project.
-
-
-
